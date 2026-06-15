@@ -1,0 +1,65 @@
+[build-system]
+requires = ["hatchling>=1.21"]
+build-backend = "hatchling.build"
+
+[project]
+name = "linkedapi"
+version = "1.0.0"
+description = "Official synchronous Python SDK for Linked API."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [{ name = "Linked API" }]
+keywords = ["linkedin", "api", "sdk", "data", "automation", "linkedapi"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Typing :: Typed",
+]
+dependencies = [
+  "pydantic>=2,<3",
+  "requests>=2,<3",
+]
+
+[project.urls]
+Homepage = "https://linkedapi.io"
+Repository = "https://github.com/Linked-API/linkedapi-python"
+Documentation = "https://linkedapi.io/docs/"
+
+[project.optional-dependencies]
+dev = [
+  "build",
+  "ruff",
+  "mypy",
+  "types-requests",
+  "pytest>=8",
+  "requests-mock>=1.12",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["linkedapi"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "C4", "SIM", "RUF"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+plugins = ["pydantic.mypy"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
