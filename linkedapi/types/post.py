@@ -6,6 +6,7 @@ from linkedapi.types.base import LinkedApiModel
 from linkedapi.types.params import BaseActionParams, LimitParams
 
 PostType = Literal["original", "repost"]
+PostActorType = Literal["person", "company"]
 ReactionType = Literal["like", "celebrate", "support", "love", "insightful", "funny"]
 PostCommenterType = Literal["person", "company"]
 PostEngagerType = Literal["person", "company"]
@@ -60,14 +61,38 @@ class PostReaction(LinkedApiModel):
     type: ReactionType | None = None
 
 
+class PostAuthor(LinkedApiModel):
+    type: PostActorType | None = None
+    name: str | None = None
+    profile_url: str | None = None
+    headline: str | None = None
+    company_url: str | None = None
+
+
+class PostReposter(LinkedApiModel):
+    type: PostActorType | None = None
+    name: str | None = None
+    profile_url: str | None = None
+    headline: str | None = None
+    company_url: str | None = None
+
+
 class Post(LinkedApiModel):
     url: str | None = None
     time: str | None = None
     type: PostType | None = None
+    activity_urn: str | None = None
+    author: PostAuthor | None = None
+    reposter: PostReposter | None = None
     repost_text: str | None = None
+    hashtags: list[str] | None = None
+    mentions: list[str] | None = None
+    external_links: list[str] | None = None
     text: str | None = None
     images: list[str] | None = None
+    document_slides: list[str] | None = None
     has_video: bool | None = None
+    video_thumbnail: str | None = None
     has_poll: bool | None = None
     reactions_count: int | None = None
     comments_count: int | None = None
