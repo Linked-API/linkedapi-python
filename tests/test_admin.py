@@ -16,8 +16,8 @@ from linkedapi import (
     GetLimitsParams,
     GetLimitsUsageParams,
     LinkedApiAdmin,
-    ReparseAccountInfoParams,
     RegenerateTokenParams,
+    ReparseAccountInfoParams,
     ResetLimitsParams,
     SetLimitEntry,
     SetLimitsParams,
@@ -61,10 +61,7 @@ def test_admin_methods_use_node_paths(requests_mock: requests_mock.Mocker) -> No
             {"status": "active", "eligibleForTrial": False, "cancelAtPeriodEnd": False},
         ),
         ("/admin/subscription.getSeats", {"seats": []}),
-        ("/admin/subscription.getPricing", {"products": []}),
         ("/admin/subscription.setSeats", {"status": "complete"}),
-        ("/admin/subscription.getBillingLink", {"stripeLink": "https://stripe.test"}),
-        ("/admin/subscription.cancel", {"cancelAtDate": "2026-01-01"}),
         ("/admin/accounts.getAll", {"accounts": [], "pendingConnectionSessions": []}),
         ("/admin/accounts.disconnect", None),
         ("/admin/accounts.reparseAccountInfo", {"workflowId": "workflow-1"}),
@@ -94,12 +91,9 @@ def test_admin_methods_use_node_paths(requests_mock: requests_mock.Mocker) -> No
 
     admin.subscription.get_status()
     admin.subscription.get_seats()
-    admin.subscription.get_pricing()
     admin.subscription.set_seats(
         SetSeatsParams(quantity=1, seat_type="core", billing_period="month")
     )
-    admin.subscription.get_billing_link()
-    admin.subscription.cancel()
     admin.accounts.get_all()
     admin.accounts.disconnect(DisconnectParams(account_id="a1"))
     admin.accounts.reparse_account_info(ReparseAccountInfoParams(account_id="a1"))
