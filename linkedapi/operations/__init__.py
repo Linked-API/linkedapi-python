@@ -3,6 +3,7 @@ from linkedapi.operations.comment_on_post import CommentOnPost
 from linkedapi.operations.create_post import CreatePost
 from linkedapi.operations.custom_workflow import CustomWorkflow
 from linkedapi.operations.fetch_company import FetchCompany, FetchCompanyMapper
+from linkedapi.operations.fetch_job import FetchJob, FetchJobMapper
 from linkedapi.operations.fetch_person import FetchPerson, FetchPersonMapper
 from linkedapi.operations.fetch_post import FetchPost, FetchPostMapper
 from linkedapi.operations.nv_fetch_company import NvFetchCompany, NvFetchCompanyMapper
@@ -18,6 +19,7 @@ from linkedapi.operations.retrieve_pending_requests import RetrievePendingReques
 from linkedapi.operations.retrieve_performance import RetrievePerformance
 from linkedapi.operations.retrieve_ssi import RetrieveSSI
 from linkedapi.operations.search_companies import SearchCompanies
+from linkedapi.operations.search_jobs import SearchJobs
 from linkedapi.operations.search_people import SearchPeople
 from linkedapi.operations.send_connection_request import SendConnectionRequest
 from linkedapi.operations.send_message import SendMessage
@@ -31,6 +33,8 @@ __all__ = [
     "CustomWorkflow",
     "FetchCompany",
     "FetchCompanyMapper",
+    "FetchJob",
+    "FetchJobMapper",
     "FetchPerson",
     "FetchPersonMapper",
     "FetchPost",
@@ -50,6 +54,7 @@ __all__ = [
     "RetrievePerformance",
     "RetrieveSSI",
     "SearchCompanies",
+    "SearchJobs",
     "SearchPeople",
     "SendConnectionRequest",
     "SendMessage",

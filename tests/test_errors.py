@@ -42,6 +42,7 @@ def test_error_type_sets_match_node_contract() -> None:
         "searchingNotAllowed",
         "companyNotFound",
         "postNotFound",
+        "jobNotFound",
         "commentingNotAllowed",
         "noPostingPermission",
         "noSalesNavigator",

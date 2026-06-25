@@ -20,10 +20,12 @@ def test_linked_api_exposes_all_predefined_operations() -> None:
         "fetch_company",
         "nv_fetch_company",
         "fetch_post",
+        "fetch_job",
         "search_people",
         "nv_search_people",
         "search_companies",
         "nv_search_companies",
+        "search_jobs",
         "send_connection_request",
         "check_connection_status",
         "withdraw_connection_request",
@@ -46,7 +48,7 @@ def test_linked_api_exposes_all_predefined_operations() -> None:
         assert hasattr(operation, "execute")
         assert hasattr(operation, "result")
         assert hasattr(operation, "cancel")
-    assert len(linkedapi.operations) == 25
+    assert len(linkedapi.operations) == 27
 
 
 def test_operation_mappers_match_node_contract() -> None:
@@ -56,6 +58,10 @@ def test_operation_mappers_match_node_contract() -> None:
     assert linkedapi.fetch_person.mapper.default_params == {"basicInfo": True}
     assert isinstance(linkedapi.search_people.mapper, ArrayWorkflowMapper)
     assert linkedapi.search_people.mapper.base_action_type == "st.searchPeople"
+    assert isinstance(linkedapi.search_jobs.mapper, ArrayWorkflowMapper)
+    assert linkedapi.search_jobs.mapper.base_action_type == "st.searchJobs"
+    assert linkedapi.fetch_job.mapper.base_action_type == "st.openJob"
+    assert linkedapi.fetch_job.mapper.default_params == {"basicInfo": True}
     assert isinstance(linkedapi.send_connection_request.mapper, VoidWorkflowMapper)
     assert linkedapi.send_connection_request.mapper.action_type == "st.sendConnectionRequest"
 

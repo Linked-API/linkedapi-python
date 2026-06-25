@@ -13,6 +13,7 @@ from linkedapi.operations import (
     CreatePost,
     CustomWorkflow,
     FetchCompany,
+    FetchJob,
     FetchPerson,
     FetchPost,
     NvFetchCompany,
@@ -28,6 +29,7 @@ from linkedapi.operations import (
     RetrievePerformance,
     RetrieveSSI,
     SearchCompanies,
+    SearchJobs,
     SearchPeople,
     SendConnectionRequest,
     SendMessage,
@@ -60,9 +62,11 @@ class LinkedApi:
         self.remove_connection = RemoveConnection(self.http_client)
         self.search_companies = SearchCompanies(self.http_client)
         self.search_people = SearchPeople(self.http_client)
+        self.search_jobs = SearchJobs(self.http_client)
         self.fetch_company = FetchCompany(self.http_client)
         self.fetch_person = FetchPerson(self.http_client)
         self.fetch_post = FetchPost(self.http_client)
+        self.fetch_job = FetchJob(self.http_client)
         self.react_to_post = ReactToPost(self.http_client)
         self.comment_on_post = CommentOnPost(self.http_client)
         self.create_post = CreatePost(self.http_client)
@@ -87,9 +91,11 @@ class LinkedApi:
             self.remove_connection,
             self.search_companies,
             self.search_people,
+            self.search_jobs,
             self.fetch_company,
             self.fetch_person,
             self.fetch_post,
+            self.fetch_job,
             self.react_to_post,
             self.comment_on_post,
             self.create_post,

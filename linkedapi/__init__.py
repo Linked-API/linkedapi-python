@@ -34,6 +34,8 @@ from linkedapi.operations import (
     CustomWorkflow,
     FetchCompany,
     FetchCompanyMapper,
+    FetchJob,
+    FetchJobMapper,
     FetchPerson,
     FetchPersonMapper,
     FetchPost,
@@ -53,6 +55,7 @@ from linkedapi.operations import (
     RetrievePerformance,
     RetrieveSSI,
     SearchCompanies,
+    SearchJobs,
     SearchPeople,
     SendConnectionRequest,
     SendMessage,
@@ -62,7 +65,7 @@ from linkedapi.operations import (
 from linkedapi.types import *  # noqa: F403
 from linkedapi.types import __all__ as _types_all
 
-__version__ = "1.0.0"
+__version__ = "1.0.2"
 PredefinedOperation = Operation
 
 __all__ = [
@@ -80,6 +83,8 @@ __all__ = [
     "CustomWorkflow",
     "FetchCompany",
     "FetchCompanyMapper",
+    "FetchJob",
+    "FetchJobMapper",
     "FetchPerson",
     "FetchPersonMapper",
     "FetchPost",
@@ -114,6 +119,7 @@ __all__ = [
     "RetrievePerformance",
     "RetrieveSSI",
     "SearchCompanies",
+    "SearchJobs",
     "SearchPeople",
     "SendConnectionRequest",
     "SendMessage",
