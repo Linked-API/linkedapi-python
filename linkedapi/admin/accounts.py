@@ -11,8 +11,12 @@ from linkedapi.types.admin import (
     CancelConnectionSessionParams,
     ConnectionSessionResult,
     CreateConnectionSessionResult,
+    CreateReconnectionSessionParams,
+    CreateReconnectionSessionResult,
     DisconnectParams,
     GetConnectionSessionParams,
+    ReparseAccountInfoParams,
+    ReparseAccountInfoResult,
     RegenerateTokenParams,
     RegenerateTokenResult,
 )
@@ -30,6 +34,14 @@ class AdminAccounts:
     def disconnect(self, params: DisconnectParams) -> None:
         self._post_void("/admin/accounts.disconnect", "Failed to disconnect account", params)
 
+    def reparse_account_info(self, params: ReparseAccountInfoParams) -> ReparseAccountInfoResult:
+        return self._post_result(
+            "/admin/accounts.reparseAccountInfo",
+            ReparseAccountInfoResult,
+            "Failed to reparse account info",
+            params,
+        )
+
     def regenerate_identification_token(
         self,
         params: RegenerateTokenParams,
@@ -46,6 +58,17 @@ class AdminAccounts:
             "/admin/accounts.createConnectionSession",
             CreateConnectionSessionResult,
             "Failed to create connection session",
+        )
+
+    def create_reconnection_session(
+        self,
+        params: CreateReconnectionSessionParams,
+    ) -> CreateReconnectionSessionResult:
+        return self._post_result(
+            "/admin/accounts.createReconnectionSession",
+            CreateReconnectionSessionResult,
+            "Failed to create reconnection session",
+            params,
         )
 
     def get_connection_session(

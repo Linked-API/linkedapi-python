@@ -8,6 +8,7 @@ from linkedapi import (
     AdminConfig,
     AdminHttpClient,
     CancelConnectionSessionParams,
+    CreateReconnectionSessionParams,
     DeleteLimitEntry,
     DeleteLimitsParams,
     DisconnectParams,
@@ -15,6 +16,7 @@ from linkedapi import (
     GetLimitsParams,
     GetLimitsUsageParams,
     LinkedApiAdmin,
+    ReparseAccountInfoParams,
     RegenerateTokenParams,
     ResetLimitsParams,
     SetLimitEntry,
@@ -65,8 +67,13 @@ def test_admin_methods_use_node_paths(requests_mock: requests_mock.Mocker) -> No
         ("/admin/subscription.cancel", {"cancelAtDate": "2026-01-01"}),
         ("/admin/accounts.getAll", {"accounts": [], "pendingConnectionSessions": []}),
         ("/admin/accounts.disconnect", None),
+        ("/admin/accounts.reparseAccountInfo", {"workflowId": "workflow-1"}),
         ("/admin/accounts.regenerateIdentificationToken", {"token": "new"}),
         ("/admin/accounts.createConnectionSession", {"sessionId": "s1", "connectionLink": "u"}),
+        (
+            "/admin/accounts.createReconnectionSession",
+            {"reconnectionSessionId": "s2", "reconnectionLink": "u2"},
+        ),
         (
             "/admin/accounts.getConnectionSession",
             {"session": {"sessionId": "s1", "status": "pending", "type": "connect"}},
@@ -95,8 +102,10 @@ def test_admin_methods_use_node_paths(requests_mock: requests_mock.Mocker) -> No
     admin.subscription.cancel()
     admin.accounts.get_all()
     admin.accounts.disconnect(DisconnectParams(account_id="a1"))
+    admin.accounts.reparse_account_info(ReparseAccountInfoParams(account_id="a1"))
     admin.accounts.regenerate_identification_token(RegenerateTokenParams(account_id="a1"))
     admin.accounts.create_connection_session()
+    admin.accounts.create_reconnection_session(CreateReconnectionSessionParams(account_id="a1"))
     admin.accounts.get_connection_session(GetConnectionSessionParams(session_id="s1"))
     admin.accounts.cancel_connection_session(CancelConnectionSessionParams(session_id="s1"))
     admin.limits.get_defaults()

@@ -35,6 +35,8 @@ def test_error_type_sets_match_node_contract() -> None:
         "alreadyPending",
         "alreadyConnected",
         "emailRequired",
+        "noteTooLong",
+        "noteLimitExceeded",
         "requestNotAllowed",
         "notPending",
         "retrievingNotAllowed",
