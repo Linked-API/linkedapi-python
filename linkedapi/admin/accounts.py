@@ -15,10 +15,10 @@ from linkedapi.types.admin import (
     CreateReconnectionSessionResult,
     DisconnectParams,
     GetConnectionSessionParams,
-    ReparseAccountInfoParams,
-    ReparseAccountInfoResult,
     RegenerateTokenParams,
     RegenerateTokenResult,
+    ReparseAccountInfoParams,
+    ReparseAccountInfoResult,
 )
 
 TModel = TypeVar("TModel", bound=BaseModel)
