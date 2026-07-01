@@ -3,6 +3,7 @@ from linkedapi.admin import (
     AdminHttpClient,
     AdminLimits,
     AdminSubscription,
+    AdminWebhooks,
     LinkedApiAdmin,
 )
 from linkedapi.client import LinkedApi
@@ -64,8 +65,9 @@ from linkedapi.operations import (
 )
 from linkedapi.types import *  # noqa: F403
 from linkedapi.types import __all__ as _types_all
+from linkedapi.webhooks import parse_webhook_event
 
-__version__ = "1.0.4"
+__version__ = "1.1.0"
 PredefinedOperation = Operation
 
 __all__ = [
@@ -74,6 +76,7 @@ __all__ = [
     "AdminHttpClient",
     "AdminLimits",
     "AdminSubscription",
+    "AdminWebhooks",
     "ActionConfig",
     "ArrayWorkflowMapper",
     "BaseMapper",
@@ -129,5 +132,6 @@ __all__ = [
     "VoidWorkflowMapper",
     "WithdrawConnectionRequest",
     "__version__",
+    "parse_webhook_event",
     "poll_workflow_result",
 ]
