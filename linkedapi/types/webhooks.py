@@ -14,8 +14,8 @@ WebhookEventType = Literal[
     "account.reconnectionRequired",
     "account.frozen",
     "account.deleted",
-    "linkedin.messageReceived",
-    "linkedin.messageSent",
+    "inbox.messageReceived",
+    "inbox.messageSent",
     "webhook.test",
 ]
 WebhookDeliveryStatus = Literal["pending", "delivering", "success", "failed"]
@@ -107,7 +107,7 @@ class MessageWebhookEventData(LinkedApiModel):
 
 class MessageWebhookEvent(LinkedApiModel):
     id: str
-    type: Literal["linkedin.messageReceived", "linkedin.messageSent"]
+    type: Literal["inbox.messageReceived", "inbox.messageSent"]
     created_at: str | None = None
     data: MessageWebhookEventData
 
