@@ -6,6 +6,7 @@ from conftest import FakeHttpClient
 from linkedapi import (
     ApiUsageParams,
     ConversationPollRequest,
+    InboxPollRequest,
     LinkedApi,
     LinkedApiActionError,
     LinkedApiError,
@@ -74,6 +75,63 @@ def test_poll_conversations_other_thrown_error_is_raised(fake_http_client: FakeH
         linkedapi.poll_conversations([ConversationPollRequest(person_url="u", type="st")])
 
     assert error.value.type == "httpError"
+
+
+def test_poll_inbox_success(fake_http_client: FakeHttpClient) -> None:
+    linkedapi = LinkedApi(fake_http_client)
+    fake_http_client.queue_response(
+        result={
+            "messages": [
+                {
+                    "id": "m1",
+                    "type": "st",
+                    "threadId": "t1",
+                    "personUrl": "u",
+                    "sender": "them",
+                    "text": "hi",
+                    "time": "now",
+                }
+            ]
+        }
+    )
+
+    result = linkedapi.poll_inbox(InboxPollRequest(type="st", thread_id="t1"))
+
+    assert fake_http_client.calls[0] == (
+        "POST",
+        "/inbox/poll",
+        {"type": "st", "threadId": "t1"},
+    )
+    assert result.data is not None
+    assert result.data[0].thread_id == "t1"
+    assert result.data[0].sender == "them"
+    assert result.errors == []
+
+
+def test_poll_inbox_without_request_sends_empty_body(fake_http_client: FakeHttpClient) -> None:
+    linkedapi = LinkedApi(fake_http_client)
+    fake_http_client.queue_response(result={"messages": []})
+
+    result = linkedapi.poll_inbox()
+
+    assert fake_http_client.calls[0] == ("POST", "/inbox/poll", {})
+    assert result.data == []
+    assert result.errors == []
+
+
+def test_poll_inbox_response_error_maps_to_action_errors(
+    fake_http_client: FakeHttpClient,
+) -> None:
+    linkedapi = LinkedApi(fake_http_client)
+    fake_http_client.queue_response(
+        success=False,
+        error=LinkedApiRequestError(type="invalidRequestPayload", message="bad"),
+    )
+
+    result = linkedapi.poll_inbox(InboxPollRequest(type="st"))
+
+    assert result.data is None
+    assert result.errors == [LinkedApiActionError(type="invalidRequestPayload", message="bad")]
 
 
 def test_get_account_info_and_api_usage_paths(fake_http_client: FakeHttpClient) -> None:

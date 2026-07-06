@@ -49,6 +49,7 @@ from linkedapi.operations import (
     NvSearchPeople,
     NvSendMessage,
     NvSyncConversation,
+    NvSyncInbox,
     ReactToPost,
     RemoveConnection,
     RetrieveConnections,
@@ -61,13 +62,14 @@ from linkedapi.operations import (
     SendConnectionRequest,
     SendMessage,
     SyncConversation,
+    SyncInbox,
     WithdrawConnectionRequest,
 )
 from linkedapi.types import *  # noqa: F403
 from linkedapi.types import __all__ as _types_all
 from linkedapi.webhooks import parse_webhook_event
 
-__version__ = "1.1.0"
+__version__ = "1.1.1"
 PredefinedOperation = Operation
 
 __all__ = [
@@ -112,6 +114,7 @@ __all__ = [
     "NvSearchPeople",
     "NvSendMessage",
     "NvSyncConversation",
+    "NvSyncInbox",
     "Operation",
     "PredefinedOperation",
     "ReactToPost",
@@ -128,6 +131,7 @@ __all__ = [
     "SendMessage",
     "SimpleWorkflowMapper",
     "SyncConversation",
+    "SyncInbox",
     "ThenWorkflowMapper",
     "VoidWorkflowMapper",
     "WithdrawConnectionRequest",

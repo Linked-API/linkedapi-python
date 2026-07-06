@@ -12,6 +12,7 @@ from linkedapi.operations.nv_search_companies import NvSearchCompanies
 from linkedapi.operations.nv_search_people import NvSearchPeople
 from linkedapi.operations.nv_send_message import NvSendMessage
 from linkedapi.operations.nv_sync_conversation import NvSyncConversation
+from linkedapi.operations.nv_sync_inbox import NvSyncInbox
 from linkedapi.operations.react_to_post import ReactToPost
 from linkedapi.operations.remove_connection import RemoveConnection
 from linkedapi.operations.retrieve_connections import RetrieveConnections
@@ -24,6 +25,7 @@ from linkedapi.operations.search_people import SearchPeople
 from linkedapi.operations.send_connection_request import SendConnectionRequest
 from linkedapi.operations.send_message import SendMessage
 from linkedapi.operations.sync_conversation import SyncConversation
+from linkedapi.operations.sync_inbox import SyncInbox
 from linkedapi.operations.withdraw_connection_request import WithdrawConnectionRequest
 
 __all__ = [
@@ -47,6 +49,7 @@ __all__ = [
     "NvSearchPeople",
     "NvSendMessage",
     "NvSyncConversation",
+    "NvSyncInbox",
     "ReactToPost",
     "RemoveConnection",
     "RetrieveConnections",
@@ -59,5 +62,6 @@ __all__ = [
     "SendConnectionRequest",
     "SendMessage",
     "SyncConversation",
+    "SyncInbox",
     "WithdrawConnectionRequest",
 ]

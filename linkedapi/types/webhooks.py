@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import Any, Literal
 
 from linkedapi.types.base import LinkedApiModel
+from linkedapi.types.message import ConversationType, MessageSender
 
 WebhookPayloadMode = Literal["thin", "fat"]
 WebhookEventType = Literal[
@@ -13,6 +14,8 @@ WebhookEventType = Literal[
     "account.reconnectionRequired",
     "account.frozen",
     "account.deleted",
+    "linkedin.messageReceived",
+    "linkedin.messageSent",
     "webhook.test",
 ]
 WebhookDeliveryStatus = Literal["pending", "delivering", "success", "failed"]
@@ -91,6 +94,24 @@ class AccountWebhookEvent(LinkedApiModel):
     data: AccountWebhookEventData
 
 
+class MessageWebhookEventData(LinkedApiModel):
+    account_id: str | None = None
+    type: ConversationType | None = None
+    thread_id: str | None = None
+    person_url: str | None = None
+    message_id: str | None = None
+    sender: MessageSender | None = None
+    text: str | None = None
+    time: str | None = None
+
+
+class MessageWebhookEvent(LinkedApiModel):
+    id: str
+    type: Literal["linkedin.messageReceived", "linkedin.messageSent"]
+    created_at: str | None = None
+    data: MessageWebhookEventData
+
+
 class WebhookTestEventData(LinkedApiModel):
     message: str | None = None
 
@@ -102,4 +123,6 @@ class WebhookTestEvent(LinkedApiModel):
     data: WebhookTestEventData
 
 
-WebhookEvent = WorkflowWebhookEvent | AccountWebhookEvent | WebhookTestEvent
+WebhookEvent = (
+    WorkflowWebhookEvent | AccountWebhookEvent | MessageWebhookEvent | WebhookTestEvent
+)

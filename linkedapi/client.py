@@ -22,6 +22,7 @@ from linkedapi.operations import (
     NvSearchPeople,
     NvSendMessage,
     NvSyncConversation,
+    NvSyncInbox,
     ReactToPost,
     RemoveConnection,
     RetrieveConnections,
@@ -34,10 +35,16 @@ from linkedapi.operations import (
     SendConnectionRequest,
     SendMessage,
     SyncConversation,
+    SyncInbox,
     WithdrawConnectionRequest,
 )
 from linkedapi.types import AccountInfo, LinkedApiActionError, serialize_value
-from linkedapi.types.message import ConversationPollRequest, ConversationPollResult
+from linkedapi.types.message import (
+    ConversationPollRequest,
+    ConversationPollResult,
+    InboxMessage,
+    InboxPollRequest,
+)
 from linkedapi.types.statistics import ApiUsageAction, ApiUsageParams
 
 
@@ -54,6 +61,7 @@ class LinkedApi:
         self.custom_workflow = CustomWorkflow(self.http_client)
         self.send_message = SendMessage(self.http_client)
         self.sync_conversation = SyncConversation(self.http_client)
+        self.sync_inbox = SyncInbox(self.http_client)
         self.check_connection_status = CheckConnectionStatus(self.http_client)
         self.send_connection_request = SendConnectionRequest(self.http_client)
         self.withdraw_connection_request = WithdrawConnectionRequest(self.http_client)
@@ -74,6 +82,7 @@ class LinkedApi:
         self.retrieve_performance = RetrievePerformance(self.http_client)
         self.nv_send_message = NvSendMessage(self.http_client)
         self.nv_sync_conversation = NvSyncConversation(self.http_client)
+        self.nv_sync_inbox = NvSyncInbox(self.http_client)
         self.nv_search_companies = NvSearchCompanies(self.http_client)
         self.nv_search_people = NvSearchPeople(self.http_client)
         self.nv_fetch_company = NvFetchCompany(self.http_client)
@@ -83,6 +92,7 @@ class LinkedApi:
             self.custom_workflow,
             self.send_message,
             self.sync_conversation,
+            self.sync_inbox,
             self.check_connection_status,
             self.send_connection_request,
             self.withdraw_connection_request,
@@ -103,6 +113,7 @@ class LinkedApi:
             self.retrieve_performance,
             self.nv_send_message,
             self.nv_sync_conversation,
+            self.nv_sync_inbox,
             self.nv_search_companies,
             self.nv_search_people,
             self.nv_fetch_company,
@@ -138,6 +149,30 @@ class LinkedApi:
                     errors=[LinkedApiActionError(type=error.type, message=error.message)],
                 )
             raise
+
+    def poll_inbox(
+        self,
+        request: InboxPollRequest | None = None,
+    ) -> MappedResponse[list[InboxMessage]]:
+        """Read the monitored standard or Sales Navigator inbox, newest messages first."""
+
+        payload = serialize_value(request) if request is not None else {}
+        response = self.http_client.post("/inbox/poll", payload)
+        if response.success and response.result is not None:
+            messages = response.result.get("messages", [])
+            return MappedResponse(
+                data=[InboxMessage.model_validate(item) for item in messages],
+                errors=[],
+            )
+        return MappedResponse(
+            data=None,
+            errors=[
+                LinkedApiActionError(
+                    type=response.error.type if response.error else "",
+                    message=response.error.message if response.error else "",
+                ),
+            ],
+        )
 
     def get_account_info(self) -> MappedResponse[AccountInfo]:
         """Retrieve basic information about the current LinkedIn account."""

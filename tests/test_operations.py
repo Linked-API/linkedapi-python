@@ -34,8 +34,10 @@ def test_linked_api_exposes_all_predefined_operations() -> None:
         "remove_connection",
         "send_message",
         "sync_conversation",
+        "sync_inbox",
         "nv_send_message",
         "nv_sync_conversation",
+        "nv_sync_inbox",
         "react_to_post",
         "comment_on_post",
         "create_post",
@@ -48,7 +50,7 @@ def test_linked_api_exposes_all_predefined_operations() -> None:
         assert hasattr(operation, "execute")
         assert hasattr(operation, "result")
         assert hasattr(operation, "cancel")
-    assert len(linkedapi.operations) == 27
+    assert len(linkedapi.operations) == 29
 
 
 def test_operation_mappers_match_node_contract() -> None:
@@ -64,6 +66,10 @@ def test_operation_mappers_match_node_contract() -> None:
     assert linkedapi.fetch_job.mapper.default_params == {"basicInfo": True}
     assert isinstance(linkedapi.send_connection_request.mapper, VoidWorkflowMapper)
     assert linkedapi.send_connection_request.mapper.action_type == "st.sendConnectionRequest"
+    assert isinstance(linkedapi.sync_inbox.mapper, VoidWorkflowMapper)
+    assert linkedapi.sync_inbox.mapper.action_type == "st.syncInbox"
+    assert isinstance(linkedapi.nv_sync_inbox.mapper, VoidWorkflowMapper)
+    assert linkedapi.nv_sync_inbox.mapper.action_type == "nv.syncInbox"
 
 
 def test_execute_and_result_flow_returns_pydantic_data(
