@@ -6,8 +6,10 @@ from linkedapi.operations.fetch_company import FetchCompany, FetchCompanyMapper
 from linkedapi.operations.fetch_job import FetchJob, FetchJobMapper
 from linkedapi.operations.fetch_person import FetchPerson, FetchPersonMapper
 from linkedapi.operations.fetch_post import FetchPost, FetchPostMapper
+from linkedapi.operations.manage_conversation import ManageConversation
 from linkedapi.operations.nv_fetch_company import NvFetchCompany, NvFetchCompanyMapper
 from linkedapi.operations.nv_fetch_person import NvFetchPerson, NvFetchPersonMapper
+from linkedapi.operations.nv_manage_conversation import NvManageConversation
 from linkedapi.operations.nv_search_companies import NvSearchCompanies
 from linkedapi.operations.nv_search_people import NvSearchPeople
 from linkedapi.operations.nv_send_message import NvSendMessage
@@ -41,10 +43,12 @@ __all__ = [
     "FetchPersonMapper",
     "FetchPost",
     "FetchPostMapper",
+    "ManageConversation",
     "NvFetchCompany",
     "NvFetchCompanyMapper",
     "NvFetchPerson",
     "NvFetchPersonMapper",
+    "NvManageConversation",
     "NvSearchCompanies",
     "NvSearchPeople",
     "NvSendMessage",

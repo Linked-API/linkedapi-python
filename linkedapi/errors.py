@@ -23,6 +23,7 @@ LinkedApiActionErrorType = Literal[
     "noPostingPermission",
     "noSalesNavigator",
     "conversationsNotSynced",
+    "threadNotFound",
 ]
 LINKED_API_ACTION_ERROR_TYPES: tuple[str, ...] = (
     "personNotFound",
@@ -45,6 +46,7 @@ LINKED_API_ACTION_ERROR_TYPES: tuple[str, ...] = (
     "noPostingPermission",
     "noSalesNavigator",
     "conversationsNotSynced",
+    "threadNotFound",
 )
 
 LinkedApiErrorType = Literal[

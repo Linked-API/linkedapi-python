@@ -23,6 +23,11 @@ class SyncInboxParams(BaseActionParams):
     pass
 
 
+class ManageConversationParams(BaseActionParams):
+    thread_id: str
+    operation: str
+
+
 class NvSendMessageParams(BaseActionParams):
     text: str
     person_url: str | None = None
@@ -36,6 +41,11 @@ class NvSyncConversationParams(BaseActionParams):
 
 class NvSyncInboxParams(BaseActionParams):
     pass
+
+
+class NvManageConversationParams(BaseActionParams):
+    thread_id: str
+    operation: str
 
 
 class ConversationPollRequest(LinkedApiModel):

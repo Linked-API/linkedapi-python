@@ -16,8 +16,10 @@ from linkedapi.operations import (
     FetchJob,
     FetchPerson,
     FetchPost,
+    ManageConversation,
     NvFetchCompany,
     NvFetchPerson,
+    NvManageConversation,
     NvSearchCompanies,
     NvSearchPeople,
     NvSendMessage,
@@ -62,6 +64,7 @@ class LinkedApi:
         self.send_message = SendMessage(self.http_client)
         self.sync_conversation = SyncConversation(self.http_client)
         self.sync_inbox = SyncInbox(self.http_client)
+        self.manage_conversation = ManageConversation(self.http_client)
         self.check_connection_status = CheckConnectionStatus(self.http_client)
         self.send_connection_request = SendConnectionRequest(self.http_client)
         self.withdraw_connection_request = WithdrawConnectionRequest(self.http_client)
@@ -83,6 +86,7 @@ class LinkedApi:
         self.nv_send_message = NvSendMessage(self.http_client)
         self.nv_sync_conversation = NvSyncConversation(self.http_client)
         self.nv_sync_inbox = NvSyncInbox(self.http_client)
+        self.nv_manage_conversation = NvManageConversation(self.http_client)
         self.nv_search_companies = NvSearchCompanies(self.http_client)
         self.nv_search_people = NvSearchPeople(self.http_client)
         self.nv_fetch_company = NvFetchCompany(self.http_client)
@@ -93,6 +97,7 @@ class LinkedApi:
             self.send_message,
             self.sync_conversation,
             self.sync_inbox,
+            self.manage_conversation,
             self.check_connection_status,
             self.send_connection_request,
             self.withdraw_connection_request,
@@ -114,6 +119,7 @@ class LinkedApi:
             self.nv_send_message,
             self.nv_sync_conversation,
             self.nv_sync_inbox,
+            self.nv_manage_conversation,
             self.nv_search_companies,
             self.nv_search_people,
             self.nv_fetch_company,
