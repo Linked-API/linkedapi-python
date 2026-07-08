@@ -5,7 +5,7 @@ from typing import Literal
 from linkedapi.types.base import LinkedApiModel
 from linkedapi.types.params import BaseActionParams, LimitParams
 
-ConnectionStatus = Literal["connected", "pending", "notConnected"]
+ConnectionStatus = Literal["connected", "pending", "incoming", "notConnected"]
 
 
 class ConnectionPerson(LinkedApiModel):
@@ -40,6 +40,20 @@ class RetrievePendingRequestsResult(LinkedApiModel):
     public_url: str | None = None
     headline: str | None = None
     sent_time: str | None = None
+
+
+class AcceptConnectionRequestParams(BaseActionParams):
+    person_url: str
+
+
+class IgnoreConnectionRequestParams(BaseActionParams):
+    person_url: str
+
+
+class RetrieveConnectionRequestsResult(LinkedApiModel):
+    name: str | None = None
+    public_url: str | None = None
+    headline: str | None = None
 
 
 class RetrieveConnectionsFilter(LinkedApiModel):
