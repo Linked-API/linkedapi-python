@@ -42,7 +42,7 @@ def parse_webhook_event(raw_body: str | bytes) -> WebhookEvent:
         return WorkflowWebhookEvent.model_validate(parsed)
     if event_type.startswith("account."):
         return AccountWebhookEvent.model_validate(parsed)
-    if event_type.startswith("linkedin."):
+    if event_type.startswith("inbox."):
         return MessageWebhookEvent.model_validate(parsed)
     if event_type == "webhook.test":
         return WebhookTestEvent.model_validate(parsed)

@@ -29,7 +29,10 @@ def test_linked_api_exposes_all_predefined_operations() -> None:
         "send_connection_request",
         "check_connection_status",
         "withdraw_connection_request",
+        "accept_connection_request",
+        "ignore_connection_request",
         "retrieve_pending_requests",
+        "retrieve_connection_requests",
         "retrieve_connections",
         "remove_connection",
         "send_message",
@@ -52,7 +55,7 @@ def test_linked_api_exposes_all_predefined_operations() -> None:
         assert hasattr(operation, "execute")
         assert hasattr(operation, "result")
         assert hasattr(operation, "cancel")
-    assert len(linkedapi.operations) == 31
+    assert len(linkedapi.operations) == 34
 
 
 def test_operation_mappers_match_node_contract() -> None:
@@ -68,6 +71,15 @@ def test_operation_mappers_match_node_contract() -> None:
     assert linkedapi.fetch_job.mapper.default_params == {"basicInfo": True}
     assert isinstance(linkedapi.send_connection_request.mapper, VoidWorkflowMapper)
     assert linkedapi.send_connection_request.mapper.action_type == "st.sendConnectionRequest"
+    assert isinstance(linkedapi.accept_connection_request.mapper, VoidWorkflowMapper)
+    assert linkedapi.accept_connection_request.mapper.action_type == "st.acceptConnectionRequest"
+    assert isinstance(linkedapi.ignore_connection_request.mapper, VoidWorkflowMapper)
+    assert linkedapi.ignore_connection_request.mapper.action_type == "st.ignoreConnectionRequest"
+    assert isinstance(linkedapi.retrieve_connection_requests.mapper, ArrayWorkflowMapper)
+    assert (
+        linkedapi.retrieve_connection_requests.mapper.base_action_type
+        == "st.retrieveConnectionRequests"
+    )
     assert isinstance(linkedapi.sync_inbox.mapper, VoidWorkflowMapper)
     assert linkedapi.sync_inbox.mapper.action_type == "st.syncInbox"
     assert isinstance(linkedapi.nv_sync_inbox.mapper, VoidWorkflowMapper)

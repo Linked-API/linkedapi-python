@@ -68,13 +68,16 @@ from linkedapi.types.company import (
     StCompanyEmployeesRetrievalConfig,
 )
 from linkedapi.types.connection import (
+    AcceptConnectionRequestParams,
     CheckConnectionStatusParams,
     CheckConnectionStatusResult,
     ConnectionPerson,
     ConnectionStatus,
+    IgnoreConnectionRequestParams,
     NvOpenPersonPageParams,
     NvOpenPersonPageResult,
     RemoveConnectionParams,
+    RetrieveConnectionRequestsResult,
     RetrieveConnectionsFilter,
     RetrieveConnectionsParams,
     RetrieveConnectionsResult,
@@ -222,6 +225,7 @@ from linkedapi.types.workflow import (
 )
 
 __all__ = [
+    "AcceptConnectionRequestParams",
     "AccountInfo",
     "AccountWebhookEvent",
     "AccountWebhookEventData",
@@ -278,6 +282,7 @@ __all__ = [
     "GetConnectionSessionParams",
     "GetLimitsParams",
     "GetLimitsUsageParams",
+    "IgnoreConnectionRequestParams",
     "InboxMessage",
     "InboxPollRequest",
     "Job",
@@ -357,6 +362,7 @@ __all__ = [
     "ReparseAccountInfoResult",
     "ReplayWebhookDeliveryParams",
     "ResetLimitsParams",
+    "RetrieveConnectionRequestsResult",
     "RetrieveConnectionsFilter",
     "RetrieveConnectionsParams",
     "RetrieveConnectionsResult",
