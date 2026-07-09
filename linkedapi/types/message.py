@@ -9,10 +9,15 @@ ConversationType = Literal["st", "nv"]
 MessageSender = Literal["us", "them"]
 
 
+class SendMessageManageConversation(LinkedApiModel):
+    operation: str
+
+
 class SendMessageParams(BaseActionParams):
     text: str
     person_url: str | None = None
     thread_id: str | None = None
+    manage_conversation: SendMessageManageConversation | None = None
 
 
 class SyncConversationParams(BaseActionParams):

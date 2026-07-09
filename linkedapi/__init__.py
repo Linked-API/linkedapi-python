@@ -71,7 +71,7 @@ from linkedapi.types import *  # noqa: F403
 from linkedapi.types import __all__ as _types_all
 from linkedapi.webhooks import parse_webhook_event
 
-__version__ = "1.1.2"
+__version__ = "1.1.3"
 PredefinedOperation = Operation
 
 __all__ = [
