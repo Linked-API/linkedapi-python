@@ -17,9 +17,10 @@ class SendMessageMapper(BaseMapper[SendMessageParams, None]):
         serialized = serialize_model(params)
         manage_conversation = serialized.pop("manageConversation", None)
         definition: dict[str, Any] = {"actionType": "st.sendMessage", **serialized}
-        # The child st.manageConversation acts on the conversation this message was sent into, so it
-        # carries only `operation` — no threadId. Core rejects a threadId on a child manageConversation.
-        # Guard on `operation` so an empty passthrough (e.g. Make sending {"operation": ""}) is ignored.
+        # The child st.manageConversation acts on the conversation this message was
+        # sent into, so it carries only `operation` (no threadId — Core rejects a
+        # threadId on a child manageConversation). Guard on `operation` so an empty
+        # passthrough (e.g. Make sending {"operation": ""}) is ignored.
         if manage_conversation and manage_conversation.get("operation"):
             definition["then"] = {
                 "actionType": "st.manageConversation",
