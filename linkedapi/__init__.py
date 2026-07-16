@@ -68,6 +68,7 @@ from linkedapi.operations import (
     SendMessage,
     SyncConversation,
     SyncInbox,
+    SyncNetwork,
     WithdrawConnectionRequest,
 )
 from linkedapi.types import *  # noqa: F403
@@ -142,6 +143,7 @@ __all__ = [
     "SimpleWorkflowMapper",
     "SyncConversation",
     "SyncInbox",
+    "SyncNetwork",
     "ThenWorkflowMapper",
     "VoidWorkflowMapper",
     "WithdrawConnectionRequest",

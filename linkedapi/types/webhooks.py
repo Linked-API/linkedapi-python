@@ -16,6 +16,9 @@ WebhookEventType = Literal[
     "account.deleted",
     "inbox.messageReceived",
     "inbox.messageSent",
+    "network.connectionAccepted",
+    "network.connectionAdded",
+    "network.connectionRequestReceived",
     "webhook.test",
 ]
 WebhookDeliveryStatus = Literal["pending", "delivering", "success", "failed"]
@@ -112,6 +115,23 @@ class MessageWebhookEvent(LinkedApiModel):
     data: MessageWebhookEventData
 
 
+class NetworkWebhookEventData(LinkedApiModel):
+    account_id: str | None = None
+    person_url: str | None = None
+    detected_at: str | None = None
+
+
+class NetworkWebhookEvent(LinkedApiModel):
+    id: str
+    type: Literal[
+        "network.connectionAccepted",
+        "network.connectionAdded",
+        "network.connectionRequestReceived",
+    ]
+    created_at: str | None = None
+    data: NetworkWebhookEventData
+
+
 class WebhookTestEventData(LinkedApiModel):
     message: str | None = None
 
@@ -124,5 +144,9 @@ class WebhookTestEvent(LinkedApiModel):
 
 
 WebhookEvent = (
-    WorkflowWebhookEvent | AccountWebhookEvent | MessageWebhookEvent | WebhookTestEvent
+    WorkflowWebhookEvent
+    | AccountWebhookEvent
+    | MessageWebhookEvent
+    | NetworkWebhookEvent
+    | WebhookTestEvent
 )

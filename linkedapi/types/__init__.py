@@ -118,6 +118,12 @@ from linkedapi.types.message import (
     SyncConversationParams,
     SyncInboxParams,
 )
+from linkedapi.types.network import (
+    NetworkEvent,
+    NetworkEventType,
+    NetworkPollRequest,
+    SyncNetworkParams,
+)
 from linkedapi.types.params import BaseActionParams, LimitParams, LimitSinceParams
 from linkedapi.types.person import (
     BaseFetchPersonParams,
@@ -195,6 +201,8 @@ from linkedapi.types.webhooks import (
     DeleteWebhookParams,
     MessageWebhookEvent,
     MessageWebhookEventData,
+    NetworkWebhookEvent,
+    NetworkWebhookEventData,
     ReplayWebhookDeliveryParams,
     SetWebhookParams,
     SetWebhookPayloadModeParams,
@@ -313,6 +321,11 @@ __all__ = [
     "MessageWebhookEvent",
     "MessageWebhookEventData",
     "MinAnnualRevenue",
+    "NetworkEvent",
+    "NetworkEventType",
+    "NetworkPollRequest",
+    "NetworkWebhookEvent",
+    "NetworkWebhookEventData",
     "NvBaseFetchCompanyParams",
     "NvBaseFetchCompanyParamsWide",
     "NvCompany",
@@ -401,6 +414,7 @@ __all__ = [
     "SubscriptionStatusValue",
     "SyncConversationParams",
     "SyncInboxParams",
+    "SyncNetworkParams",
     "WebhookDelivery",
     "WebhookDeliveryStatus",
     "WebhookEvent",

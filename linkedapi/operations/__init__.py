@@ -31,6 +31,7 @@ from linkedapi.operations.send_connection_request import SendConnectionRequest
 from linkedapi.operations.send_message import SendMessage
 from linkedapi.operations.sync_conversation import SyncConversation
 from linkedapi.operations.sync_inbox import SyncInbox
+from linkedapi.operations.sync_network import SyncNetwork
 from linkedapi.operations.withdraw_connection_request import WithdrawConnectionRequest
 
 __all__ = [
@@ -73,5 +74,6 @@ __all__ = [
     "SendMessage",
     "SyncConversation",
     "SyncInbox",
+    "SyncNetwork",
     "WithdrawConnectionRequest",
 ]

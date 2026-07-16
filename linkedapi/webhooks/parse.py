@@ -5,6 +5,7 @@ import json
 from linkedapi.types.webhooks import (
     AccountWebhookEvent,
     MessageWebhookEvent,
+    NetworkWebhookEvent,
     WebhookEvent,
     WebhookTestEvent,
     WorkflowWebhookEvent,
@@ -44,6 +45,8 @@ def parse_webhook_event(raw_body: str | bytes) -> WebhookEvent:
         return AccountWebhookEvent.model_validate(parsed)
     if event_type.startswith("inbox."):
         return MessageWebhookEvent.model_validate(parsed)
+    if event_type.startswith("network."):
+        return NetworkWebhookEvent.model_validate(parsed)
     if event_type == "webhook.test":
         return WebhookTestEvent.model_validate(parsed)
 

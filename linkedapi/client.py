@@ -41,6 +41,7 @@ from linkedapi.operations import (
     SendMessage,
     SyncConversation,
     SyncInbox,
+    SyncNetwork,
     WithdrawConnectionRequest,
 )
 from linkedapi.types import AccountInfo, LinkedApiActionError, serialize_value
@@ -50,6 +51,7 @@ from linkedapi.types.message import (
     InboxMessage,
     InboxPollRequest,
 )
+from linkedapi.types.network import NetworkEvent, NetworkPollRequest
 from linkedapi.types.statistics import ApiUsageAction, ApiUsageParams
 
 
@@ -67,6 +69,7 @@ class LinkedApi:
         self.send_message = SendMessage(self.http_client)
         self.sync_conversation = SyncConversation(self.http_client)
         self.sync_inbox = SyncInbox(self.http_client)
+        self.sync_network = SyncNetwork(self.http_client)
         self.manage_conversation = ManageConversation(self.http_client)
         self.check_connection_status = CheckConnectionStatus(self.http_client)
         self.send_connection_request = SendConnectionRequest(self.http_client)
@@ -103,6 +106,7 @@ class LinkedApi:
             self.send_message,
             self.sync_conversation,
             self.sync_inbox,
+            self.sync_network,
             self.manage_conversation,
             self.check_connection_status,
             self.send_connection_request,
@@ -177,6 +181,30 @@ class LinkedApi:
             messages = response.result.get("messages", [])
             return MappedResponse(
                 data=[InboxMessage.model_validate(item) for item in messages],
+                errors=[],
+            )
+        return MappedResponse(
+            data=None,
+            errors=[
+                LinkedApiActionError(
+                    type=response.error.type if response.error else "",
+                    message=response.error.message if response.error else "",
+                ),
+            ],
+        )
+
+    def poll_network(
+        self,
+        request: NetworkPollRequest | None = None,
+    ) -> MappedResponse[list[NetworkEvent]]:
+        """Read the monitored network connection events, newest events first."""
+
+        payload = serialize_value(request) if request is not None else {}
+        response = self.http_client.post("/network/poll", payload)
+        if response.success and response.result is not None:
+            events = response.result.get("events", [])
+            return MappedResponse(
+                data=[NetworkEvent.model_validate(item) for item in events],
                 errors=[],
             )
         return MappedResponse(
