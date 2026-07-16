@@ -38,6 +38,7 @@ def test_linked_api_exposes_all_predefined_operations() -> None:
         "send_message",
         "sync_conversation",
         "sync_inbox",
+        "sync_network",
         "manage_conversation",
         "nv_send_message",
         "nv_sync_conversation",
@@ -55,7 +56,7 @@ def test_linked_api_exposes_all_predefined_operations() -> None:
         assert hasattr(operation, "execute")
         assert hasattr(operation, "result")
         assert hasattr(operation, "cancel")
-    assert len(linkedapi.operations) == 34
+    assert len(linkedapi.operations) == 35
 
 
 def test_operation_mappers_match_node_contract() -> None:
