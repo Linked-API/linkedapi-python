@@ -38,6 +38,7 @@ class Company(LinkedApiModel):
     year_founded: int | None = None
     venture_financing: bool | None = None
     jobs_count: int | None = None
+    logo_url: str | None = None
     employees: list[StCompanyEmployee] | None = None
     dms: list[StCompanyDm] | None = None
     posts: list[Post] | None = None
@@ -103,6 +104,7 @@ class NvCompany(LinkedApiModel):
     website: str | None = None
     employees_count: int | None = None
     year_founded: int | None = None
+    logo_url: str | None = None
     employees: list[NvCompanyEmployee] | None = None
     dms: list[NvCompanyDm] | None = None
 

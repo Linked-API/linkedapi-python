@@ -27,6 +27,7 @@ class SearchPeopleResult(LinkedApiModel):
     public_url: str | None = None
     headline: str | None = None
     location: str | None = None
+    avatar_url: str | None = None
 
 
 class NvSearchPeopleFilter(SearchPeopleFilter):
@@ -44,3 +45,4 @@ class NvSearchPeopleResult(LinkedApiModel):
     hashed_url: str | None = None
     position: str | None = None
     location: str | None = None
+    avatar_url: str | None = None

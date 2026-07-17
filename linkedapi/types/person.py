@@ -93,6 +93,7 @@ class Person(BaseActionParams):
     company_hashed_url: str | None = None
     followers_count: int | None = None
     about: str | None = None
+    avatar_url: str | None = None
     experiences: list[PersonExperience] | None = None
     education: list[PersonEducation] | None = None
     skills: list[PersonSkill] | None = None

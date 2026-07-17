@@ -48,6 +48,7 @@ class SearchCompanyResult(LinkedApiModel):
     public_url: str | None = None
     industry: str | None = None
     location: str | None = None
+    logo_url: str | None = None
 
 
 class AnnualRevenueFilter(LinkedApiModel):
@@ -70,3 +71,4 @@ class NvSearchCompanyResult(LinkedApiModel):
     hashed_url: str | None = None
     industry: str | None = None
     employees_count: int | None = None
+    logo_url: str | None = None
