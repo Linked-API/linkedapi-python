@@ -1,10 +1,14 @@
 from __future__ import annotations
 
+import pytest
 from conftest import FakeHttpClient
+from pydantic import ValidationError
 
 from linkedapi import (
+    AcceptInvitationParams,
     ArrayWorkflowMapper,
     FetchPersonParams,
+    Invitation,
     LinkedApi,
     LinkedApiConfig,
     VoidWorkflowMapper,
@@ -29,10 +33,10 @@ def test_linked_api_exposes_all_predefined_operations() -> None:
         "send_connection_request",
         "check_connection_status",
         "withdraw_connection_request",
-        "accept_connection_request",
-        "ignore_connection_request",
+        "accept_invitation",
+        "ignore_invitation",
         "retrieve_pending_requests",
-        "retrieve_connection_requests",
+        "retrieve_invitations",
         "retrieve_connections",
         "remove_connection",
         "send_message",
@@ -72,15 +76,12 @@ def test_operation_mappers_match_node_contract() -> None:
     assert linkedapi.fetch_job.mapper.default_params == {"basicInfo": True}
     assert isinstance(linkedapi.send_connection_request.mapper, VoidWorkflowMapper)
     assert linkedapi.send_connection_request.mapper.action_type == "st.sendConnectionRequest"
-    assert isinstance(linkedapi.accept_connection_request.mapper, VoidWorkflowMapper)
-    assert linkedapi.accept_connection_request.mapper.action_type == "st.acceptConnectionRequest"
-    assert isinstance(linkedapi.ignore_connection_request.mapper, VoidWorkflowMapper)
-    assert linkedapi.ignore_connection_request.mapper.action_type == "st.ignoreConnectionRequest"
-    assert isinstance(linkedapi.retrieve_connection_requests.mapper, ArrayWorkflowMapper)
-    assert (
-        linkedapi.retrieve_connection_requests.mapper.base_action_type
-        == "st.retrieveConnectionRequests"
-    )
+    assert isinstance(linkedapi.accept_invitation.mapper, VoidWorkflowMapper)
+    assert linkedapi.accept_invitation.mapper.action_type == "st.acceptInvitation"
+    assert isinstance(linkedapi.ignore_invitation.mapper, VoidWorkflowMapper)
+    assert linkedapi.ignore_invitation.mapper.action_type == "st.ignoreInvitation"
+    assert isinstance(linkedapi.retrieve_invitations.mapper, ArrayWorkflowMapper)
+    assert linkedapi.retrieve_invitations.mapper.base_action_type == "st.retrieveInvitations"
     assert isinstance(linkedapi.sync_inbox.mapper, VoidWorkflowMapper)
     assert linkedapi.sync_inbox.mapper.action_type == "st.syncInbox"
     assert isinstance(linkedapi.nv_sync_inbox.mapper, VoidWorkflowMapper)
@@ -89,6 +90,77 @@ def test_operation_mappers_match_node_contract() -> None:
     assert linkedapi.manage_conversation.mapper.action_type == "st.manageConversation"
     assert isinstance(linkedapi.nv_manage_conversation.mapper, VoidWorkflowMapper)
     assert linkedapi.nv_manage_conversation.mapper.action_type == "nv.manageConversation"
+
+
+def test_invitation_params_require_the_matching_target_url() -> None:
+    params = AcceptInvitationParams(
+        invitation_type="companyFollow",
+        company_url="https://www.linkedin.com/company/example/",
+    )
+
+    assert params.model_dump(by_alias=True, exclude_none=True) == {
+        "invitationType": "companyFollow",
+        "companyUrl": "https://www.linkedin.com/company/example/",
+    }
+
+    with pytest.raises(ValidationError):
+        AcceptInvitationParams(
+            invitation_type="newsletterSubscribe",
+            person_url="https://www.linkedin.com/in/example/",
+        )
+
+    with pytest.raises(ValidationError):
+        AcceptInvitationParams(
+            invitation_type="connect",
+            person_url="https://www.linkedin.com/in/example/",
+            company_url="https://www.linkedin.com/company/example/",
+        )
+
+
+def test_invitation_result_fields_depend_on_type() -> None:
+    connect = Invitation.model_validate(
+        {
+            "invitationType": "connect",
+            "name": "Example Person",
+            "publicUrl": "https://www.linkedin.com/in/example/",
+            "headline": None,
+            "note": None,
+        }
+    )
+    assert connect.invitation_type == "connect"
+
+    company_follow = Invitation.model_validate(
+        {
+            "invitationType": "companyFollow",
+            "name": "Example Person",
+            "publicUrl": "https://www.linkedin.com/in/example/",
+            "companyUrl": "https://www.linkedin.com/company/example/",
+            "companyName": None,
+        }
+    )
+    assert company_follow.company_url == "https://www.linkedin.com/company/example/"
+
+    with pytest.raises(ValidationError):
+        Invitation.model_validate(
+            {
+                "invitationType": "connect",
+                "name": "Example Person",
+                "publicUrl": "https://www.linkedin.com/in/example/",
+                "headline": None,
+            }
+        )
+
+    with pytest.raises(ValidationError):
+        Invitation.model_validate(
+            {
+                "invitationType": "companyFollow",
+                "name": "Example Person",
+                "publicUrl": "https://www.linkedin.com/in/example/",
+                "companyUrl": "https://www.linkedin.com/company/example/",
+                "companyName": None,
+                "note": None,
+            }
+        )
 
 
 def test_execute_and_result_flow_returns_pydantic_data(

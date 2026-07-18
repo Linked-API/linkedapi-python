@@ -8,7 +8,7 @@ from linkedapi.errors import LinkedApiError
 from linkedapi.http import HttpClient, LinkedApiHttpClient
 from linkedapi.mappers import MappedResponse
 from linkedapi.operations import (
-    AcceptConnectionRequest,
+    AcceptInvitation,
     CheckConnectionStatus,
     CommentOnPost,
     CreatePost,
@@ -17,7 +17,7 @@ from linkedapi.operations import (
     FetchJob,
     FetchPerson,
     FetchPost,
-    IgnoreConnectionRequest,
+    IgnoreInvitation,
     ManageConversation,
     NvFetchCompany,
     NvFetchPerson,
@@ -29,8 +29,8 @@ from linkedapi.operations import (
     NvSyncInbox,
     ReactToPost,
     RemoveConnection,
-    RetrieveConnectionRequests,
     RetrieveConnections,
+    RetrieveInvitations,
     RetrievePendingRequests,
     RetrievePerformance,
     RetrieveSSI,
@@ -74,10 +74,10 @@ class LinkedApi:
         self.check_connection_status = CheckConnectionStatus(self.http_client)
         self.send_connection_request = SendConnectionRequest(self.http_client)
         self.withdraw_connection_request = WithdrawConnectionRequest(self.http_client)
-        self.accept_connection_request = AcceptConnectionRequest(self.http_client)
-        self.ignore_connection_request = IgnoreConnectionRequest(self.http_client)
+        self.accept_invitation = AcceptInvitation(self.http_client)
+        self.ignore_invitation = IgnoreInvitation(self.http_client)
         self.retrieve_pending_requests = RetrievePendingRequests(self.http_client)
-        self.retrieve_connection_requests = RetrieveConnectionRequests(self.http_client)
+        self.retrieve_invitations = RetrieveInvitations(self.http_client)
         self.retrieve_connections = RetrieveConnections(self.http_client)
         self.remove_connection = RemoveConnection(self.http_client)
         self.search_companies = SearchCompanies(self.http_client)
@@ -111,10 +111,10 @@ class LinkedApi:
             self.check_connection_status,
             self.send_connection_request,
             self.withdraw_connection_request,
-            self.accept_connection_request,
-            self.ignore_connection_request,
+            self.accept_invitation,
+            self.ignore_invitation,
             self.retrieve_pending_requests,
-            self.retrieve_connection_requests,
+            self.retrieve_invitations,
             self.retrieve_connections,
             self.remove_connection,
             self.search_companies,

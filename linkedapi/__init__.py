@@ -29,7 +29,7 @@ from linkedapi.mappers import (
     VoidWorkflowMapper,
 )
 from linkedapi.operations import (
-    AcceptConnectionRequest,
+    AcceptInvitation,
     CheckConnectionStatus,
     CommentOnPost,
     CreatePost,
@@ -42,7 +42,7 @@ from linkedapi.operations import (
     FetchPersonMapper,
     FetchPost,
     FetchPostMapper,
-    IgnoreConnectionRequest,
+    IgnoreInvitation,
     ManageConversation,
     NvFetchCompany,
     NvFetchCompanyMapper,
@@ -56,8 +56,8 @@ from linkedapi.operations import (
     NvSyncInbox,
     ReactToPost,
     RemoveConnection,
-    RetrieveConnectionRequests,
     RetrieveConnections,
+    RetrieveInvitations,
     RetrievePendingRequests,
     RetrievePerformance,
     RetrieveSSI,
@@ -75,12 +75,12 @@ from linkedapi.types import *  # noqa: F403
 from linkedapi.types import __all__ as _types_all
 from linkedapi.webhooks import parse_webhook_event
 
-__version__ = "1.2.1"
+__version__ = "1.3.2"
 PredefinedOperation = Operation
 
 __all__ = [
     *_types_all,
-    "AcceptConnectionRequest",
+    "AcceptInvitation",
     "AdminAccounts",
     "AdminHttpClient",
     "AdminLimits",
@@ -102,7 +102,7 @@ __all__ = [
     "FetchPost",
     "FetchPostMapper",
     "HttpClient",
-    "IgnoreConnectionRequest",
+    "IgnoreInvitation",
     "LINKED_API_ACTION_ERROR_TYPES",
     "LINKED_API_ERROR_TYPES",
     "LinkedApi",
@@ -130,7 +130,7 @@ __all__ = [
     "ReactToPost",
     "RemoveConnection",
     "ResponseMapping",
-    "RetrieveConnectionRequests",
+    "RetrieveInvitations",
     "RetrieveConnections",
     "RetrievePendingRequests",
     "RetrievePerformance",

@@ -1,4 +1,4 @@
-from linkedapi.operations.accept_connection_request import AcceptConnectionRequest
+from linkedapi.operations.accept_invitation import AcceptInvitation
 from linkedapi.operations.check_connection_status import CheckConnectionStatus
 from linkedapi.operations.comment_on_post import CommentOnPost
 from linkedapi.operations.create_post import CreatePost
@@ -7,7 +7,7 @@ from linkedapi.operations.fetch_company import FetchCompany, FetchCompanyMapper
 from linkedapi.operations.fetch_job import FetchJob, FetchJobMapper
 from linkedapi.operations.fetch_person import FetchPerson, FetchPersonMapper
 from linkedapi.operations.fetch_post import FetchPost, FetchPostMapper
-from linkedapi.operations.ignore_connection_request import IgnoreConnectionRequest
+from linkedapi.operations.ignore_invitation import IgnoreInvitation
 from linkedapi.operations.manage_conversation import ManageConversation
 from linkedapi.operations.nv_fetch_company import NvFetchCompany, NvFetchCompanyMapper
 from linkedapi.operations.nv_fetch_person import NvFetchPerson, NvFetchPersonMapper
@@ -19,8 +19,8 @@ from linkedapi.operations.nv_sync_conversation import NvSyncConversation
 from linkedapi.operations.nv_sync_inbox import NvSyncInbox
 from linkedapi.operations.react_to_post import ReactToPost
 from linkedapi.operations.remove_connection import RemoveConnection
-from linkedapi.operations.retrieve_connection_requests import RetrieveConnectionRequests
 from linkedapi.operations.retrieve_connections import RetrieveConnections
+from linkedapi.operations.retrieve_invitations import RetrieveInvitations
 from linkedapi.operations.retrieve_pending_requests import RetrievePendingRequests
 from linkedapi.operations.retrieve_performance import RetrievePerformance
 from linkedapi.operations.retrieve_ssi import RetrieveSSI
@@ -35,7 +35,7 @@ from linkedapi.operations.sync_network import SyncNetwork
 from linkedapi.operations.withdraw_connection_request import WithdrawConnectionRequest
 
 __all__ = [
-    "AcceptConnectionRequest",
+    "AcceptInvitation",
     "CheckConnectionStatus",
     "CommentOnPost",
     "CreatePost",
@@ -48,7 +48,7 @@ __all__ = [
     "FetchPersonMapper",
     "FetchPost",
     "FetchPostMapper",
-    "IgnoreConnectionRequest",
+    "IgnoreInvitation",
     "ManageConversation",
     "NvFetchCompany",
     "NvFetchCompanyMapper",
@@ -62,8 +62,8 @@ __all__ = [
     "NvSyncInbox",
     "ReactToPost",
     "RemoveConnection",
-    "RetrieveConnectionRequests",
     "RetrieveConnections",
+    "RetrieveInvitations",
     "RetrievePendingRequests",
     "RetrievePerformance",
     "RetrieveSSI",
