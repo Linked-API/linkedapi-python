@@ -14,6 +14,7 @@ def test_error_type_sets_match_node_contract() -> None:
         "identificationTokenRequired",
         "invalidIdentificationToken",
         "subscriptionRequired",
+        "trialLimitReached",
         "invalidRequestPayload",
         "invalidWorkflow",
         "plusPlanRequired",
