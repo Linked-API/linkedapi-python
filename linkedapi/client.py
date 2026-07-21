@@ -30,6 +30,7 @@ from linkedapi.operations import (
     ReactToPost,
     RemoveConnection,
     RetrieveConnections,
+    RetrieveFeed,
     RetrieveInvitations,
     RetrievePendingRequests,
     RetrievePerformance,
@@ -90,6 +91,7 @@ class LinkedApi:
         self.react_to_post = ReactToPost(self.http_client)
         self.comment_on_post = CommentOnPost(self.http_client)
         self.create_post = CreatePost(self.http_client)
+        self.retrieve_feed = RetrieveFeed(self.http_client)
         self.retrieve_ssi = RetrieveSSI(self.http_client)
         self.retrieve_performance = RetrievePerformance(self.http_client)
         self.nv_send_message = NvSendMessage(self.http_client)
@@ -127,6 +129,7 @@ class LinkedApi:
             self.react_to_post,
             self.comment_on_post,
             self.create_post,
+            self.retrieve_feed,
             self.retrieve_ssi,
             self.retrieve_performance,
             self.nv_send_message,

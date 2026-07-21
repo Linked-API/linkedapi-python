@@ -87,6 +87,7 @@ from linkedapi.types.connection import (
     SendConnectionRequestParams,
     WithdrawConnectionRequestParams,
 )
+from linkedapi.types.feed import FeedPost, RetrieveFeedParams
 from linkedapi.types.jobs import (
     FetchJobParams,
     FetchJobResult,
@@ -281,6 +282,7 @@ __all__ = [
     "DeleteWebhookParams",
     "DisconnectParams",
     "EmploymentType",
+    "FeedPost",
     "FetchCompanyParams",
     "FetchCompanyResult",
     "FetchJobParams",
@@ -383,6 +385,7 @@ __all__ = [
     "RetrieveConnectionsFilter",
     "RetrieveConnectionsParams",
     "RetrieveConnectionsResult",
+    "RetrieveFeedParams",
     "RetrievePendingRequestsResult",
     "RetrievePerformanceResult",
     "RetrieveSSIResult",

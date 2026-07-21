@@ -7,10 +7,12 @@ from pydantic import ValidationError
 from linkedapi import (
     AcceptInvitationParams,
     ArrayWorkflowMapper,
+    FeedPost,
     FetchPersonParams,
     Invitation,
     LinkedApi,
     LinkedApiConfig,
+    RetrieveFeedParams,
     VoidWorkflowMapper,
 )
 
@@ -38,6 +40,7 @@ def test_linked_api_exposes_all_predefined_operations() -> None:
         "retrieve_pending_requests",
         "retrieve_invitations",
         "retrieve_connections",
+        "retrieve_feed",
         "remove_connection",
         "send_message",
         "sync_conversation",
@@ -60,7 +63,7 @@ def test_linked_api_exposes_all_predefined_operations() -> None:
         assert hasattr(operation, "execute")
         assert hasattr(operation, "result")
         assert hasattr(operation, "cancel")
-    assert len(linkedapi.operations) == 35
+    assert len(linkedapi.operations) == 36
 
 
 def test_operation_mappers_match_node_contract() -> None:
@@ -82,6 +85,8 @@ def test_operation_mappers_match_node_contract() -> None:
     assert linkedapi.ignore_invitation.mapper.action_type == "st.ignoreInvitation"
     assert isinstance(linkedapi.retrieve_invitations.mapper, ArrayWorkflowMapper)
     assert linkedapi.retrieve_invitations.mapper.base_action_type == "st.retrieveInvitations"
+    assert isinstance(linkedapi.retrieve_feed.mapper, ArrayWorkflowMapper)
+    assert linkedapi.retrieve_feed.mapper.base_action_type == "st.retrieveFeed"
     assert isinstance(linkedapi.sync_inbox.mapper, VoidWorkflowMapper)
     assert linkedapi.sync_inbox.mapper.action_type == "st.syncInbox"
     assert isinstance(linkedapi.nv_sync_inbox.mapper, VoidWorkflowMapper)
@@ -90,6 +95,33 @@ def test_operation_mappers_match_node_contract() -> None:
     assert linkedapi.manage_conversation.mapper.action_type == "st.manageConversation"
     assert isinstance(linkedapi.nv_manage_conversation.mapper, VoidWorkflowMapper)
     assert linkedapi.nv_manage_conversation.mapper.action_type == "nv.manageConversation"
+
+
+def test_retrieve_feed_maps_params_and_feed_context() -> None:
+    linkedapi = LinkedApi(LinkedApiConfig(linked_api_token="x", identification_token="y"))
+
+    request = linkedapi.retrieve_feed.mapper.map_request(RetrieveFeedParams(limit=25))
+    response = linkedapi.retrieve_feed.mapper.map_response(
+        {
+            "actionType": "st.retrieveFeed",
+            "success": True,
+            "data": [
+                {
+                    "url": "https://www.linkedin.com/feed/update/urn:li:activity:1",
+                    "feedContext": "Example Person reacted to this",
+                }
+            ],
+        }
+    )
+
+    assert request == {"actionType": "st.retrieveFeed", "limit": 25}
+    assert response.data is not None
+    assert isinstance(response.data[0], FeedPost)
+    assert response.data[0].feed_context == "Example Person reacted to this"
+
+    for invalid_limit in (0, 101):
+        with pytest.raises(ValidationError):
+            RetrieveFeedParams(limit=invalid_limit)
 
 
 def test_invitation_params_require_the_matching_target_url() -> None:

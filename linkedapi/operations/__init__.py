@@ -20,6 +20,7 @@ from linkedapi.operations.nv_sync_inbox import NvSyncInbox
 from linkedapi.operations.react_to_post import ReactToPost
 from linkedapi.operations.remove_connection import RemoveConnection
 from linkedapi.operations.retrieve_connections import RetrieveConnections
+from linkedapi.operations.retrieve_feed import RetrieveFeed
 from linkedapi.operations.retrieve_invitations import RetrieveInvitations
 from linkedapi.operations.retrieve_pending_requests import RetrievePendingRequests
 from linkedapi.operations.retrieve_performance import RetrievePerformance
@@ -63,6 +64,7 @@ __all__ = [
     "ReactToPost",
     "RemoveConnection",
     "RetrieveConnections",
+    "RetrieveFeed",
     "RetrieveInvitations",
     "RetrievePendingRequests",
     "RetrievePerformance",
