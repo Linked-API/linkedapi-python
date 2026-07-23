@@ -54,8 +54,10 @@ from linkedapi.operations import (
     NvSendMessage,
     NvSyncConversation,
     NvSyncInbox,
+    ReactToComment,
     ReactToPost,
     RemoveConnection,
+    ReplyToComment,
     RetrieveConnections,
     RetrieveFeed,
     RetrieveInvitations,
@@ -76,7 +78,7 @@ from linkedapi.types import *  # noqa: F403
 from linkedapi.types import __all__ as _types_all
 from linkedapi.webhooks import parse_webhook_event
 
-__version__ = "1.3.4"
+__version__ = "1.3.5"
 PredefinedOperation = Operation
 
 __all__ = [
@@ -128,8 +130,10 @@ __all__ = [
     "NvSyncInbox",
     "Operation",
     "PredefinedOperation",
+    "ReactToComment",
     "ReactToPost",
     "RemoveConnection",
+    "ReplyToComment",
     "ResponseMapping",
     "RetrieveInvitations",
     "RetrieveConnections",

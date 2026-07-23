@@ -13,6 +13,7 @@ from linkedapi import (
     LinkedApi,
     LinkedApiConfig,
     RetrieveFeedParams,
+    SimpleWorkflowMapper,
     VoidWorkflowMapper,
 )
 
@@ -53,6 +54,8 @@ def test_linked_api_exposes_all_predefined_operations() -> None:
         "nv_manage_conversation",
         "react_to_post",
         "comment_on_post",
+        "react_to_comment",
+        "reply_to_comment",
         "create_post",
         "retrieve_ssi",
         "retrieve_performance",
@@ -63,7 +66,7 @@ def test_linked_api_exposes_all_predefined_operations() -> None:
         assert hasattr(operation, "execute")
         assert hasattr(operation, "result")
         assert hasattr(operation, "cancel")
-    assert len(linkedapi.operations) == 36
+    assert len(linkedapi.operations) == 38
 
 
 def test_operation_mappers_match_node_contract() -> None:
@@ -95,6 +98,12 @@ def test_operation_mappers_match_node_contract() -> None:
     assert linkedapi.manage_conversation.mapper.action_type == "st.manageConversation"
     assert isinstance(linkedapi.nv_manage_conversation.mapper, VoidWorkflowMapper)
     assert linkedapi.nv_manage_conversation.mapper.action_type == "nv.manageConversation"
+    assert isinstance(linkedapi.react_to_comment.mapper, VoidWorkflowMapper)
+    assert linkedapi.react_to_comment.mapper.action_type == "st.reactToComment"
+    assert isinstance(linkedapi.comment_on_post.mapper, SimpleWorkflowMapper)
+    assert linkedapi.comment_on_post.mapper.action_type == "st.commentOnPost"
+    assert isinstance(linkedapi.reply_to_comment.mapper, SimpleWorkflowMapper)
+    assert linkedapi.reply_to_comment.mapper.action_type == "st.replyToComment"
 
 
 def test_retrieve_feed_maps_params_and_feed_context() -> None:

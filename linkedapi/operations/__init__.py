@@ -17,8 +17,10 @@ from linkedapi.operations.nv_search_people import NvSearchPeople
 from linkedapi.operations.nv_send_message import NvSendMessage
 from linkedapi.operations.nv_sync_conversation import NvSyncConversation
 from linkedapi.operations.nv_sync_inbox import NvSyncInbox
+from linkedapi.operations.react_to_comment import ReactToComment
 from linkedapi.operations.react_to_post import ReactToPost
 from linkedapi.operations.remove_connection import RemoveConnection
+from linkedapi.operations.reply_to_comment import ReplyToComment
 from linkedapi.operations.retrieve_connections import RetrieveConnections
 from linkedapi.operations.retrieve_feed import RetrieveFeed
 from linkedapi.operations.retrieve_invitations import RetrieveInvitations
@@ -61,8 +63,10 @@ __all__ = [
     "NvSendMessage",
     "NvSyncConversation",
     "NvSyncInbox",
+    "ReactToComment",
     "ReactToPost",
     "RemoveConnection",
+    "ReplyToComment",
     "RetrieveConnections",
     "RetrieveFeed",
     "RetrieveInvitations",

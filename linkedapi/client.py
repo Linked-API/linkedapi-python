@@ -27,8 +27,10 @@ from linkedapi.operations import (
     NvSendMessage,
     NvSyncConversation,
     NvSyncInbox,
+    ReactToComment,
     ReactToPost,
     RemoveConnection,
+    ReplyToComment,
     RetrieveConnections,
     RetrieveFeed,
     RetrieveInvitations,
@@ -90,6 +92,8 @@ class LinkedApi:
         self.fetch_job = FetchJob(self.http_client)
         self.react_to_post = ReactToPost(self.http_client)
         self.comment_on_post = CommentOnPost(self.http_client)
+        self.react_to_comment = ReactToComment(self.http_client)
+        self.reply_to_comment = ReplyToComment(self.http_client)
         self.create_post = CreatePost(self.http_client)
         self.retrieve_feed = RetrieveFeed(self.http_client)
         self.retrieve_ssi = RetrieveSSI(self.http_client)
@@ -128,6 +132,8 @@ class LinkedApi:
             self.fetch_job,
             self.react_to_post,
             self.comment_on_post,
+            self.react_to_comment,
+            self.reply_to_comment,
             self.create_post,
             self.retrieve_feed,
             self.retrieve_ssi,

@@ -40,7 +40,30 @@ class CommentOnPostParams(BaseActionParams):
     company_url: str | None = None
 
 
+class CommentResult(LinkedApiModel):
+    comment_urn: str | None = None
+    comment_url: str | None = None
+
+
+CommentOnPostResult: TypeAlias = CommentResult
+
+
+class ReactToCommentParams(BaseActionParams):
+    comment_url: str
+    type: ReactionType = "like"
+
+
+class ReplyToCommentParams(BaseActionParams):
+    comment_url: str
+    text: str
+
+
+ReplyToCommentResult: TypeAlias = CommentResult
+
+
 class PostComment(LinkedApiModel):
+    comment_urn: str | None = None
+    comment_url: str | None = None
     commenter_url: str | None = None
     commenter_name: str | None = None
     commenter_headline: str | None = None
