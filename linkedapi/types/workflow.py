@@ -9,6 +9,7 @@ WorkflowPendingStatus = Literal["pending"]
 WorkflowRunningStatus = Literal["running"]
 WorkflowInProgressStatus = Literal["pending", "running"]
 WorkflowStatus = Literal["pending", "running", "completed", "failed"]
+WorkflowPendingReason = Literal["queued", "outsideWorkingHours"]
 WorkflowDefinition = dict[str, Any] | list[dict[str, Any]]
 WorkflowCompletion = dict[str, Any] | list[dict[str, Any]]
 
@@ -22,12 +23,15 @@ class WorkflowStartedResponse(LinkedApiModel):
     workflow_id: str
     workflow_status: WorkflowInProgressStatus
     message: str | None = None
+    # Optional so an older API that does not send it still parses.
+    pending_reason: WorkflowPendingReason | None = None
 
 
 class WorkflowInProgressResponse(LinkedApiModel):
     workflow_id: str
     workflow_status: WorkflowInProgressStatus
     message: str | None = None
+    pending_reason: WorkflowPendingReason | None = None
 
 
 class WorkflowFailure(LinkedApiModel):
@@ -43,6 +47,7 @@ class WorkflowResponse(LinkedApiModel):
     workflow_id: str
     workflow_status: WorkflowStatus
     message: str | None = None
+    pending_reason: WorkflowPendingReason | None = None
     completion: WorkflowCompletion | None = None
     failure: WorkflowFailure | None = None
 

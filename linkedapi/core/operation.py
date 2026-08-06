@@ -60,6 +60,7 @@ class Operation(ABC, Generic[TParams, TResult]):
                 workflow_id=workflow_id,
                 workflow_status=workflow_result.workflow_status,
                 message=workflow_result.message,
+                pending_reason=workflow_result.pending_reason,
             )
 
         completion = self._get_completion(workflow_result)

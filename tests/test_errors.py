@@ -21,6 +21,8 @@ def test_error_type_sets_match_node_contract() -> None:
         "linkedinAccountSignedOut",
         "languageNotSupported",
         "workflowTimeout",
+        "outsideWorkingHours",
+        "workingHoursWaitExpired",
         "httpError",
         "tooManyRequests",
         "accountNotFound",
