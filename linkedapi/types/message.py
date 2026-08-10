@@ -22,6 +22,11 @@ class SendMessageParams(BaseActionParams):
 
 class SyncConversationParams(BaseActionParams):
     person_url: str
+    days: int | None = None
+
+
+class SyncConversationResult(LinkedApiModel):
+    sync_until: str
 
 
 class SyncInboxParams(BaseActionParams):
@@ -42,6 +47,11 @@ class NvSendMessageParams(BaseActionParams):
 
 class NvSyncConversationParams(BaseActionParams):
     person_url: str
+    days: int | None = None
+
+
+class NvSyncConversationResult(LinkedApiModel):
+    sync_until: str
 
 
 class NvSyncInboxParams(BaseActionParams):
@@ -72,6 +82,7 @@ class ConversationPollResult(LinkedApiModel):
     type: ConversationType | None = None
     messages: list[Message] | None = None
     since: str | None = None
+    sync_until: str | None = None
 
 
 class InboxPollRequest(LinkedApiModel):

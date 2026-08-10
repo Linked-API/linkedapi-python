@@ -1,12 +1,15 @@
 from __future__ import annotations
 
 from linkedapi.core import Operation
-from linkedapi.mappers import VoidWorkflowMapper
-from linkedapi.types import NvSyncConversationParams
+from linkedapi.mappers import SimpleWorkflowMapper
+from linkedapi.types import NvSyncConversationParams, NvSyncConversationResult
 
 
-class NvSyncConversation(Operation[NvSyncConversationParams, None]):
+class NvSyncConversation(Operation[NvSyncConversationParams, NvSyncConversationResult]):
     """Sync a Sales Navigator conversation."""
 
     operation_name = "nvSyncConversation"
-    mapper = VoidWorkflowMapper[NvSyncConversationParams]("nv.syncConversation")
+    mapper = SimpleWorkflowMapper[NvSyncConversationParams, NvSyncConversationResult](
+        "nv.syncConversation",
+        result_model=NvSyncConversationResult,
+    )

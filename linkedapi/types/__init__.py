@@ -115,10 +115,12 @@ from linkedapi.types.message import (
     NvManageConversationParams,
     NvSendMessageParams,
     NvSyncConversationParams,
+    NvSyncConversationResult,
     NvSyncInboxParams,
     SendMessageManageConversation,
     SendMessageParams,
     SyncConversationParams,
+    SyncConversationResult,
     SyncInboxParams,
 )
 from linkedapi.types.network import (
@@ -361,6 +363,7 @@ __all__ = [
     "NvSearchPeopleResult",
     "NvSendMessageParams",
     "NvSyncConversationParams",
+    "NvSyncConversationResult",
     "NvSyncInboxParams",
     "PendingConnectionSession",
     "Person",
@@ -431,6 +434,7 @@ __all__ = [
     "SubscriptionStatus",
     "SubscriptionStatusValue",
     "SyncConversationParams",
+    "SyncConversationResult",
     "SyncInboxParams",
     "SyncNetworkParams",
     "WebhookDelivery",
