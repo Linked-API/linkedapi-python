@@ -40,6 +40,7 @@ class WithdrawConnectionRequestParams(BaseActionParams):
 
 class RetrievePendingRequestsResult(LinkedApiModel):
     name: str | None = None
+    urn: str | None = None
     public_url: str | None = None
     headline: str | None = None
     sent_time: str | None = None
@@ -78,6 +79,7 @@ class IgnoreInvitationParams(InvitationTargetParams):
 class Invitation(LinkedApiModel):
     invitation_type: InvitationType
     name: str
+    urn: str | None = None
     public_url: str
     headline: str | None = None
     note: str | None = None
@@ -146,10 +148,12 @@ class RetrieveConnectionsParams(LimitParams):
 
 class RetrieveConnectionsResult(LinkedApiModel):
     name: str | None = None
+    urn: str | None = None
     public_url: str | None = None
     headline: str | None = None
     location: str | None = None
     connected_at: str | None = None
+    avatar_url: str | None = None
 
 
 class RemoveConnectionParams(BaseActionParams):
@@ -162,6 +166,7 @@ class NvOpenPersonPageParams(BaseActionParams):
 
 class NvOpenPersonPageResult(LinkedApiModel):
     name: str | None = None
+    urn: str | None = None
     public_url: str | None = None
     hashed_url: str | None = None
     headline: str | None = None
@@ -169,4 +174,6 @@ class NvOpenPersonPageResult(LinkedApiModel):
     country_code: str | None = None
     position: str | None = None
     company_name: str | None = None
+    company_urn: str | None = None
     company_hashed_url: str | None = None
+    avatar_url: str | None = None

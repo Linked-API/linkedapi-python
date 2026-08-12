@@ -24,6 +24,7 @@ class SearchPeopleParams(BaseActionParams, LimitParams):
 
 class SearchPeopleResult(LinkedApiModel):
     name: str | None = None
+    urn: str | None = None
     public_url: str | None = None
     headline: str | None = None
     location: str | None = None
@@ -42,6 +43,7 @@ class NvSearchPeopleParams(BaseActionParams, LimitParams):
 
 class NvSearchPeopleResult(LinkedApiModel):
     name: str | None = None
+    urn: str | None = None
     hashed_url: str | None = None
     position: str | None = None
     location: str | None = None

@@ -45,6 +45,7 @@ class SearchCompaniesParams(BaseActionParams, LimitParams):
 
 class SearchCompanyResult(LinkedApiModel):
     name: str | None = None
+    urn: str | None = None
     public_url: str | None = None
     industry: str | None = None
     location: str | None = None
@@ -68,6 +69,7 @@ class NvSearchCompaniesParams(BaseActionParams, LimitParams):
 
 class NvSearchCompanyResult(LinkedApiModel):
     name: str | None = None
+    urn: str | None = None
     hashed_url: str | None = None
     industry: str | None = None
     employees_count: int | None = None

@@ -78,6 +78,7 @@ class Message(LinkedApiModel):
 
 
 class ConversationPollResult(LinkedApiModel):
+    person_urn: str | None = None
     person_url: str | None = None
     type: ConversationType | None = None
     messages: list[Message] | None = None
@@ -95,6 +96,7 @@ class InboxMessage(LinkedApiModel):
     id: str | None = None
     type: ConversationType | None = None
     thread_id: str | None = None
+    person_urn: str | None = None
     person_url: str | None = None
     sender: MessageSender | None = None
     text: str | None = None

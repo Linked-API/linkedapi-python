@@ -77,6 +77,7 @@ class PostComment(LinkedApiModel):
 
 
 class PostReaction(LinkedApiModel):
+    engager_urn: str | None = None
     engager_url: str | None = None
     engager_name: str | None = None
     engager_headline: str | None = None
@@ -87,6 +88,7 @@ class PostReaction(LinkedApiModel):
 class PostAuthor(LinkedApiModel):
     type: PostActorType | None = None
     name: str | None = None
+    urn: str | None = None
     profile_url: str | None = None
     headline: str | None = None
     company_url: str | None = None
@@ -95,6 +97,7 @@ class PostAuthor(LinkedApiModel):
 class PostReposter(LinkedApiModel):
     type: PostActorType | None = None
     name: str | None = None
+    urn: str | None = None
     profile_url: str | None = None
     headline: str | None = None
     company_url: str | None = None

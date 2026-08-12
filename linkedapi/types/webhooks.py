@@ -101,6 +101,7 @@ class MessageWebhookEventData(LinkedApiModel):
     account_id: str | None = None
     type: ConversationType | None = None
     thread_id: str | None = None
+    person_urn: str | None = None
     person_url: str | None = None
     message_id: str | None = None
     sender: MessageSender | None = None
@@ -117,6 +118,7 @@ class MessageWebhookEvent(LinkedApiModel):
 
 class NetworkWebhookEventData(LinkedApiModel):
     account_id: str | None = None
+    person_urn: str | None = None
     person_url: str | None = None
     detected_at: str | None = None
 

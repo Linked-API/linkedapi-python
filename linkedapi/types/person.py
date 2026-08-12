@@ -83,6 +83,7 @@ class PersonLanguage(BaseActionParams):
 
 class Person(BaseActionParams):
     name: str | None = None
+    urn: str | None = None
     public_url: str | None = None
     hashed_url: str | None = None
     headline: str | None = None

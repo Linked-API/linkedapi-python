@@ -97,6 +97,7 @@ class SearchJobsParams(BaseActionParams, LimitParams):
 
 class SearchJobResult(LinkedApiModel):
     job_id: str | None = None
+    urn: str | None = None
     job_url: str | None = None
     title: str | None = None
     company_name: str | None = None
@@ -113,9 +114,11 @@ class FetchJobParams(BaseActionParams):
 
 class Job(LinkedApiModel):
     job_id: str | None = None
+    urn: str | None = None
     job_url: str | None = None
     title: str | None = None
     company_name: str | None = None
+    company_urn: str | None = None
     company_url: str | None = None
     location: str | None = None
     posted_date: str | None = None

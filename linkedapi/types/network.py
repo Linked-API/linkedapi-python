@@ -24,5 +24,6 @@ class NetworkPollRequest(LinkedApiModel):
 class NetworkEvent(LinkedApiModel):
     id: str | None = None
     type: NetworkEventType | None = None
+    person_urn: str | None = None
     person_url: str | None = None
     detected_at: str | None = None

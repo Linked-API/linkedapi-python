@@ -12,21 +12,26 @@ from linkedapi.types.post import Post
 
 class StCompanyEmployee(LinkedApiModel):
     name: str | None = None
+    urn: str | None = None
     public_url: str | None = None
     headline: str | None = None
     location: str | None = None
+    avatar_url: str | None = None
 
 
 class StCompanyDm(LinkedApiModel):
     name: str | None = None
+    urn: str | None = None
     public_url: str | None = None
     headline: str | None = None
     location: str | None = None
+    avatar_url: str | None = None
     country_code: str | None = None
 
 
 class Company(LinkedApiModel):
     name: str | None = None
+    urn: str | None = None
     public_url: str | None = None
     description: str | None = None
     location: str | None = None
@@ -81,21 +86,26 @@ FetchCompanyResult: TypeAlias = Company
 
 class NvCompanyEmployee(LinkedApiModel):
     name: str | None = None
+    urn: str | None = None
     hashed_url: str | None = None
     position: str | None = None
     location: str | None = None
+    avatar_url: str | None = None
 
 
 class NvCompanyDm(LinkedApiModel):
     name: str | None = None
+    urn: str | None = None
     hashed_url: str | None = None
     position: str | None = None
     location: str | None = None
+    avatar_url: str | None = None
     country_code: str | None = None
 
 
 class NvCompany(LinkedApiModel):
     name: str | None = None
+    urn: str | None = None
     public_url: str | None = None
     description: str | None = None
     location: str | None = None
