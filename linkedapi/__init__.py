@@ -63,6 +63,7 @@ from linkedapi.operations import (
     RetrieveInvitations,
     RetrievePendingRequests,
     RetrievePerformance,
+    RetrieveProfileViewers,
     RetrieveSSI,
     SearchCompanies,
     SearchJobs,
@@ -78,7 +79,7 @@ from linkedapi.types import *  # noqa: F403
 from linkedapi.types import __all__ as _types_all
 from linkedapi.webhooks import parse_webhook_event
 
-__version__ = "1.3.8"
+__version__ = "1.3.9"
 PredefinedOperation = Operation
 
 __all__ = [
@@ -140,6 +141,7 @@ __all__ = [
     "RetrieveFeed",
     "RetrievePendingRequests",
     "RetrievePerformance",
+    "RetrieveProfileViewers",
     "RetrieveSSI",
     "SearchCompanies",
     "SearchJobs",

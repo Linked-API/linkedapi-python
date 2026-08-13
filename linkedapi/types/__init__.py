@@ -177,6 +177,11 @@ from linkedapi.types.post import (
     ReplyToCommentParams,
     ReplyToCommentResult,
 )
+from linkedapi.types.profile_viewers import (
+    ProfileViewer,
+    ProfileViewerType,
+    RetrieveProfileViewersParams,
+)
 from linkedapi.types.responses import LinkedApiRequestError, LinkedApiResponse
 from linkedapi.types.search_companies import (
     AnnualRevenueFilter,
@@ -383,6 +388,8 @@ __all__ = [
     "PostReactionsRetrievalConfig",
     "PostReposter",
     "PostType",
+    "ProfileViewer",
+    "ProfileViewerType",
     "ReactToCommentParams",
     "ReactToPostParams",
     "Reaction",
@@ -402,6 +409,7 @@ __all__ = [
     "RetrieveFeedParams",
     "RetrievePendingRequestsResult",
     "RetrievePerformanceResult",
+    "RetrieveProfileViewersParams",
     "RetrieveSSIResult",
     "SalaryPeriod",
     "SearchCompaniesFilter",

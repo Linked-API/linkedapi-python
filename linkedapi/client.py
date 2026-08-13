@@ -36,6 +36,7 @@ from linkedapi.operations import (
     RetrieveInvitations,
     RetrievePendingRequests,
     RetrievePerformance,
+    RetrieveProfileViewers,
     RetrieveSSI,
     SearchCompanies,
     SearchJobs,
@@ -98,6 +99,7 @@ class LinkedApi:
         self.retrieve_feed = RetrieveFeed(self.http_client)
         self.retrieve_ssi = RetrieveSSI(self.http_client)
         self.retrieve_performance = RetrievePerformance(self.http_client)
+        self.retrieve_profile_viewers = RetrieveProfileViewers(self.http_client)
         self.nv_send_message = NvSendMessage(self.http_client)
         self.nv_sync_conversation = NvSyncConversation(self.http_client)
         self.nv_sync_inbox = NvSyncInbox(self.http_client)
@@ -138,6 +140,7 @@ class LinkedApi:
             self.retrieve_feed,
             self.retrieve_ssi,
             self.retrieve_performance,
+            self.retrieve_profile_viewers,
             self.nv_send_message,
             self.nv_sync_conversation,
             self.nv_sync_inbox,

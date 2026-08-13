@@ -26,6 +26,7 @@ from linkedapi.operations.retrieve_feed import RetrieveFeed
 from linkedapi.operations.retrieve_invitations import RetrieveInvitations
 from linkedapi.operations.retrieve_pending_requests import RetrievePendingRequests
 from linkedapi.operations.retrieve_performance import RetrievePerformance
+from linkedapi.operations.retrieve_profile_viewers import RetrieveProfileViewers
 from linkedapi.operations.retrieve_ssi import RetrieveSSI
 from linkedapi.operations.search_companies import SearchCompanies
 from linkedapi.operations.search_jobs import SearchJobs
@@ -72,6 +73,7 @@ __all__ = [
     "RetrieveInvitations",
     "RetrievePendingRequests",
     "RetrievePerformance",
+    "RetrieveProfileViewers",
     "RetrieveSSI",
     "SearchCompanies",
     "SearchJobs",
