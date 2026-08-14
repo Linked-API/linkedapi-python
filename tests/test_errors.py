@@ -45,6 +45,7 @@ def test_error_type_sets_match_node_contract() -> None:
         "retrievingNotAllowed",
         "connectionNotFound",
         "searchingNotAllowed",
+        "searchInterfaceMismatch",
         "companyNotFound",
         "postNotFound",
         "jobNotFound",
