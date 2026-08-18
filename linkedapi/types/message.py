@@ -97,6 +97,9 @@ class InboxMessage(LinkedApiModel):
     type: ConversationType | None = None
     thread_id: str | None = None
     person_urn: str | None = None
+    person_hashed_url: str | None = None
+    person_public_url: str | None = None
+    # Deprecated: use person_hashed_url. Still returned by the API for compatibility.
     person_url: str | None = None
     sender: MessageSender | None = None
     text: str | None = None
