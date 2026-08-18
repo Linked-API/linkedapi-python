@@ -59,6 +59,7 @@ def test_linked_api_exposes_all_predefined_operations() -> None:
         "create_post",
         "retrieve_ssi",
         "retrieve_performance",
+        "retrieve_profile_viewers",
     ]
 
     for name in operation_names:
@@ -66,7 +67,7 @@ def test_linked_api_exposes_all_predefined_operations() -> None:
         assert hasattr(operation, "execute")
         assert hasattr(operation, "result")
         assert hasattr(operation, "cancel")
-    assert len(linkedapi.operations) == 38
+    assert len(linkedapi.operations) == 39
 
 
 def test_operation_mappers_match_node_contract() -> None:
