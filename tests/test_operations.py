@@ -13,6 +13,12 @@ from linkedapi import (
     LinkedApi,
     LinkedApiConfig,
     RetrieveFeedParams,
+    SearchPostActor,
+    SearchPostResult,
+    SearchPostsCompanyFilter,
+    SearchPostsFilter,
+    SearchPostsParams,
+    SearchPostsPersonFilter,
     SimpleWorkflowMapper,
     VoidWorkflowMapper,
 )
@@ -33,6 +39,7 @@ def test_linked_api_exposes_all_predefined_operations() -> None:
         "search_companies",
         "nv_search_companies",
         "search_jobs",
+        "search_posts",
         "send_connection_request",
         "check_connection_status",
         "withdraw_connection_request",
@@ -67,7 +74,7 @@ def test_linked_api_exposes_all_predefined_operations() -> None:
         assert hasattr(operation, "execute")
         assert hasattr(operation, "result")
         assert hasattr(operation, "cancel")
-    assert len(linkedapi.operations) == 39
+    assert len(linkedapi.operations) == 40
 
 
 def test_operation_mappers_match_node_contract() -> None:
@@ -79,6 +86,8 @@ def test_operation_mappers_match_node_contract() -> None:
     assert linkedapi.search_people.mapper.base_action_type == "st.searchPeople"
     assert isinstance(linkedapi.search_jobs.mapper, ArrayWorkflowMapper)
     assert linkedapi.search_jobs.mapper.base_action_type == "st.searchJobs"
+    assert isinstance(linkedapi.search_posts.mapper, ArrayWorkflowMapper)
+    assert linkedapi.search_posts.mapper.base_action_type == "st.searchPosts"
     assert linkedapi.fetch_job.mapper.base_action_type == "st.openJob"
     assert linkedapi.fetch_job.mapper.default_params == {"basicInfo": True}
     assert isinstance(linkedapi.send_connection_request.mapper, VoidWorkflowMapper)
@@ -132,6 +141,153 @@ def test_retrieve_feed_maps_params_and_feed_context() -> None:
     for invalid_limit in (0, 101):
         with pytest.raises(ValidationError):
             RetrieveFeedParams(limit=invalid_limit)
+
+
+def test_search_posts_maps_filter_params_and_actors_without_urn() -> None:
+    linkedapi = LinkedApi(LinkedApiConfig(linked_api_token="x", identification_token="y"))
+
+    request = linkedapi.search_posts.mapper.map_request(
+        SearchPostsParams(
+            term="climate tech",
+            limit=20,
+            filter={
+                "sort": "latest",
+                "date_posted": "pastWeek",
+                "content_type": "images",
+                "posted_by": ["firstConnections", "peopleYouFollow"],
+                "from_members": [{"name": "Bill Gates", "urn": "urn:li:member:251749025"}],
+                "from_companies": ["Example Company"],
+                "mentioning_members": [],
+                "mentioning_companies": [],
+                "author_companies": [
+                    {"name": "Example Company", "urn": "urn:li:organization:1234567"}
+                ],
+                "author_industries": ["Software Development"],
+            },
+            custom_search_url=(
+                "https://www.linkedin.com/search/results/content/?keywords=climate%20tech"
+            ),
+        )
+    )
+
+    assert request == {
+        "actionType": "st.searchPosts",
+        "term": "climate tech",
+        "limit": 20,
+        "filter": {
+            "sort": "latest",
+            "datePosted": "pastWeek",
+            "contentType": "images",
+            "postedBy": ["firstConnections", "peopleYouFollow"],
+            "fromMembers": [{"name": "Bill Gates", "urn": "urn:li:member:251749025"}],
+            "fromCompanies": ["Example Company"],
+            "mentioningMembers": [],
+            "mentioningCompanies": [],
+            "authorCompanies": [{"name": "Example Company", "urn": "urn:li:organization:1234567"}],
+            "authorIndustries": ["Software Development"],
+        },
+        "customSearchUrl": "https://www.linkedin.com/search/results/content/?keywords=climate%20tech",
+    }
+
+    response = linkedapi.search_posts.mapper.map_response(
+        {
+            "actionType": "st.searchPosts",
+            "success": True,
+            "data": [
+                {
+                    "url": "https://www.linkedin.com/feed/update/urn:li:activity:1",
+                    "activityUrn": "urn:li:activity:1",
+                    "time": "2023-01-01T09:15:00Z",
+                    "type": "repost",
+                    "author": {
+                        "type": "company",
+                        "name": "Example Company",
+                        "companyUrl": "https://www.linkedin.com/company/example-company",
+                    },
+                    "reposter": {
+                        "type": "person",
+                        "name": "Example Reposter",
+                        "profileUrl": "https://www.linkedin.com/in/example-reposter",
+                        "headline": None,
+                    },
+                    "text": "Original post content about the webinar.",
+                    "repostText": "A useful summary for anyone planning a launch.",
+                    "hashtags": [],
+                    "mentions": [],
+                    "externalLinks": [],
+                    "images": [],
+                    "documentSlides": [],
+                    "hasVideo": True,
+                    "videoThumbnail": "https://media.licdn.com/dms/image/video-cover.jpg",
+                    "hasPoll": False,
+                    "reactionsCount": 6,
+                    "commentsCount": 0,
+                    "repostsCount": 1,
+                }
+            ],
+        }
+    )
+
+    assert response.data is not None
+    post = response.data[0]
+    assert isinstance(post, SearchPostResult)
+    assert post.activity_urn == "urn:li:activity:1"
+    assert post.author is not None
+    assert post.author.company_url == "https://www.linkedin.com/company/example-company"
+    assert post.reposter is not None
+    assert post.reposter.profile_url == "https://www.linkedin.com/in/example-reposter"
+    assert post.video_thumbnail == "https://media.licdn.com/dms/image/video-cover.jpg"
+    assert post.reposts_count == 1
+    # A search result never resolves an actor urn, so the field must not exist on this surface.
+    assert "urn" not in SearchPostActor.model_fields
+
+
+def test_search_posts_actor_filters_accept_bare_strings_and_objects_mixed() -> None:
+    params = SearchPostsParams(
+        term="ai",
+        filter=SearchPostsFilter(
+            from_members=[
+                "Bill Gates",
+                SearchPostsPersonFilter(
+                    name="Satya Nadella",
+                    person_hashed_url="https://www.linkedin.com/in/ACoAAABC",
+                ),
+            ],
+            from_companies=[
+                "Acme",
+                SearchPostsCompanyFilter(
+                    name="Globex",
+                    company_hashed_url="https://www.linkedin.com/company/1035",
+                ),
+            ],
+        ),
+    )
+
+    assert params.model_dump(by_alias=True, exclude_none=True) == {
+        "term": "ai",
+        "filter": {
+            "fromMembers": [
+                "Bill Gates",
+                {
+                    "name": "Satya Nadella",
+                    "personHashedUrl": "https://www.linkedin.com/in/ACoAAABC",
+                },
+            ],
+            "fromCompanies": [
+                "Acme",
+                {
+                    "name": "Globex",
+                    "companyHashedUrl": "https://www.linkedin.com/company/1035",
+                },
+            ],
+        },
+    }
+
+    with pytest.raises(ValidationError):
+        SearchPostsFilter(sort="mostRecent")
+
+    with pytest.raises(ValidationError):
+        SearchPostsFilter(from_members=[{"urn": "urn:li:member:1"}])
 
 
 def test_invitation_params_require_the_matching_target_url() -> None:

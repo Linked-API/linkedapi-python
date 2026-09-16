@@ -68,6 +68,7 @@ from linkedapi.operations import (
     SearchCompanies,
     SearchJobs,
     SearchPeople,
+    SearchPosts,
     SendConnectionRequest,
     SendMessage,
     SyncConversation,
@@ -79,7 +80,7 @@ from linkedapi.types import *  # noqa: F403
 from linkedapi.types import __all__ as _types_all
 from linkedapi.webhooks import parse_webhook_event
 
-__version__ = "1.3.9"
+__version__ = "1.3.11"
 PredefinedOperation = Operation
 
 __all__ = [
@@ -146,6 +147,7 @@ __all__ = [
     "SearchCompanies",
     "SearchJobs",
     "SearchPeople",
+    "SearchPosts",
     "SendConnectionRequest",
     "SendMessage",
     "SimpleWorkflowMapper",

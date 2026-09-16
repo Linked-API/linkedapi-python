@@ -41,6 +41,7 @@ from linkedapi.operations import (
     SearchCompanies,
     SearchJobs,
     SearchPeople,
+    SearchPosts,
     SendConnectionRequest,
     SendMessage,
     SyncConversation,
@@ -87,6 +88,7 @@ class LinkedApi:
         self.search_companies = SearchCompanies(self.http_client)
         self.search_people = SearchPeople(self.http_client)
         self.search_jobs = SearchJobs(self.http_client)
+        self.search_posts = SearchPosts(self.http_client)
         self.fetch_company = FetchCompany(self.http_client)
         self.fetch_person = FetchPerson(self.http_client)
         self.fetch_post = FetchPost(self.http_client)
@@ -128,6 +130,7 @@ class LinkedApi:
             self.search_companies,
             self.search_people,
             self.search_jobs,
+            self.search_posts,
             self.fetch_company,
             self.fetch_person,
             self.fetch_post,

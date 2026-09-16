@@ -46,6 +46,7 @@ def test_error_type_sets_match_node_contract() -> None:
         "connectionNotFound",
         "searchingNotAllowed",
         "searchInterfaceMismatch",
+        "filterIdentityMismatch",
         "companyNotFound",
         "postNotFound",
         "jobNotFound",

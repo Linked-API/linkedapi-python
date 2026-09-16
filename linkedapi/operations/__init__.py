@@ -31,6 +31,7 @@ from linkedapi.operations.retrieve_ssi import RetrieveSSI
 from linkedapi.operations.search_companies import SearchCompanies
 from linkedapi.operations.search_jobs import SearchJobs
 from linkedapi.operations.search_people import SearchPeople
+from linkedapi.operations.search_posts import SearchPosts
 from linkedapi.operations.send_connection_request import SendConnectionRequest
 from linkedapi.operations.send_message import SendMessage
 from linkedapi.operations.sync_conversation import SyncConversation
@@ -78,6 +79,7 @@ __all__ = [
     "SearchCompanies",
     "SearchJobs",
     "SearchPeople",
+    "SearchPosts",
     "SendConnectionRequest",
     "SendMessage",
     "SyncConversation",
