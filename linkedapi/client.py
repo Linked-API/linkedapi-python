@@ -12,6 +12,7 @@ from linkedapi.operations import (
     CheckConnectionStatus,
     CommentOnPost,
     CreatePost,
+    CreateRepost,
     CustomWorkflow,
     FetchCompany,
     FetchJob,
@@ -98,6 +99,7 @@ class LinkedApi:
         self.react_to_comment = ReactToComment(self.http_client)
         self.reply_to_comment = ReplyToComment(self.http_client)
         self.create_post = CreatePost(self.http_client)
+        self.create_repost = CreateRepost(self.http_client)
         self.retrieve_feed = RetrieveFeed(self.http_client)
         self.retrieve_ssi = RetrieveSSI(self.http_client)
         self.retrieve_performance = RetrievePerformance(self.http_client)
@@ -140,6 +142,7 @@ class LinkedApi:
             self.react_to_comment,
             self.reply_to_comment,
             self.create_post,
+            self.create_repost,
             self.retrieve_feed,
             self.retrieve_ssi,
             self.retrieve_performance,

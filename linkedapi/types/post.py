@@ -28,14 +28,22 @@ class Comment(LinkedApiModel):
     reactions_count: int | None = None
 
 
-class ReactToPostParams(BaseActionParams):
-    post_url: str
+class PostTargetParams(BaseActionParams):
+    """A post is addressed by its URL or by its URN.
+
+    Provide one of the two; when both are given, they must refer to the same post.
+    """
+
+    post_url: str | None = None
+    post_urn: str | None = None
+
+
+class ReactToPostParams(PostTargetParams):
     type: ReactionType
     company_url: str | None = None
 
 
-class CommentOnPostParams(BaseActionParams):
-    post_url: str
+class CommentOnPostParams(PostTargetParams):
     text: str
     company_url: str | None = None
 
@@ -135,8 +143,7 @@ class PostCommentsRetrievalConfig(LimitParams):
 PostReactionsRetrievalConfig: TypeAlias = LimitParams
 
 
-class BaseFetchPostParams(BaseActionParams):
-    post_url: str
+class BaseFetchPostParams(PostTargetParams):
     retrieve_comments: bool | None = None
     retrieve_reactions: bool | None = None
 
@@ -160,11 +167,43 @@ class CreatePostAttachment(LinkedApiModel):
     name: str | None = None
 
 
+class PostMention(LinkedApiModel):
+    """One person or company to mention, bound to a "@[key]" placeholder in the post text.
+
+    "name" is always required because LinkedIn's composer accepts nothing but typed text. The
+    optional identifier decides which of the offered namesakes is taken; with "name" alone the pick
+    is whichever suggestion LinkedIn ranked first. Provide at most one identifier.
+    """
+
+    key: str
+    name: str
+    urn: str | None = None
+    person_hashed_url: str | None = None
+    company_hashed_url: str | None = None
+
+
 class CreatePostParams(BaseActionParams):
     text: str
+    mentions: list[PostMention] | None = None
     attachments: list[CreatePostAttachment] | None = None
     company_url: str | None = None
 
 
-class CreatePostResult(LinkedApiModel):
+class PublishedPostResult(LinkedApiModel):
+    """Identifiers of a post this account has just published."""
+
     post_url: str | None = None
+    post_urn: str | None = None
+
+
+CreatePostResult: TypeAlias = PublishedPostResult
+
+
+class CreateRepostParams(PostTargetParams):
+    """Without "text" the post is reposted as is; with "text" the commentary goes above it."""
+
+    text: str | None = None
+    mentions: list[PostMention] | None = None
+
+
+CreateRepostResult: TypeAlias = PublishedPostResult

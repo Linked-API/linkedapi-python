@@ -64,6 +64,7 @@ def test_linked_api_exposes_all_predefined_operations() -> None:
         "react_to_comment",
         "reply_to_comment",
         "create_post",
+        "create_repost",
         "retrieve_ssi",
         "retrieve_performance",
         "retrieve_profile_viewers",
@@ -74,7 +75,7 @@ def test_linked_api_exposes_all_predefined_operations() -> None:
         assert hasattr(operation, "execute")
         assert hasattr(operation, "result")
         assert hasattr(operation, "cancel")
-    assert len(linkedapi.operations) == 40
+    assert len(linkedapi.operations) == 41
 
 
 def test_operation_mappers_match_node_contract() -> None:

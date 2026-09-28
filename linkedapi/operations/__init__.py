@@ -2,6 +2,7 @@ from linkedapi.operations.accept_invitation import AcceptInvitation
 from linkedapi.operations.check_connection_status import CheckConnectionStatus
 from linkedapi.operations.comment_on_post import CommentOnPost
 from linkedapi.operations.create_post import CreatePost
+from linkedapi.operations.create_repost import CreateRepost
 from linkedapi.operations.custom_workflow import CustomWorkflow
 from linkedapi.operations.fetch_company import FetchCompany, FetchCompanyMapper
 from linkedapi.operations.fetch_job import FetchJob, FetchJobMapper
@@ -44,6 +45,7 @@ __all__ = [
     "CheckConnectionStatus",
     "CommentOnPost",
     "CreatePost",
+    "CreateRepost",
     "CustomWorkflow",
     "FetchCompany",
     "FetchCompanyMapper",
