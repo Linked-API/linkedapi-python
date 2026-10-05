@@ -4,6 +4,7 @@ from typing import Literal, TypeAlias
 
 from linkedapi.types.params import BaseActionParams, LimitSinceParams
 from linkedapi.types.post import Comment, Post, Reaction
+from linkedapi.types.viewer_state import PersonViewerState
 
 EmploymentType = Literal[
     "fullTime",
@@ -95,6 +96,7 @@ class Person(BaseActionParams):
     followers_count: int | None = None
     about: str | None = None
     avatar_url: str | None = None
+    viewer_state: PersonViewerState | None = None
     experiences: list[PersonExperience] | None = None
     education: list[PersonEducation] | None = None
     skills: list[PersonSkill] | None = None

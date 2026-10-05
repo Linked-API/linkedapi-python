@@ -4,7 +4,8 @@ from typing import Literal, TypeAlias
 
 from linkedapi.types.base import LinkedApiModel
 from linkedapi.types.params import BaseActionParams, LimitParams
-from linkedapi.types.post import PostActorType, PostType
+from linkedapi.types.post import ContentViewerState, PostActorType, PostType
+from linkedapi.types.viewer_state import PersonViewerState
 
 PostSearchSort = Literal["topMatch", "latest"]
 PostSearchDatePosted = Literal["past24Hours", "pastWeek", "pastMonth"]
@@ -78,6 +79,8 @@ class SearchPostActor(LinkedApiModel):
     profile_url: str | None = None
     headline: str | None = None
     company_url: str | None = None
+    # Set for a person author only; a reposter carries none.
+    viewer_state: PersonViewerState | None = None
 
 
 class SearchPostResult(LinkedApiModel):
@@ -101,3 +104,4 @@ class SearchPostResult(LinkedApiModel):
     reactions_count: int | None = None
     comments_count: int | None = None
     reposts_count: int | None = None
+    viewer_state: ContentViewerState | None = None

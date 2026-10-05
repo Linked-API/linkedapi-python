@@ -8,6 +8,11 @@ from linkedapi.types.base import LinkedApiModel
 from linkedapi.types.params import BaseActionParams, LimitParams, LimitSinceParams
 from linkedapi.types.person import YearsOfExperience
 from linkedapi.types.post import Post
+from linkedapi.types.viewer_state import (
+    ConnectionDegree,
+    NvConnectionDegreeFilter,
+    PersonViewerState,
+)
 
 
 class StCompanyEmployee(LinkedApiModel):
@@ -17,6 +22,7 @@ class StCompanyEmployee(LinkedApiModel):
     headline: str | None = None
     location: str | None = None
     avatar_url: str | None = None
+    viewer_state: PersonViewerState | None = None
 
 
 class StCompanyDm(LinkedApiModel):
@@ -27,6 +33,7 @@ class StCompanyDm(LinkedApiModel):
     location: str | None = None
     avatar_url: str | None = None
     country_code: str | None = None
+    viewer_state: PersonViewerState | None = None
 
 
 class Company(LinkedApiModel):
@@ -69,6 +76,7 @@ class StCompanyEmployeesFilter(LinkedApiModel):
     locations: list[str] | None = None
     industries: list[str] | None = None
     schools: list[str] | None = None
+    connection_degrees: list[ConnectionDegree] | None = None
 
 
 class StCompanyEmployeesRetrievalConfig(LimitParams):
@@ -91,6 +99,7 @@ class NvCompanyEmployee(LinkedApiModel):
     position: str | None = None
     location: str | None = None
     avatar_url: str | None = None
+    viewer_state: PersonViewerState | None = None
 
 
 class NvCompanyDm(LinkedApiModel):
@@ -101,6 +110,7 @@ class NvCompanyDm(LinkedApiModel):
     location: str | None = None
     avatar_url: str | None = None
     country_code: str | None = None
+    viewer_state: PersonViewerState | None = None
 
 
 class NvCompany(LinkedApiModel):
@@ -138,6 +148,7 @@ class NvCompanyEmployeeFilter(LinkedApiModel):
     industries: list[str] | None = None
     schools: list[str] | None = None
     years_of_experiences: list[YearsOfExperience] | None = None
+    connection_degrees: list[NvConnectionDegreeFilter] | None = None
 
 
 class NvCompanyEmployeeRetrievalConfig(LimitParams):

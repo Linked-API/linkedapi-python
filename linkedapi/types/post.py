@@ -4,6 +4,7 @@ from typing import Literal, TypeAlias
 
 from linkedapi.types.base import LinkedApiModel
 from linkedapi.types.params import BaseActionParams, LimitParams
+from linkedapi.types.viewer_state import PersonViewerState
 
 PostType = Literal["original", "repost"]
 PostActorType = Literal["person", "company"]
@@ -12,6 +13,18 @@ PostCommenterType = Literal["person", "company"]
 PostEngagerType = Literal["person", "company"]
 PostCommentsSort = Literal["mostRelevant", "mostRecent"]
 AttachmentType = Literal["image", "video", "document"]
+
+
+class ContentViewerState(LinkedApiModel):
+    """What your account has done with a post or a comment.
+
+    "reaction" is None if you have not reacted or the page does not show it; comments read in the
+    feed always report None. "is_own" is None if this cannot be told; content published as a
+    company page you administer is False.
+    """
+
+    reaction: ReactionType | None = None
+    is_own: bool | None = None
 
 
 class Reaction(LinkedApiModel):
@@ -69,9 +82,22 @@ class ReplyToCommentParams(BaseActionParams):
 ReplyToCommentResult: TypeAlias = CommentResult
 
 
+class PostCommentAuthor(LinkedApiModel):
+    """The commenter in the same actor shape a post's author has."""
+
+    type: PostActorType | None = None
+    name: str | None = None
+    profile_url: str | None = None
+    headline: str | None = None
+    company_url: str | None = None
+    viewer_state: PersonViewerState | None = None
+
+
 class PostComment(LinkedApiModel):
     comment_urn: str | None = None
     comment_url: str | None = None
+    author: PostCommentAuthor | None = None
+    # Deprecated: use "author" instead of the four commenter_* fields.
     commenter_url: str | None = None
     commenter_name: str | None = None
     commenter_headline: str | None = None
@@ -82,6 +108,7 @@ class PostComment(LinkedApiModel):
     is_reply: bool | None = None
     reactions_count: int | None = None
     replies_count: int | None = None
+    viewer_state: ContentViewerState | None = None
 
 
 class PostReaction(LinkedApiModel):
@@ -100,8 +127,11 @@ class PostAuthor(LinkedApiModel):
     profile_url: str | None = None
     headline: str | None = None
     company_url: str | None = None
+    # Set for a person author only.
+    viewer_state: PersonViewerState | None = None
 
 
+# A reposter carries no viewer_state: only the author's relation to your account is reported.
 class PostReposter(LinkedApiModel):
     type: PostActorType | None = None
     name: str | None = None
@@ -131,6 +161,7 @@ class Post(LinkedApiModel):
     reactions_count: int | None = None
     comments_count: int | None = None
     reposts_count: int | None = None
+    viewer_state: ContentViewerState | None = None
     comments: list[PostComment] | None = None
     reactions: list[PostReaction] | None = None
 
