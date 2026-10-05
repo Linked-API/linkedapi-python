@@ -370,7 +370,6 @@ def test_execute_and_result_flow_returns_pydantic_data(
     fake_http_client.queue_response(result={"workflowId": "wf1", "workflowStatus": "pending"})
     fake_http_client.queue_response(
         result={
-            "workflowId": "wf1",
             "workflowStatus": "completed",
             "completion": {
                 "actionType": "st.openPersonPage",

@@ -72,7 +72,6 @@ class TestStatusCarriesPendingReason:
     def test_carries_the_outside_working_hours_reason(self) -> None:
         operation = _operation(
             {
-                "workflowId": "wf-1",
                 "workflowStatus": "pending",
                 "pendingReason": "outsideWorkingHours",
             }
@@ -84,9 +83,7 @@ class TestStatusCarriesPendingReason:
         assert result.pending_reason == "outsideWorkingHours"
 
     def test_carries_the_queued_reason(self) -> None:
-        operation = _operation(
-            {"workflowId": "wf-1", "workflowStatus": "pending", "pendingReason": "queued"}
-        )
+        operation = _operation({"workflowStatus": "pending", "pendingReason": "queued"})
 
         result = operation.status("wf-1")
 
@@ -94,7 +91,7 @@ class TestStatusCarriesPendingReason:
         assert result.pending_reason == "queued"
 
     def test_keeps_none_when_the_api_sends_nothing(self) -> None:
-        operation = _operation({"workflowId": "wf-1", "workflowStatus": "running"})
+        operation = _operation({"workflowStatus": "running"})
 
         result = operation.status("wf-1")
 

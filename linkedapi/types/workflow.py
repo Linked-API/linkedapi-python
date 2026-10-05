@@ -44,7 +44,8 @@ class WorkflowCancelResponse(LinkedApiModel):
 
 
 class WorkflowResponse(LinkedApiModel):
-    workflow_id: str
+    # GET /workflows/{id} never returns workflowId; only the start response carries it.
+    workflow_id: str | None = None
     workflow_status: WorkflowStatus
     message: str | None = None
     pending_reason: WorkflowPendingReason | None = None

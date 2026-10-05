@@ -17,15 +17,10 @@ from linkedapi import (
 
 
 def test_operation_result_polls_until_completion(fake_http_client: FakeHttpClient) -> None:
-    fake_http_client.queue_response(
-        result={"workflowId": "wf1", "workflowStatus": "pending", "message": "queued"}
-    )
-    fake_http_client.queue_response(
-        result={"workflowId": "wf1", "workflowStatus": "running", "message": "running"}
-    )
+    fake_http_client.queue_response(result={"workflowStatus": "pending", "message": "queued"})
+    fake_http_client.queue_response(result={"workflowStatus": "running", "message": "running"})
     fake_http_client.queue_response(
         result={
-            "workflowId": "wf1",
             "workflowStatus": "completed",
             "completion": {
                 "actionType": "st.retrieveSSI",
@@ -52,7 +47,6 @@ def test_operation_result_wraps_response_validation_error(
 ) -> None:
     fake_http_client.queue_response(
         result={
-            "workflowId": "wf1",
             "workflowStatus": "completed",
             "completion": {
                 "actionType": "st.openPersonPage",
