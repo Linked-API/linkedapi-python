@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from typing import Any, Literal
 
+from pydantic import SerializerFunctionWrapHandler, model_serializer
+
 from linkedapi.types.base import LinkedApiModel
 from linkedapi.types.message import ConversationType, MessageSender
 
@@ -21,6 +23,24 @@ WebhookEventType = Literal[
     "network.connectionRequestReceived",
     "webhook.test",
 ]
+WebhookEventSelector = Literal[
+    "workflow.created",
+    "workflow.started",
+    "workflow.completed",
+    "account.active",
+    "account.reconnectionRequired",
+    "account.frozen",
+    "account.deleted",
+    "inbox.messageReceived",
+    "inbox.messageSent",
+    "network.connectionAccepted",
+    "network.connectionAdded",
+    "network.connectionRequestReceived",
+    "workflow.*",
+    "account.*",
+    "inbox.*",
+    "network.*",
+]
 WebhookDeliveryStatus = Literal["pending", "delivering", "success", "failed"]
 WorkflowWebhookStatus = Literal["pending", "running", "completed", "failed"]
 AccountWebhookStatus = Literal["active", "reconnection_required", "frozen", "deleted"]
@@ -31,12 +51,17 @@ class WebhookSubscription(LinkedApiModel):
     url: str | None = None
     payload_mode: WebhookPayloadMode | None = None
     is_active: bool | None = None
+    signing_enabled: bool | None = None
+    header_names: list[str] | None = None
+    events: list[str] | None = None
+    # Returned only by set with signing on, set_signing(True), reveal_secret or rotate_secret.
+    secret: str | None = None
     created_at: str | None = None
 
 
 class WebhookDelivery(LinkedApiModel):
     id: str | None = None
-    event_type: WebhookEventType | None = None
+    event_type: str | None = None
     event_id: str | None = None
     status: WebhookDeliveryStatus | None = None
     attempts: int | None = None
@@ -49,11 +74,64 @@ class WebhookDelivery(LinkedApiModel):
 class SetWebhookParams(LinkedApiModel):
     url: str
     payload_mode: WebhookPayloadMode | None = None
+    signing_enabled: bool | None = None
+    headers: dict[str, str] | None = None
+    events: list[WebhookEventSelector] | None = None
 
 
 class SetWebhookPayloadModeParams(LinkedApiModel):
     id: str
     payload_mode: WebhookPayloadMode
+
+
+class SetWebhookSigningParams(LinkedApiModel):
+    id: str
+    signing_enabled: bool
+
+
+class SetWebhookHeadersParams(LinkedApiModel):
+    id: str
+    headers: dict[str, str] | None
+
+    @model_serializer(mode="wrap")
+    def _serialize(self, handler: SerializerFunctionWrapHandler) -> dict[str, Any]:
+        result: dict[str, Any] = handler(self)
+        # Core requires explicit null to clear headers, even when requests exclude None.
+        if self.headers is None:
+            result["headers"] = None
+        return result
+
+
+class SetWebhookHeaderParams(LinkedApiModel):
+    id: str
+    name: str
+    value: str
+
+
+class DeleteWebhookHeaderParams(LinkedApiModel):
+    id: str
+    name: str
+
+
+class RevealWebhookSecretParams(LinkedApiModel):
+    id: str
+
+
+class RotateWebhookSecretParams(LinkedApiModel):
+    id: str
+
+
+class SetWebhookEventsParams(LinkedApiModel):
+    id: str
+    events: list[WebhookEventSelector] | None
+
+    @model_serializer(mode="wrap")
+    def _serialize(self, handler: SerializerFunctionWrapHandler) -> dict[str, Any]:
+        result: dict[str, Any] = handler(self)
+        # Core requires explicit null to select all events, even when requests exclude None.
+        if self.events is None:
+            result["events"] = None
+        return result
 
 
 class DeleteWebhookParams(LinkedApiModel):

@@ -5,10 +5,17 @@ from typing import Any
 from linkedapi.errors import LinkedApiError
 from linkedapi.http import HttpClient
 from linkedapi.types.webhooks import (
+    DeleteWebhookHeaderParams,
     DeleteWebhookParams,
     ReplayWebhookDeliveryParams,
+    RevealWebhookSecretParams,
+    RotateWebhookSecretParams,
+    SetWebhookEventsParams,
+    SetWebhookHeaderParams,
+    SetWebhookHeadersParams,
     SetWebhookParams,
     SetWebhookPayloadModeParams,
+    SetWebhookSigningParams,
     WebhookDelivery,
     WebhookSubscription,
 )
@@ -17,8 +24,9 @@ from linkedapi.types.webhooks import (
 class AdminWebhooks:
     """Manage the client's registered outbound webhook and inspect recent deliveries.
 
-    A client may hold at most one active webhook. It receives every event Linked API emits
-    (workflow lifecycle + account status changes); filter by the event ``type`` on your receiver.
+    A client may hold at most one active webhook. Its event selectors control which workflow,
+    account, inbox and network events it receives; None selects all events. Test events are
+    always delivered. Signing and custom headers are configured per subscription.
     """
 
     def __init__(self, http_client: HttpClient[Any]) -> None:
@@ -39,6 +47,78 @@ class AdminWebhooks:
             params,
         )
         return WebhookSubscription.model_validate(result["webhook"])
+
+    def set_signing(self, params: SetWebhookSigningParams) -> WebhookSubscription:
+        """Enable or disable signing. Enabling returns the stored secret."""
+        result = self._post_result(
+            "/admin/webhook.setSigning",
+            "Failed to set webhook signing",
+            params,
+        )
+        return WebhookSubscription.model_validate(result["webhook"])
+
+    def set_headers(self, params: SetWebhookHeadersParams) -> WebhookSubscription:
+        """Replace all custom headers. None or an empty dict clears them."""
+        result = self._post_result(
+            "/admin/webhook.setHeaders",
+            "Failed to set webhook headers",
+            params,
+        )
+        return WebhookSubscription.model_validate(result["webhook"])
+
+    def set_header(self, params: SetWebhookHeaderParams) -> WebhookSubscription:
+        """Set one custom header; its name is matched case-insensitively."""
+        result = self._post_result(
+            "/admin/webhook.setHeader",
+            "Failed to set webhook header",
+            params,
+        )
+        return WebhookSubscription.model_validate(result["webhook"])
+
+    def delete_header(self, params: DeleteWebhookHeaderParams) -> WebhookSubscription:
+        """Remove one custom header; its name is matched case-insensitively."""
+        result = self._post_result(
+            "/admin/webhook.deleteHeader",
+            "Failed to delete webhook header",
+            params,
+        )
+        return WebhookSubscription.model_validate(result["webhook"])
+
+    def reveal_secret(self, params: RevealWebhookSecretParams) -> WebhookSubscription:
+        """Return the current signing secret without changing it."""
+        result = self._post_result(
+            "/admin/webhook.revealSecret",
+            "Failed to reveal webhook secret",
+            params,
+        )
+        return WebhookSubscription.model_validate(result["webhook"])
+
+    def rotate_secret(self, params: RotateWebhookSecretParams) -> WebhookSubscription:
+        """Replace the signing secret and return its new value."""
+        result = self._post_result(
+            "/admin/webhook.rotateSecret",
+            "Failed to rotate webhook secret",
+            params,
+        )
+        return WebhookSubscription.model_validate(result["webhook"])
+
+    def set_events(self, params: SetWebhookEventsParams) -> WebhookSubscription:
+        """Select event types or namespace wildcards; None selects all. Tests always deliver."""
+        result = self._post_result(
+            "/admin/webhook.setEvents",
+            "Failed to set webhook events",
+            params,
+        )
+        return WebhookSubscription.model_validate(result["webhook"])
+
+    def event_types(self) -> list[str]:
+        """Return selectable event types in the server's order.
+
+        The catalog excludes webhook.test, which is always delivered.
+        """
+        result = self._post_result("/admin/webhook.eventTypes", "Failed to get webhook event types")
+        event_types: list[str] = result["eventTypes"]
+        return event_types
 
     def delete(self, params: DeleteWebhookParams) -> None:
         self._post_void("/admin/webhook.delete", "Failed to delete webhook", params)

@@ -6,6 +6,7 @@ from linkedapi.admin import (
     AdminWebhooks,
     LinkedApiAdmin,
 )
+from linkedapi.changelog import get_changelog
 from linkedapi.client import LinkedApi
 from linkedapi.config import LinkedApiConfig
 from linkedapi.core import Operation, poll_workflow_result
@@ -79,9 +80,14 @@ from linkedapi.operations import (
 )
 from linkedapi.types import *  # noqa: F403
 from linkedapi.types import __all__ as _types_all
-from linkedapi.webhooks import parse_webhook_event
+from linkedapi.webhooks import (
+    WEBHOOK_SIGNATURE_HEADER,
+    WEBHOOK_SIGNATURE_TIMESTAMP_HEADER,
+    parse_webhook_event,
+    verify_webhook_signature,
+)
 
-__version__ = "1.4.2"
+__version__ = "1.4.3"
 PredefinedOperation = Operation
 
 __all__ = [
@@ -158,8 +164,12 @@ __all__ = [
     "SyncNetwork",
     "ThenWorkflowMapper",
     "VoidWorkflowMapper",
+    "WEBHOOK_SIGNATURE_HEADER",
+    "WEBHOOK_SIGNATURE_TIMESTAMP_HEADER",
     "WithdrawConnectionRequest",
     "__version__",
+    "get_changelog",
     "parse_webhook_event",
     "poll_workflow_result",
+    "verify_webhook_signature",
 ]
