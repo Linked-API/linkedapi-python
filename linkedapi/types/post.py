@@ -112,6 +112,15 @@ class PostComment(LinkedApiModel):
 
 
 class PostReaction(LinkedApiModel):
+    """One reaction on a post.
+
+    "actor" is whoever reacted, in the same shape a post's author has.
+
+    Deprecated: the engager_* fields are still returned; use "actor" instead.
+    """
+
+    actor: PostAuthor | None = None
+    # Deprecated: use "actor" instead of the five engager_* fields.
     engager_urn: str | None = None
     engager_url: str | None = None
     engager_name: str | None = None

@@ -16,20 +16,30 @@ PostSearchPostedBy = Literal["me", "firstConnections", "peopleYouFollow"]
 class SearchPostsPersonFilter(LinkedApiModel):
     """One person to narrow a post search by.
 
-    "name" is always required because LinkedIn's filter panel accepts nothing but typed text. The
-    optional identifier decides which of the offered namesakes is taken; with "name" alone the pick
-    is whichever suggestion LinkedIn ranked first.
+    With "name" alone the filter may match a namesake. "id" is any identifier of the person - its
+    URN, or its public or hashed LinkedIn URL - and pins the filter to exactly that person; when it
+    cannot be applied, the action fails with "filterNotApplied" rather than filtering by somebody
+    else.
+
+    Deprecated: "urn" and "person_hashed_url" are still accepted; use "id" instead.
     """
 
     name: str
+    id: str | None = None
     urn: str | None = None
     person_hashed_url: str | None = None
 
 
 class SearchPostsCompanyFilter(LinkedApiModel):
-    """One company to narrow a post search by. Same contract as SearchPostsPersonFilter."""
+    """One company to narrow a post search by. Same contract as SearchPostsPersonFilter.
+
+    "id" is the company's URN, its public or hashed LinkedIn URL, or its numeric ID.
+
+    Deprecated: "urn" and "company_hashed_url" are still accepted; use "id" instead.
+    """
 
     name: str
+    id: str | None = None
     urn: str | None = None
     company_hashed_url: str | None = None
 
