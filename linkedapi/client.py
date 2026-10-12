@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, overload
 from urllib.parse import urlencode
 
 from linkedapi.config import LinkedApiConfig
@@ -55,6 +55,8 @@ from linkedapi.types.message import (
     ConversationPollRequest,
     ConversationPollResult,
     InboxMessage,
+    InboxPersonPollRequest,
+    InboxPersonPollResult,
     InboxPollRequest,
 )
 from linkedapi.types.network import NetworkEvent, NetworkPollRequest
@@ -161,7 +163,12 @@ class LinkedApi:
         self,
         conversations: list[ConversationPollRequest],
     ) -> MappedResponse[list[ConversationPollResult]]:
-        """Poll previously synced standard or Sales Navigator conversations."""
+        """Poll previously synced standard or Sales Navigator conversations.
+
+        Deprecated: legacy, kept working for existing integrations. Use ``poll_inbox`` with
+        ``InboxPersonPollRequest(person_url=...)``: it returns the same history together with the
+        messages the inbox captured, and does not fail for people whose history was never loaded.
+        """
 
         try:
             response = self.http_client.post("/conversations/poll", serialize_value(conversations))
@@ -187,15 +194,39 @@ class LinkedApi:
                 )
             raise
 
+    @overload
+    def poll_inbox(  # type: ignore[overload-overlap]
+        self,
+        request: InboxPersonPollRequest,
+    ) -> MappedResponse[InboxPersonPollResult]: ...
+
+    @overload
     def poll_inbox(
         self,
         request: InboxPollRequest | None = None,
-    ) -> MappedResponse[list[InboxMessage]]:
-        """Read the monitored standard or Sales Navigator inbox, newest messages first."""
+    ) -> MappedResponse[list[InboxMessage]]: ...
+
+    def poll_inbox(
+        self,
+        request: InboxPollRequest | None = None,
+    ) -> MappedResponse[list[InboxMessage]] | MappedResponse[InboxPersonPollResult]:
+        """Read the monitored standard or Sales Navigator inbox, newest messages first.
+
+        Without ``person_url`` the data is the list of inbox messages across every conversation.
+        With ``person_url`` (use ``InboxPersonPollRequest``) the data is the whole known
+        conversation with that person: the messages the inbox captured together with the history
+        loaded by ``sync_conversation`` / ``nv_sync_conversation``, each message once, plus
+        ``threads`` with ``history_from`` and ``history_complete``.
+        """
 
         payload = serialize_value(request) if request is not None else {}
         response = self.http_client.post("/inbox/poll", payload)
         if response.success and response.result is not None:
+            if request is not None and request.person_url:
+                return MappedResponse(
+                    data=InboxPersonPollResult.model_validate(response.result),
+                    errors=[],
+                )
             messages = response.result.get("messages", [])
             return MappedResponse(
                 data=[InboxMessage.model_validate(item) for item in messages],

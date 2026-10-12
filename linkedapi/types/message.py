@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from typing import Literal
 
+from pydantic import Field
+
 from linkedapi.types.base import LinkedApiModel
 from linkedapi.types.params import BaseActionParams
 
@@ -90,6 +92,11 @@ class InboxPollRequest(LinkedApiModel):
     since: str | None = None
     type: ConversationType | None = None
     thread_id: str | None = None
+    person_url: str | None = None
+
+
+class InboxPersonPollRequest(InboxPollRequest):
+    person_url: str
 
 
 class InboxMessage(LinkedApiModel):
@@ -104,3 +111,20 @@ class InboxMessage(LinkedApiModel):
     sender: MessageSender | None = None
     text: str | None = None
     time: str | None = None
+
+
+class InboxPersonMessage(InboxMessage):
+    inbox_message_id: str | None = None
+
+
+class InboxPersonThread(LinkedApiModel):
+    thread_id: str | None = None
+    type: ConversationType | None = None
+    person_urn: str | None = None
+    history_from: str | None = None
+    history_complete: bool = False
+
+
+class InboxPersonPollResult(LinkedApiModel):
+    messages: list[InboxPersonMessage] = Field(default_factory=list)
+    threads: list[InboxPersonThread] = Field(default_factory=list)

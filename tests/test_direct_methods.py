@@ -6,6 +6,7 @@ from conftest import FakeHttpClient
 from linkedapi import (
     ApiUsageParams,
     ConversationPollRequest,
+    InboxPersonPollRequest,
     InboxPollRequest,
     LinkedApi,
     LinkedApiActionError,
@@ -106,6 +107,59 @@ def test_poll_inbox_success(fake_http_client: FakeHttpClient) -> None:
     assert result.data[0].thread_id == "t1"
     assert result.data[0].sender == "them"
     assert result.errors == []
+
+
+def test_poll_inbox_with_person_url_returns_messages_and_threads(
+    fake_http_client: FakeHttpClient,
+) -> None:
+    linkedapi = LinkedApi(fake_http_client)
+    fake_http_client.queue_response(
+        result={
+            "messages": [
+                {
+                    "id": "h1",
+                    "inboxMessageId": None,
+                    "type": "st",
+                    "threadId": None,
+                    "personHashedUrl": "hashed",
+                    "sender": "them",
+                    "text": "hi",
+                    "time": "2026-01-01T10:00:00.000Z",
+                }
+            ],
+            "threads": [
+                {
+                    "threadId": None,
+                    "type": "st",
+                    "personUrn": "urn:li:member:1",
+                    "historyFrom": "2026-01-01T10:00:00.000Z",
+                    "historyComplete": True,
+                }
+            ],
+        }
+    )
+
+    result = linkedapi.poll_inbox(InboxPersonPollRequest(person_url="u", since="s"))
+
+    assert fake_http_client.calls[0] == ("POST", "/inbox/poll", {"since": "s", "personUrl": "u"})
+    assert result.data is not None
+    assert result.data.messages[0].inbox_message_id is None
+    assert result.data.messages[0].thread_id is None
+    assert result.data.threads[0].history_complete is True
+    assert result.data.threads[0].history_from == "2026-01-01T10:00:00.000Z"
+
+
+def test_poll_inbox_person_url_on_base_request_is_sent_not_dropped(
+    fake_http_client: FakeHttpClient,
+) -> None:
+    linkedapi = LinkedApi(fake_http_client)
+    fake_http_client.queue_response(result={"messages": [], "threads": []})
+
+    result = linkedapi.poll_inbox(InboxPollRequest(person_url="u"))
+
+    assert fake_http_client.calls[0] == ("POST", "/inbox/poll", {"personUrl": "u"})
+    assert result.data is not None
+    assert not isinstance(result.data, list)
 
 
 def test_poll_inbox_without_request_sends_empty_body(fake_http_client: FakeHttpClient) -> None:
