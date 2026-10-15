@@ -11,6 +11,7 @@ LimitCategory = Literal[
     "stMessages",
     "stSearchQueries",
     "stReactions",
+    "stEndorsements",
     "stComments",
     "stPosts",
     "nvPersonProfileViews",
