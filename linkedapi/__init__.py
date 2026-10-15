@@ -87,7 +87,7 @@ from linkedapi.webhooks import (
     verify_webhook_signature,
 )
 
-__version__ = "1.4.5"
+__version__ = "1.4.6"
 PredefinedOperation = Operation
 
 __all__ = [
