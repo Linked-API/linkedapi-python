@@ -16,4 +16,4 @@ class PersonViewerState(LinkedApiModel):
     "connection_degree" is None when LinkedIn shows no degree, e.g. on your own content.
     """
 
-    connection_degree: ConnectionDegree | None = None
+    connection_degree: ConnectionDegree | str | None = None

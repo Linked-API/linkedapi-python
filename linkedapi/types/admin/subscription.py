@@ -11,15 +11,15 @@ SetSeatsStatus = Literal["complete", "processing"]
 
 
 class SubscriptionStatus(LinkedApiModel):
-    status: SubscriptionStatusValue | None = None
+    status: SubscriptionStatusValue | str | None = None
     eligible_for_trial: bool | None = None
     cancel_at_period_end: bool | None = None
 
 
 class SubscriptionSeat(LinkedApiModel):
-    seat_type: SeatType | None = None
+    seat_type: SeatType | str | None = None
     quantity: int | None = None
-    billing_period: BillingPeriod | None = None
+    billing_period: BillingPeriod | str | None = None
 
 
 class SetSeatsParams(LinkedApiModel):
@@ -29,7 +29,7 @@ class SetSeatsParams(LinkedApiModel):
 
 
 class SetSeatsResult(LinkedApiModel):
-    status: SetSeatsStatus | None = None
+    status: SetSeatsStatus | str | None = None
     payment_link: str | None = None
 
 

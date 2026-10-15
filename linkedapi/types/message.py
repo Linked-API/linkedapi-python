@@ -73,7 +73,7 @@ class ConversationPollRequest(LinkedApiModel):
 
 class Message(LinkedApiModel):
     id: str | None = None
-    sender: MessageSender | None = None
+    sender: MessageSender | str | None = None
     text: str | None = None
     time: str | None = None
     thread_id: str | None = None
@@ -82,7 +82,7 @@ class Message(LinkedApiModel):
 class ConversationPollResult(LinkedApiModel):
     person_urn: str | None = None
     person_url: str | None = None
-    type: ConversationType | None = None
+    type: ConversationType | str | None = None
     messages: list[Message] | None = None
     since: str | None = None
     sync_until: str | None = None
@@ -101,14 +101,14 @@ class InboxPersonPollRequest(InboxPollRequest):
 
 class InboxMessage(LinkedApiModel):
     id: str | None = None
-    type: ConversationType | None = None
+    type: ConversationType | str | None = None
     thread_id: str | None = None
     person_urn: str | None = None
     person_hashed_url: str | None = None
     person_public_url: str | None = None
     # Deprecated: use person_hashed_url. Still returned by the API for compatibility.
     person_url: str | None = None
-    sender: MessageSender | None = None
+    sender: MessageSender | str | None = None
     text: str | None = None
     time: str | None = None
 
@@ -119,7 +119,7 @@ class InboxPersonMessage(InboxMessage):
 
 class InboxPersonThread(LinkedApiModel):
     thread_id: str | None = None
-    type: ConversationType | None = None
+    type: ConversationType | str | None = None
     person_urn: str | None = None
     history_from: str | None = None
     history_complete: bool = False

@@ -60,6 +60,8 @@ def test_linked_api_exposes_all_predefined_operations() -> None:
         "nv_sync_inbox",
         "nv_manage_conversation",
         "react_to_post",
+        "endorse_person_skill",
+        "endorse_person_skills",
         "comment_on_post",
         "react_to_comment",
         "reply_to_comment",
@@ -75,7 +77,7 @@ def test_linked_api_exposes_all_predefined_operations() -> None:
         assert hasattr(operation, "execute")
         assert hasattr(operation, "result")
         assert hasattr(operation, "cancel")
-    assert len(linkedapi.operations) == 41
+    assert len(linkedapi.operations) == 43
 
 
 def test_operation_mappers_match_node_contract() -> None:

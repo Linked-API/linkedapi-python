@@ -2,11 +2,10 @@ from __future__ import annotations
 
 import json
 
-import pytest
-
 from linkedapi import (
     AccountWebhookEvent,
     MessageWebhookEvent,
+    UnknownWebhookEvent,
     WorkflowWebhookEvent,
     parse_webhook_event,
 )
@@ -79,6 +78,11 @@ def test_parse_message_sent_event() -> None:
     assert event.data.type == "nv"
 
 
-def test_parse_unknown_event_raises() -> None:
-    with pytest.raises(ValueError):
-        parse_webhook_event(json.dumps({"id": "e5", "type": "unknown.thing", "data": {}}))
+def test_parse_unknown_event_keeps_type_and_payload() -> None:
+    event = parse_webhook_event(
+        json.dumps({"id": "e5", "type": "unknown.thing", "data": {"future": "value"}})
+    )
+
+    assert isinstance(event, UnknownWebhookEvent)
+    assert event.type == "unknown.thing"
+    assert event.data == {"future": "value"}

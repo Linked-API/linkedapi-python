@@ -36,6 +36,8 @@ from linkedapi.operations import (
     CreatePost,
     CreateRepost,
     CustomWorkflow,
+    EndorsePersonSkill,
+    EndorsePersonSkills,
     FetchCompany,
     FetchCompanyMapper,
     FetchJob,
@@ -87,7 +89,7 @@ from linkedapi.webhooks import (
     verify_webhook_signature,
 )
 
-__version__ = "1.4.6"
+__version__ = "1.4.7"
 PredefinedOperation = Operation
 
 __all__ = [
@@ -106,6 +108,8 @@ __all__ = [
     "CreatePost",
     "CreateRepost",
     "CustomWorkflow",
+    "EndorsePersonSkill",
+    "EndorsePersonSkills",
     "FetchCompany",
     "FetchCompanyMapper",
     "FetchJob",

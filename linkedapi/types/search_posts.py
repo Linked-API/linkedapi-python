@@ -84,7 +84,7 @@ class SearchPostActor(LinkedApiModel):
     identity anchors on the post's own page, and a search result list has none of them.
     """
 
-    type: PostActorType | None = None
+    type: PostActorType | str | None = None
     name: str | None = None
     profile_url: str | None = None
     headline: str | None = None
@@ -97,7 +97,7 @@ class SearchPostResult(LinkedApiModel):
     url: str | None = None
     activity_urn: str | None = None
     time: str | None = None
-    type: PostType | None = None
+    type: PostType | str | None = None
     author: SearchPostActor | None = None
     # Non-null only when "type" is "repost".
     reposter: SearchPostActor | None = None

@@ -4,6 +4,8 @@ from linkedapi.operations.comment_on_post import CommentOnPost
 from linkedapi.operations.create_post import CreatePost
 from linkedapi.operations.create_repost import CreateRepost
 from linkedapi.operations.custom_workflow import CustomWorkflow
+from linkedapi.operations.endorse_person_skill import EndorsePersonSkill
+from linkedapi.operations.endorse_person_skills import EndorsePersonSkills
 from linkedapi.operations.fetch_company import FetchCompany, FetchCompanyMapper
 from linkedapi.operations.fetch_job import FetchJob, FetchJobMapper
 from linkedapi.operations.fetch_person import FetchPerson, FetchPersonMapper
@@ -47,6 +49,8 @@ __all__ = [
     "CreatePost",
     "CreateRepost",
     "CustomWorkflow",
+    "EndorsePersonSkill",
+    "EndorsePersonSkills",
     "FetchCompany",
     "FetchCompanyMapper",
     "FetchJob",

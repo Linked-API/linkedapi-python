@@ -23,14 +23,14 @@ class ContentViewerState(LinkedApiModel):
     company page you administer is False.
     """
 
-    reaction: ReactionType | None = None
+    reaction: ReactionType | str | None = None
     is_own: bool | None = None
 
 
 class Reaction(LinkedApiModel):
     post_url: str | None = None
     time: str | None = None
-    reaction_type: ReactionType | None = None
+    reaction_type: ReactionType | str | None = None
 
 
 class Comment(LinkedApiModel):
@@ -85,7 +85,7 @@ ReplyToCommentResult: TypeAlias = CommentResult
 class PostCommentAuthor(LinkedApiModel):
     """The commenter in the same actor shape a post's author has."""
 
-    type: PostActorType | None = None
+    type: PostActorType | str | None = None
     name: str | None = None
     profile_url: str | None = None
     headline: str | None = None
@@ -101,7 +101,7 @@ class PostComment(LinkedApiModel):
     commenter_url: str | None = None
     commenter_name: str | None = None
     commenter_headline: str | None = None
-    commenter_type: PostCommenterType | None = None
+    commenter_type: PostCommenterType | str | None = None
     time: str | None = None
     text: str | None = None
     image: str | None = None
@@ -125,12 +125,12 @@ class PostReaction(LinkedApiModel):
     engager_url: str | None = None
     engager_name: str | None = None
     engager_headline: str | None = None
-    engager_type: PostEngagerType | None = None
-    type: ReactionType | None = None
+    engager_type: PostEngagerType | str | None = None
+    type: ReactionType | str | None = None
 
 
 class PostAuthor(LinkedApiModel):
-    type: PostActorType | None = None
+    type: PostActorType | str | None = None
     name: str | None = None
     urn: str | None = None
     profile_url: str | None = None
@@ -142,7 +142,7 @@ class PostAuthor(LinkedApiModel):
 
 # A reposter carries no viewer_state: only the author's relation to your account is reported.
 class PostReposter(LinkedApiModel):
-    type: PostActorType | None = None
+    type: PostActorType | str | None = None
     name: str | None = None
     urn: str | None = None
     profile_url: str | None = None
@@ -153,7 +153,7 @@ class PostReposter(LinkedApiModel):
 class Post(LinkedApiModel):
     url: str | None = None
     time: str | None = None
-    type: PostType | None = None
+    type: PostType | str | None = None
     activity_urn: str | None = None
     author: PostAuthor | None = None
     reposter: PostReposter | None = None

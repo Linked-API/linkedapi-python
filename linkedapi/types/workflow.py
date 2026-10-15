@@ -21,17 +21,17 @@ class LinkedApiActionError(LinkedApiModel):
 
 class WorkflowStartedResponse(LinkedApiModel):
     workflow_id: str
-    workflow_status: WorkflowInProgressStatus
+    workflow_status: WorkflowInProgressStatus | str
     message: str | None = None
     # Optional so an older API that does not send it still parses.
-    pending_reason: WorkflowPendingReason | None = None
+    pending_reason: WorkflowPendingReason | str | None = None
 
 
 class WorkflowInProgressResponse(LinkedApiModel):
     workflow_id: str
-    workflow_status: WorkflowInProgressStatus
+    workflow_status: WorkflowInProgressStatus | str
     message: str | None = None
-    pending_reason: WorkflowPendingReason | None = None
+    pending_reason: WorkflowPendingReason | str | None = None
 
 
 class WorkflowFailure(LinkedApiModel):
@@ -46,9 +46,9 @@ class WorkflowCancelResponse(LinkedApiModel):
 class WorkflowResponse(LinkedApiModel):
     # GET /workflows/{id} never returns workflowId; only the start response carries it.
     workflow_id: str | None = None
-    workflow_status: WorkflowStatus
+    workflow_status: WorkflowStatus | str
     message: str | None = None
-    pending_reason: WorkflowPendingReason | None = None
+    pending_reason: WorkflowPendingReason | str | None = None
     completion: WorkflowCompletion | None = None
     failure: WorkflowFailure | None = None
 
