@@ -25,7 +25,7 @@ class AdminAccount(LinkedApiModel):
     headline: str | None = None
     country_code: str | None = None
     identification_token: str | None = None
-    status: AdminAccountStatus | None = None
+    status: AdminAccountStatus | str | None = None
     connected_at: str | None = None
     reconnection_session_id: str | None = None
     reconnection_link: str | None = None
@@ -81,7 +81,7 @@ class GetConnectionSessionParams(LinkedApiModel):
 
 class ConnectionSession(LinkedApiModel):
     session_id: str | None = None
-    status: ConnectionSessionStatus | None = None
+    status: ConnectionSessionStatus | str | None = None
     type: str | None = None
 
 

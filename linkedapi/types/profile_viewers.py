@@ -16,14 +16,14 @@ class RetrieveProfileViewersParams(BaseActionParams):
 
 
 class ProfileViewer(LinkedApiModel):
-    viewer_type: ProfileViewerType
+    viewer_type: ProfileViewerType | str
     viewed_at: str | None
     viewed_ago: str | None
     name: str | None = None
     public_url: str | None = None
     urn: str | None = None
     headline: str | None = None
-    connection_degree: Literal[1, 2, 3] | None = None
+    connection_degree: Literal[1, 2, 3] | int | None = None
     avatar_url: str | None = None
     description: str | None = None
     search_url: str | None = None
@@ -50,7 +50,9 @@ class ProfileViewer(LinkedApiModel):
                 "avatar_url",
             },
             "anonymous": {"description", "search_url"},
-        }[self.viewer_type]
+        }.get(self.viewer_type)
+        if required_fields is None:
+            return self
         missing_fields = required_fields - self.model_fields_set
         if missing_fields:
             msg = (

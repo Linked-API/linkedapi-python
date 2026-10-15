@@ -22,15 +22,15 @@ LimitPeriod = Literal["daily", "weekly", "monthly"]
 
 
 class Limit(LinkedApiModel):
-    category: LimitCategory | None = None
-    period: LimitPeriod | None = None
+    category: LimitCategory | str | None = None
+    period: LimitPeriod | str | None = None
     max_value: int | None = None
     is_enabled: bool | None = None
 
 
 class LimitUsage(LinkedApiModel):
-    category: LimitCategory | None = None
-    period: LimitPeriod | None = None
+    category: LimitCategory | str | None = None
+    period: LimitPeriod | str | None = None
     max_value: int | None = None
     current_usage: int | None = None
     is_enabled: bool | None = None

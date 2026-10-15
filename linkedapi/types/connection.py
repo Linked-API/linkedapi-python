@@ -30,7 +30,7 @@ class CheckConnectionStatusParams(BaseActionParams):
 
 
 class CheckConnectionStatusResult(LinkedApiModel):
-    connection_status: ConnectionStatus | None = None
+    connection_status: ConnectionStatus | str | None = None
 
 
 class WithdrawConnectionRequestParams(BaseActionParams):
@@ -77,7 +77,7 @@ class IgnoreInvitationParams(InvitationTargetParams):
 
 
 class Invitation(LinkedApiModel):
-    invitation_type: InvitationType
+    invitation_type: InvitationType | str
     name: str
     urn: str | None = None
     public_url: str
@@ -102,7 +102,9 @@ class Invitation(LinkedApiModel):
             "connect": {"headline", "note"},
             "companyFollow": {"company_url", "company_name"},
             "newsletterSubscribe": {"newsletter_url", "newsletter_name"},
-        }[self.invitation_type]
+        }.get(self.invitation_type)
+        if required_fields is None:
+            return self
         missing_fields = required_fields - self.model_fields_set
         if missing_fields:
             msg = (

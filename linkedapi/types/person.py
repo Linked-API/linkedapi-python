@@ -5,6 +5,7 @@ from typing import Literal, TypeAlias
 from linkedapi.types.params import BaseActionParams, LimitSinceParams
 from linkedapi.types.post import Comment, Post, Reaction
 from linkedapi.types.viewer_state import PersonViewerState
+from linkedapi.types.workflow import LinkedApiActionError
 
 EmploymentType = Literal[
     "fullTime",
@@ -54,12 +55,28 @@ class FetchPersonParams(BaseFetchPersonParams):
     reactions_retrieval_config: LimitSinceParams | None = None
 
 
+class EndorsePersonSkillParams(BaseActionParams):
+    person_url: str
+    skill_name: str
+
+
+class EndorsePersonSkillsParams(BaseActionParams):
+    person_url: str
+    skill_name_patterns: list[str] | None = None
+
+
+class PersonSkillEndorsement(BaseActionParams):
+    skill_name: str
+    success: bool
+    error: LinkedApiActionError | None = None
+
+
 class PersonExperience(BaseActionParams):
     position: str | None = None
     company_name: str | None = None
     company_hashed_url: str | None = None
-    employment_type: EmploymentType | None = None
-    location_type: LocationType | None = None
+    employment_type: EmploymentType | str | None = None
+    location_type: LocationType | str | None = None
     description: str | None = None
     duration: int | None = None
     start_time: str | None = None
@@ -79,7 +96,7 @@ class PersonSkill(BaseActionParams):
 
 class PersonLanguage(BaseActionParams):
     name: str | None = None
-    proficiency: LanguageProficiency | None = None
+    proficiency: LanguageProficiency | str | None = None
 
 
 class Person(BaseActionParams):

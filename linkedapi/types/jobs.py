@@ -85,10 +85,10 @@ JobCurrency = Literal[
 
 
 class JobSalary(LinkedApiModel):
-    currency: JobCurrency | None = None
+    currency: JobCurrency | str | None = None
     min_amount: float | None = None
     max_amount: float | None = None
-    period: SalaryPeriod | None = None
+    period: SalaryPeriod | str | None = None
 
 
 class SearchJobsFilter(LinkedApiModel):

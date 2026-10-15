@@ -1,12 +1,15 @@
 from __future__ import annotations
 
 import json
+from typing import get_args
 
 from linkedapi.types.webhooks import (
     AccountWebhookEvent,
     MessageWebhookEvent,
     NetworkWebhookEvent,
+    UnknownWebhookEvent,
     WebhookEvent,
+    WebhookEventType,
     WebhookTestEvent,
     WorkflowWebhookEvent,
 )
@@ -15,12 +18,13 @@ from linkedapi.types.webhooks import (
 def parse_webhook_event(raw_body: str | bytes) -> WebhookEvent:
     """Parse a raw webhook request body into a typed Linked API event.
 
-    Pass the raw HTTP body (``str`` or ``bytes``) exactly as received, then branch on the
-    returned event's ``type``.
+    Pass the raw HTTP body (``str`` or ``bytes``) exactly as received, then branch with
+    ``isinstance`` on event classes such as ``WorkflowWebhookEvent``. Unknown types return
+    ``UnknownWebhookEvent`` instead of raising, with their payload preserved in ``data``.
 
     Raises:
         ValueError: when the body is not valid JSON or is missing the ``id`` / ``type`` fields,
-            or carries an unknown event type.
+            or does not match the event envelope.
     """
     text = raw_body.decode("utf-8") if isinstance(raw_body, (bytes, bytearray)) else raw_body
 
@@ -39,6 +43,8 @@ def parse_webhook_event(raw_body: str | bytes) -> WebhookEvent:
         raise ValueError(msg)
 
     event_type: str = parsed["type"]
+    if event_type not in get_args(WebhookEventType):
+        return UnknownWebhookEvent.model_validate(parsed)
     if event_type.startswith("workflow."):
         return WorkflowWebhookEvent.model_validate(parsed)
     if event_type.startswith("account."):
@@ -50,5 +56,4 @@ def parse_webhook_event(raw_body: str | bytes) -> WebhookEvent:
     if event_type == "webhook.test":
         return WebhookTestEvent.model_validate(parsed)
 
-    msg = f"Unknown webhook event type: {event_type}"
-    raise ValueError(msg)
+    return UnknownWebhookEvent.model_validate(parsed)

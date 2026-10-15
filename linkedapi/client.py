@@ -14,6 +14,8 @@ from linkedapi.operations import (
     CreatePost,
     CreateRepost,
     CustomWorkflow,
+    EndorsePersonSkill,
+    EndorsePersonSkills,
     FetchCompany,
     FetchJob,
     FetchPerson,
@@ -94,6 +96,8 @@ class LinkedApi:
         self.search_posts = SearchPosts(self.http_client)
         self.fetch_company = FetchCompany(self.http_client)
         self.fetch_person = FetchPerson(self.http_client)
+        self.endorse_person_skill = EndorsePersonSkill(self.http_client)
+        self.endorse_person_skills = EndorsePersonSkills(self.http_client)
         self.fetch_post = FetchPost(self.http_client)
         self.fetch_job = FetchJob(self.http_client)
         self.react_to_post = ReactToPost(self.http_client)
@@ -137,6 +141,8 @@ class LinkedApi:
             self.search_posts,
             self.fetch_company,
             self.fetch_person,
+            self.endorse_person_skill,
+            self.endorse_person_skills,
             self.fetch_post,
             self.fetch_job,
             self.react_to_post,
