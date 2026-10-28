@@ -4,7 +4,7 @@ from typing import Literal
 
 from linkedapi.types.base import LinkedApiModel
 
-SubscriptionStatusValue = Literal["active", "trialing", "past_due", "canceled"]
+SubscriptionStatusValue = Literal["active", "trialing", "past_due", "unpaid", "canceled"]
 SeatType = Literal["core", "plus"]
 BillingPeriod = Literal["month", "year"]
 SetSeatsStatus = Literal["complete", "processing"]
