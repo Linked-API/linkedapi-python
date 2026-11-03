@@ -15,6 +15,7 @@ from linkedapi.operations.manage_conversation import ManageConversation
 from linkedapi.operations.nv_fetch_company import NvFetchCompany, NvFetchCompanyMapper
 from linkedapi.operations.nv_fetch_person import NvFetchPerson, NvFetchPersonMapper
 from linkedapi.operations.nv_manage_conversation import NvManageConversation
+from linkedapi.operations.nv_retrieve_alerts import NvRetrieveAlerts
 from linkedapi.operations.nv_search_companies import NvSearchCompanies
 from linkedapi.operations.nv_search_people import NvSearchPeople
 from linkedapi.operations.nv_send_message import NvSendMessage
@@ -66,6 +67,7 @@ __all__ = [
     "NvFetchPerson",
     "NvFetchPersonMapper",
     "NvManageConversation",
+    "NvRetrieveAlerts",
     "NvSearchCompanies",
     "NvSearchPeople",
     "NvSendMessage",

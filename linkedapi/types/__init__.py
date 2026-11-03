@@ -137,6 +137,12 @@ from linkedapi.types.network import (
     NetworkPollRequest,
     SyncNetworkParams,
 )
+from linkedapi.types.nv_alerts import (
+    NvAlert,
+    NvAlertSubject,
+    NvRetrieveAlertsFilter,
+    NvRetrieveAlertsParams,
+)
 from linkedapi.types.params import BaseActionParams, LimitParams, LimitSinceParams
 from linkedapi.types.person import (
     BaseFetchPersonParams,
@@ -410,6 +416,8 @@ __all__ = [
     "NetworkPollRequest",
     "NetworkWebhookEvent",
     "NetworkWebhookEventData",
+    "NvAlert",
+    "NvAlertSubject",
     "NvBaseFetchCompanyParams",
     "NvBaseFetchCompanyParamsWide",
     "NvCompany",
@@ -423,6 +431,8 @@ __all__ = [
     "NvManageConversationParams",
     "NvOpenPersonPageParams",
     "NvOpenPersonPageResult",
+    "NvRetrieveAlertsFilter",
+    "NvRetrieveAlertsParams",
     "NvSearchCompaniesFilter",
     "NvSearchCompaniesParams",
     "NvSearchCompanyResult",

@@ -25,6 +25,7 @@ from linkedapi.operations import (
     NvFetchCompany,
     NvFetchPerson,
     NvManageConversation,
+    NvRetrieveAlerts,
     NvSearchCompanies,
     NvSearchPeople,
     NvSendMessage,
@@ -114,6 +115,7 @@ class LinkedApi:
         self.nv_sync_conversation = NvSyncConversation(self.http_client)
         self.nv_sync_inbox = NvSyncInbox(self.http_client)
         self.nv_manage_conversation = NvManageConversation(self.http_client)
+        self.nv_retrieve_alerts = NvRetrieveAlerts(self.http_client)
         self.nv_search_companies = NvSearchCompanies(self.http_client)
         self.nv_search_people = NvSearchPeople(self.http_client)
         self.nv_fetch_company = NvFetchCompany(self.http_client)
@@ -159,6 +161,7 @@ class LinkedApi:
             self.nv_sync_conversation,
             self.nv_sync_inbox,
             self.nv_manage_conversation,
+            self.nv_retrieve_alerts,
             self.nv_search_companies,
             self.nv_search_people,
             self.nv_fetch_company,

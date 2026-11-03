@@ -53,6 +53,7 @@ from linkedapi.operations import (
     NvFetchPerson,
     NvFetchPersonMapper,
     NvManageConversation,
+    NvRetrieveAlerts,
     NvSearchCompanies,
     NvSearchPeople,
     NvSendMessage,
@@ -89,7 +90,7 @@ from linkedapi.webhooks import (
     verify_webhook_signature,
 )
 
-__version__ = "1.4.8"
+__version__ = "1.4.9"
 PredefinedOperation = Operation
 
 __all__ = [
@@ -137,6 +138,7 @@ __all__ = [
     "NvFetchPerson",
     "NvFetchPersonMapper",
     "NvManageConversation",
+    "NvRetrieveAlerts",
     "NvSearchCompanies",
     "NvSearchPeople",
     "NvSendMessage",
