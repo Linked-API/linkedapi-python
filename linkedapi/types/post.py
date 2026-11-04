@@ -30,7 +30,12 @@ class ContentViewerState(LinkedApiModel):
 class Reaction(LinkedApiModel):
     post_url: str | None = None
     time: str | None = None
-    reaction_type: ReactionType | str | None = None
+    type: ReactionType | str | None = None
+
+    @property
+    def reaction_type(self) -> ReactionType | str | None:
+        """Former name of ``type``, kept so code written against 1.4.9 and earlier keeps working."""
+        return self.type
 
 
 class Comment(LinkedApiModel):

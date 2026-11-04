@@ -54,7 +54,7 @@ RESPONSE_VOCABULARIES = [
     ("PostReposter", "type", "person"),
     ("ProfileViewer", "viewer_type", "identified"),
     ("ProfileViewer", "connection_degree", 1),
-    ("Reaction", "reaction_type", "like"),
+    ("Reaction", "type", "like"),
     ("SearchPostActor", "type", "person"),
     ("SearchPostResult", "type", "original"),
     ("SetSeatsResult", "status", "complete"),
