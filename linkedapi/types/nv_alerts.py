@@ -9,6 +9,8 @@ from linkedapi.types.params import BaseActionParams
 
 
 class NvRetrieveAlertsFilter(LinkedApiModel):
+    list_id: str | None = Field(default=None, pattern=r"^[1-9]\d*$")
+    subjects: list[str] | None = None
     category: Literal["lead", "account"] | None = None
     types: list[str] | None = None
     since: str | None = None

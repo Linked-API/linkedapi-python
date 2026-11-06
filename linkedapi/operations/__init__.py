@@ -12,15 +12,30 @@ from linkedapi.operations.fetch_person import FetchPerson, FetchPersonMapper
 from linkedapi.operations.fetch_post import FetchPost, FetchPostMapper
 from linkedapi.operations.ignore_invitation import IgnoreInvitation
 from linkedapi.operations.manage_conversation import ManageConversation
+from linkedapi.operations.nv_create_list import NvCreateList
+from linkedapi.operations.nv_create_saved_search import NvCreateSavedSearch
+from linkedapi.operations.nv_delete_list import NvDeleteList
+from linkedapi.operations.nv_delete_saved_search import NvDeleteSavedSearch
 from linkedapi.operations.nv_fetch_company import NvFetchCompany, NvFetchCompanyMapper
 from linkedapi.operations.nv_fetch_person import NvFetchPerson, NvFetchPersonMapper
 from linkedapi.operations.nv_manage_conversation import NvManageConversation
+from linkedapi.operations.nv_remove_account_from_list import NvRemoveAccountFromList
+from linkedapi.operations.nv_remove_lead_from_list import NvRemoveLeadFromList
+from linkedapi.operations.nv_rename_list import NvRenameList
 from linkedapi.operations.nv_retrieve_alerts import NvRetrieveAlerts
+from linkedapi.operations.nv_retrieve_list_accounts import NvRetrieveListAccounts
+from linkedapi.operations.nv_retrieve_list_leads import NvRetrieveListLeads
+from linkedapi.operations.nv_retrieve_lists import NvRetrieveLists
+from linkedapi.operations.nv_retrieve_saved_searches import NvRetrieveSavedSearches
+from linkedapi.operations.nv_save_account import NvSaveAccount
+from linkedapi.operations.nv_save_lead import NvSaveLead
 from linkedapi.operations.nv_search_companies import NvSearchCompanies
 from linkedapi.operations.nv_search_people import NvSearchPeople
 from linkedapi.operations.nv_send_message import NvSendMessage
 from linkedapi.operations.nv_sync_conversation import NvSyncConversation
 from linkedapi.operations.nv_sync_inbox import NvSyncInbox
+from linkedapi.operations.nv_unsave_account import NvUnsaveAccount
+from linkedapi.operations.nv_unsave_lead import NvUnsaveLead
 from linkedapi.operations.react_to_comment import ReactToComment
 from linkedapi.operations.react_to_post import ReactToPost
 from linkedapi.operations.remove_connection import RemoveConnection
@@ -62,17 +77,32 @@ __all__ = [
     "FetchPostMapper",
     "IgnoreInvitation",
     "ManageConversation",
+    "NvCreateList",
+    "NvCreateSavedSearch",
+    "NvDeleteList",
+    "NvDeleteSavedSearch",
     "NvFetchCompany",
     "NvFetchCompanyMapper",
     "NvFetchPerson",
     "NvFetchPersonMapper",
     "NvManageConversation",
+    "NvRemoveAccountFromList",
+    "NvRemoveLeadFromList",
+    "NvRenameList",
     "NvRetrieveAlerts",
+    "NvRetrieveListAccounts",
+    "NvRetrieveListLeads",
+    "NvRetrieveLists",
+    "NvRetrieveSavedSearches",
+    "NvSaveAccount",
+    "NvSaveLead",
     "NvSearchCompanies",
     "NvSearchPeople",
     "NvSendMessage",
     "NvSyncConversation",
     "NvSyncInbox",
+    "NvUnsaveAccount",
+    "NvUnsaveLead",
     "ReactToComment",
     "ReactToPost",
     "RemoveConnection",

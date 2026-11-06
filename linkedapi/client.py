@@ -22,15 +22,30 @@ from linkedapi.operations import (
     FetchPost,
     IgnoreInvitation,
     ManageConversation,
+    NvCreateList,
+    NvCreateSavedSearch,
+    NvDeleteList,
+    NvDeleteSavedSearch,
     NvFetchCompany,
     NvFetchPerson,
     NvManageConversation,
+    NvRemoveAccountFromList,
+    NvRemoveLeadFromList,
+    NvRenameList,
     NvRetrieveAlerts,
+    NvRetrieveListAccounts,
+    NvRetrieveListLeads,
+    NvRetrieveLists,
+    NvRetrieveSavedSearches,
+    NvSaveAccount,
+    NvSaveLead,
     NvSearchCompanies,
     NvSearchPeople,
     NvSendMessage,
     NvSyncConversation,
     NvSyncInbox,
+    NvUnsaveAccount,
+    NvUnsaveLead,
     ReactToComment,
     ReactToPost,
     RemoveConnection,
@@ -116,6 +131,21 @@ class LinkedApi:
         self.nv_sync_inbox = NvSyncInbox(self.http_client)
         self.nv_manage_conversation = NvManageConversation(self.http_client)
         self.nv_retrieve_alerts = NvRetrieveAlerts(self.http_client)
+        self.nv_retrieve_lists = NvRetrieveLists(self.http_client)
+        self.nv_delete_list = NvDeleteList(self.http_client)
+        self.nv_create_list = NvCreateList(self.http_client)
+        self.nv_delete_saved_search = NvDeleteSavedSearch(self.http_client)
+        self.nv_create_saved_search = NvCreateSavedSearch(self.http_client)
+        self.nv_retrieve_saved_searches = NvRetrieveSavedSearches(self.http_client)
+        self.nv_rename_list = NvRenameList(self.http_client)
+        self.nv_remove_account_from_list = NvRemoveAccountFromList(self.http_client)
+        self.nv_remove_lead_from_list = NvRemoveLeadFromList(self.http_client)
+        self.nv_retrieve_list_accounts = NvRetrieveListAccounts(self.http_client)
+        self.nv_retrieve_list_leads = NvRetrieveListLeads(self.http_client)
+        self.nv_unsave_account = NvUnsaveAccount(self.http_client)
+        self.nv_save_account = NvSaveAccount(self.http_client)
+        self.nv_unsave_lead = NvUnsaveLead(self.http_client)
+        self.nv_save_lead = NvSaveLead(self.http_client)
         self.nv_search_companies = NvSearchCompanies(self.http_client)
         self.nv_search_people = NvSearchPeople(self.http_client)
         self.nv_fetch_company = NvFetchCompany(self.http_client)
@@ -162,6 +192,21 @@ class LinkedApi:
             self.nv_sync_inbox,
             self.nv_manage_conversation,
             self.nv_retrieve_alerts,
+            self.nv_retrieve_lists,
+            self.nv_delete_list,
+            self.nv_create_list,
+            self.nv_delete_saved_search,
+            self.nv_create_saved_search,
+            self.nv_retrieve_saved_searches,
+            self.nv_rename_list,
+            self.nv_remove_account_from_list,
+            self.nv_remove_lead_from_list,
+            self.nv_retrieve_list_accounts,
+            self.nv_retrieve_list_leads,
+            self.nv_unsave_account,
+            self.nv_save_account,
+            self.nv_unsave_lead,
+            self.nv_save_lead,
             self.nv_search_companies,
             self.nv_search_people,
             self.nv_fetch_company,
