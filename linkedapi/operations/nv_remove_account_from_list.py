@@ -7,7 +7,7 @@ from linkedapi.types import NvRemoveAccountFromListParams
 
 class NvRemoveAccountFromList(Operation[NvRemoveAccountFromListParams, None]):
     """Remove an account from exactly one owned custom list, keeping it saved even after its
-    last list. Repeating an absent membership succeeds. English interface only.
+    last list. Repeating an absent membership succeeds.
     """
 
     operation_name = "nvRemoveAccountFromList"

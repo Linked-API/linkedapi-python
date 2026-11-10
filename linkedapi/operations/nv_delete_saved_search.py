@@ -7,7 +7,7 @@ from linkedapi.types import NvDeleteSavedSearchParams
 
 class NvDeleteSavedSearch(Operation[NvDeleteSavedSearchParams, None]):
     """Delete an owned saved search by its string ID. An absent search returns
-    savedSearchNotFound. English interface only.
+    savedSearchNotFound.
     """
 
     operation_name = "nvDeleteSavedSearch"

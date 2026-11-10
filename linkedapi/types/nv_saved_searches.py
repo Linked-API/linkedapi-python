@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-from typing import Literal
+from typing import Annotated, Literal
 
-from pydantic import Field
+from pydantic import Field, StringConstraints
 
 from linkedapi.types.base import LinkedApiModel
 from linkedapi.types.params import BaseActionParams
@@ -15,6 +15,18 @@ class NvRetrieveSavedSearchesParams(BaseActionParams):
 class NvCreateSavedSearchParams(BaseActionParams):
     type: Literal["lead", "account"]
     custom_search_url: str = Field(min_length=1)
+    name: (
+        Annotated[
+            str,
+            StringConstraints(
+                strip_whitespace=True,
+                min_length=1,
+                max_length=256,
+                pattern=r"^[^\r\n\u2028\u2029]+$",
+            ),
+        ]
+        | None
+    ) = None
 
 
 class NvDeleteSavedSearchParams(BaseActionParams):

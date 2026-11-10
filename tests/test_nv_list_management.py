@@ -87,7 +87,6 @@ def test_delete_exact_string_id_and_void_result(requests_mock: requests_mock.Moc
         ("nv_create_list", "nv.createList", error)
         for error in [
             "listAlreadyExists",
-            "interfaceLanguageNotSupported",
             "noSalesNavigator",
             "unexpectedError",
         ]
@@ -97,7 +96,6 @@ def test_delete_exact_string_id_and_void_result(requests_mock: requests_mock.Moc
         for error in [
             "listNotFound",
             "listNotDeletable",
-            "interfaceLanguageNotSupported",
             "noSalesNavigator",
             "unexpectedError",
         ]

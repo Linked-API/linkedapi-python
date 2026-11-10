@@ -8,7 +8,6 @@ from linkedapi.types import NvCreatedList, NvRenameListParams
 class NvRenameList(Operation[NvRenameListParams, NvCreatedList]):
     """Rename an owned custom list. Trimmed name: 1-75 characters, no line breaks. Same name
     succeeds; duplicates return listAlreadyExists and system lists return listNotRenamable.
-    English interface only.
     """
 
     operation_name = "nvRenameList"

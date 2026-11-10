@@ -80,6 +80,14 @@ def client() -> LinkedApi:
             {"type": "lead", "customSearchUrl": SEARCH_URL},
         ),
         (
+            "nv_create_saved_search",
+            "nv.createSavedSearch",
+            NvCreateSavedSearchParams(
+                type="lead", custom_search_url=SEARCH_URL, name="  Heads of Sales  "
+            ),
+            {"type": "lead", "customSearchUrl": SEARCH_URL, "name": "Heads of Sales"},
+        ),
+        (
             "nv_delete_saved_search",
             "nv.deleteSavedSearch",
             NvDeleteSavedSearchParams(saved_search_id=LIST_ID),
@@ -220,3 +228,9 @@ def test_public_action_errors(operation: str, action: str, error_type: str) -> N
     )
     assert result.data is None
     assert [item.model_dump() for item in result.errors] == [error]
+
+
+@pytest.mark.parametrize("name", ["", "   ", "a" * 257, "Heads\nof Sales"])
+def test_create_saved_search_rejects_invalid_names(name: str) -> None:
+    with pytest.raises(ValidationError):
+        NvCreateSavedSearchParams(type="lead", custom_search_url=SEARCH_URL, name=name)
