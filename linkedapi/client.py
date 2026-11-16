@@ -46,6 +46,16 @@ from linkedapi.operations import (
     NvSyncInbox,
     NvUnsaveAccount,
     NvUnsaveLead,
+    RcArchiveProject,
+    RcCreateProject,
+    RcFetchPerson,
+    RcRenameProject,
+    RcRetrieveProjectCandidates,
+    RcRetrieveProjects,
+    RcSaveToProject,
+    RcSearchPeople,
+    RcSendMessage,
+    RcSyncInbox,
     ReactToComment,
     ReactToPost,
     RemoveConnection,
@@ -151,6 +161,17 @@ class LinkedApi:
         self.nv_fetch_company = NvFetchCompany(self.http_client)
         self.nv_fetch_person = NvFetchPerson(self.http_client)
 
+        self.rc_archive_project = RcArchiveProject(self.http_client)
+        self.rc_create_project = RcCreateProject(self.http_client)
+        self.rc_fetch_person = RcFetchPerson(self.http_client)
+        self.rc_rename_project = RcRenameProject(self.http_client)
+        self.rc_retrieve_project_candidates = RcRetrieveProjectCandidates(self.http_client)
+        self.rc_retrieve_projects = RcRetrieveProjects(self.http_client)
+        self.rc_save_to_project = RcSaveToProject(self.http_client)
+        self.rc_search_people = RcSearchPeople(self.http_client)
+        self.rc_send_message = RcSendMessage(self.http_client)
+        self.rc_sync_inbox = RcSyncInbox(self.http_client)
+
         self.operations = [
             self.custom_workflow,
             self.send_message,
@@ -211,6 +232,16 @@ class LinkedApi:
             self.nv_search_people,
             self.nv_fetch_company,
             self.nv_fetch_person,
+            self.rc_archive_project,
+            self.rc_create_project,
+            self.rc_fetch_person,
+            self.rc_rename_project,
+            self.rc_retrieve_project_candidates,
+            self.rc_retrieve_projects,
+            self.rc_save_to_project,
+            self.rc_search_people,
+            self.rc_send_message,
+            self.rc_sync_inbox,
         ]
 
     def poll_conversations(
@@ -264,13 +295,14 @@ class LinkedApi:
         self,
         request: InboxPollRequest | None = None,
     ) -> MappedResponse[list[InboxMessage]] | MappedResponse[InboxPersonPollResult]:
-        """Read the monitored standard or Sales Navigator inbox, newest messages first.
+        """Read the monitored standard, Sales Navigator or Recruiter Lite inbox, newest first.
 
         Without ``person_url`` the data is the list of inbox messages across every conversation.
         With ``person_url`` (use ``InboxPersonPollRequest``) the data is the whole known
         conversation with that person: the messages the inbox captured together with the history
         loaded by ``sync_conversation`` / ``nv_sync_conversation``, each message once, plus
         ``threads`` with ``history_from`` and ``history_complete``.
+        person_url also accepts a Recruiter profile URL (https://www.linkedin.com/talent/profile/...).
         """
 
         payload = serialize_value(request) if request is not None else {}

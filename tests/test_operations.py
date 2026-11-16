@@ -75,6 +75,16 @@ def test_linked_api_exposes_all_predefined_operations() -> None:
         "nv_retrieve_list_accounts",
         "nv_retrieve_list_leads",
         "nv_delete_list",
+        "rc_search_people",
+        "rc_fetch_person",
+        "rc_retrieve_projects",
+        "rc_retrieve_project_candidates",
+        "rc_save_to_project",
+        "rc_create_project",
+        "rc_rename_project",
+        "rc_archive_project",
+        "rc_send_message",
+        "rc_sync_inbox",
         "react_to_post",
         "endorse_person_skill",
         "endorse_person_skills",
@@ -93,7 +103,7 @@ def test_linked_api_exposes_all_predefined_operations() -> None:
         assert hasattr(operation, "execute")
         assert hasattr(operation, "result")
         assert hasattr(operation, "cancel")
-    assert len(linkedapi.operations) == 59
+    assert len(linkedapi.operations) == 69
 
 
 def test_operation_mappers_match_node_contract() -> None:

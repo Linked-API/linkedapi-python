@@ -8,6 +8,7 @@ from linkedapi.types.base import LinkedApiModel
 from linkedapi.types.params import BaseActionParams
 
 ConversationType = Literal["st", "nv"]
+InboxType = Literal["st", "nv", "rc"]
 MessageSender = Literal["us", "them"]
 
 
@@ -45,6 +46,22 @@ class NvSendMessageParams(BaseActionParams):
     person_url: str | None = None
     subject: str | None = None
     thread_id: str | None = None
+
+
+class RcSendMessageParams(BaseActionParams):
+    text: str
+    person_url: str | None = None
+    subject: str | None = None
+    thread_id: str | None = None
+    allow_paid_credit: bool | None = None
+
+
+class RcSendMessageResult(LinkedApiModel):
+    credit_used: bool
+
+
+class RcSyncInboxParams(BaseActionParams):
+    pass
 
 
 class NvSyncConversationParams(BaseActionParams):
@@ -90,7 +107,7 @@ class ConversationPollResult(LinkedApiModel):
 
 class InboxPollRequest(LinkedApiModel):
     since: str | None = None
-    type: ConversationType | None = None
+    type: InboxType | None = None
     thread_id: str | None = None
     person_url: str | None = None
 
@@ -101,11 +118,12 @@ class InboxPersonPollRequest(InboxPollRequest):
 
 class InboxMessage(LinkedApiModel):
     id: str | None = None
-    type: ConversationType | str | None = None
+    type: InboxType | str | None = None
     thread_id: str | None = None
     person_urn: str | None = None
     person_hashed_url: str | None = None
     person_public_url: str | None = None
+    person_recruiter_url: str | None = None
     # Deprecated: use person_hashed_url. Still returned by the API for compatibility.
     person_url: str | None = None
     sender: MessageSender | str | None = None
@@ -119,7 +137,7 @@ class InboxPersonMessage(InboxMessage):
 
 class InboxPersonThread(LinkedApiModel):
     thread_id: str | None = None
-    type: ConversationType | str | None = None
+    type: InboxType | str | None = None
     person_urn: str | None = None
     history_from: str | None = None
     history_complete: bool = False

@@ -206,3 +206,56 @@ def test_get_account_info_and_api_usage_paths(fake_http_client: FakeHttpClient) 
     assert account.data.name == "Jane"
     assert usage.data is not None
     assert usage.data[0].action_type == "st.openPersonPage"
+
+
+def test_poll_recruiter_inbox_keeps_recruiter_url_and_null_identity_fields(
+    fake_http_client: FakeHttpClient,
+) -> None:
+    sdk = LinkedApi(fake_http_client)
+    url = "https://www.linkedin.com/talent/profile/AEMAAB0xExampleProfileId1"
+    row = {
+        "id": "m1",
+        "type": "rc",
+        "threadId": "t1",
+        "personUrn": None,
+        "personHashedUrl": None,
+        "personPublicUrl": None,
+        "personRecruiterUrl": url,
+        "personUrl": None,
+        "sender": "them",
+        "text": "Hello",
+        "time": "now",
+    }
+    fake_http_client.queue_response(result={"messages": [row]})
+    result = sdk.poll_inbox(InboxPollRequest(type="rc"))
+    assert fake_http_client.calls[0] == ("POST", "/inbox/poll", {"type": "rc"})
+    assert result.data is not None
+    assert result.data[0].model_dump(by_alias=True) == row
+
+    fake_http_client.queue_response(
+        result={"messages": [row], "threads": [{"type": "rc", "threadId": "t1"}]}
+    )
+    person = sdk.poll_inbox(InboxPersonPollRequest(type="rc", person_url=url))
+    assert fake_http_client.calls[1] == (
+        "POST",
+        "/inbox/poll",
+        {"type": "rc", "personUrl": url},
+    )
+    assert person.data is not None
+    assert person.data.messages[0].person_recruiter_url == url
+    assert person.data.threads[0].type == "rc"
+
+
+@pytest.mark.parametrize("inbox_type", ["st", "nv"])
+def test_other_inbox_types_keep_null_recruiter_url(
+    fake_http_client: FakeHttpClient,
+    inbox_type: str,
+) -> None:
+    sdk = LinkedApi(fake_http_client)
+    fake_http_client.queue_response(
+        result={"messages": [{"type": inbox_type, "personRecruiterUrl": None}]}
+    )
+    result = sdk.poll_inbox()
+    assert result.data is not None
+    assert result.data[0].person_recruiter_url is None
+    assert result.data[0].model_dump(by_alias=True)["personRecruiterUrl"] is None

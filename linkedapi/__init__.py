@@ -74,6 +74,17 @@ from linkedapi.operations import (
     NvSyncInbox,
     NvUnsaveAccount,
     NvUnsaveLead,
+    RcArchiveProject,
+    RcCreateProject,
+    RcFetchPerson,
+    RcFetchPersonMapper,
+    RcRenameProject,
+    RcRetrieveProjectCandidates,
+    RcRetrieveProjects,
+    RcSaveToProject,
+    RcSearchPeople,
+    RcSendMessage,
+    RcSyncInbox,
     ReactToComment,
     ReactToPost,
     RemoveConnection,
@@ -105,7 +116,7 @@ from linkedapi.webhooks import (
     verify_webhook_signature,
 )
 
-__version__ = "1.4.11"
+__version__ = "1.5.0"
 PredefinedOperation = Operation
 
 __all__ = [
@@ -176,6 +187,17 @@ __all__ = [
     "NvSyncInbox",
     "Operation",
     "PredefinedOperation",
+    "RcArchiveProject",
+    "RcCreateProject",
+    "RcFetchPerson",
+    "RcFetchPersonMapper",
+    "RcRenameProject",
+    "RcRetrieveProjectCandidates",
+    "RcRetrieveProjects",
+    "RcSaveToProject",
+    "RcSearchPeople",
+    "RcSendMessage",
+    "RcSyncInbox",
     "ReactToComment",
     "ReactToPost",
     "RemoveConnection",

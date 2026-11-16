@@ -5,7 +5,7 @@ from typing import Any, Literal
 from pydantic import SerializerFunctionWrapHandler, model_serializer
 
 from linkedapi.types.base import LinkedApiModel
-from linkedapi.types.message import ConversationType, MessageSender
+from linkedapi.types.message import InboxType, MessageSender
 
 WebhookPayloadMode = Literal["thin", "fat"]
 WebhookEventType = Literal[
@@ -180,11 +180,12 @@ class AccountWebhookEvent(LinkedApiModel):
 
 class MessageWebhookEventData(LinkedApiModel):
     account_id: str | None = None
-    type: ConversationType | str | None = None
+    type: InboxType | str | None = None
     thread_id: str | None = None
     person_urn: str | None = None
     person_hashed_url: str | None = None
     person_public_url: str | None = None
+    person_recruiter_url: str | None = None
     # Deprecated: use person_hashed_url. Still returned by the API for compatibility.
     person_url: str | None = None
     message_id: str | None = None

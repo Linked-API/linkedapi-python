@@ -24,7 +24,10 @@ def admin() -> LinkedApiAdmin:
     )
 
 
-@pytest.mark.parametrize("category", ["stEndorsements", "stSomethingNew"])
+@pytest.mark.parametrize(
+    "category",
+    ["stEndorsements", "stSomethingNew", "rcPersonProfileViews", "rcSearchQueries", "rcMessages"],
+)
 @pytest.mark.parametrize("method", ["get", "get_defaults", "get_usage"])
 def test_limit_reads_accept_new_category_strings(
     admin: LinkedApiAdmin, requests_mock: requests_mock.Mocker, category: str, method: str
@@ -65,12 +68,15 @@ def test_limit_reads_accept_new_category_strings(
     assert entries[0].is_enabled is True
 
 
+@pytest.mark.parametrize(
+    "category", ["stEndorsements", "rcPersonProfileViews", "rcSearchQueries", "rcMessages"]
+)
 @pytest.mark.parametrize("method", ["set", "delete"])
-def test_limit_writes_serialize_endorsements(
-    admin: LinkedApiAdmin, requests_mock: requests_mock.Mocker, method: str
+def test_limit_writes_serialize_known_categories(
+    admin: LinkedApiAdmin, requests_mock: requests_mock.Mocker, method: str, category: str
 ) -> None:
     requests_mock.post(f"https://api.test/admin/limits.{method}", json={"success": True})
-    entry: dict[str, Any] = {"category": "stEndorsements", "period": "daily"}
+    entry: dict[str, Any] = {"category": category, "period": "daily"}
     if method == "set":
         entry.update({"maxValue": 50, "isEnabled": True})
         params = SetLimitsParams.model_validate({"accountId": "test-account", "limits": [entry]})

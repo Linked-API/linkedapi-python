@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import json
 
+import pytest
+
 from linkedapi import (
     AccountWebhookEvent,
     MessageWebhookEvent,
@@ -86,3 +88,28 @@ def test_parse_unknown_event_keeps_type_and_payload() -> None:
     assert isinstance(event, UnknownWebhookEvent)
     assert event.type == "unknown.thing"
     assert event.data == {"future": "value"}
+
+
+@pytest.mark.parametrize("event_type", ["inbox.messageReceived", "inbox.messageSent"])
+@pytest.mark.parametrize("inbox_type", ["rc", "st", "nv"])
+def test_message_events_keep_recruiter_url(event_type: str, inbox_type: str) -> None:
+    url = "https://www.linkedin.com/talent/profile/AEMAAB0xExampleProfileId1"
+    recruiter_url = url if inbox_type == "rc" else None
+    event = parse_webhook_event(
+        json.dumps(
+            {
+                "id": "rc1",
+                "type": event_type,
+                "data": {
+                    "type": inbox_type,
+                    "personRecruiterUrl": recruiter_url,
+                    "personHashedUrl": None,
+                    "personUrn": None,
+                },
+            }
+        )
+    )
+    assert isinstance(event, MessageWebhookEvent)
+    assert event.data.type == inbox_type
+    assert event.data.person_recruiter_url == recruiter_url
+    assert event.data.model_dump(by_alias=True)["personRecruiterUrl"] == recruiter_url

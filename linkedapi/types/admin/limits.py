@@ -17,6 +17,9 @@ LimitCategory = Literal[
     "nvPersonProfileViews",
     "nvCompanyPageViews",
     "nvMessages",
+    "rcPersonProfileViews",
+    "rcSearchQueries",
+    "rcMessages",
 ]
 LimitPeriod = Literal["daily", "weekly", "monthly"]
 

@@ -36,6 +36,16 @@ from linkedapi.operations.nv_sync_conversation import NvSyncConversation
 from linkedapi.operations.nv_sync_inbox import NvSyncInbox
 from linkedapi.operations.nv_unsave_account import NvUnsaveAccount
 from linkedapi.operations.nv_unsave_lead import NvUnsaveLead
+from linkedapi.operations.rc_archive_project import RcArchiveProject
+from linkedapi.operations.rc_create_project import RcCreateProject
+from linkedapi.operations.rc_fetch_person import RcFetchPerson, RcFetchPersonMapper
+from linkedapi.operations.rc_rename_project import RcRenameProject
+from linkedapi.operations.rc_retrieve_project_candidates import RcRetrieveProjectCandidates
+from linkedapi.operations.rc_retrieve_projects import RcRetrieveProjects
+from linkedapi.operations.rc_save_to_project import RcSaveToProject
+from linkedapi.operations.rc_search_people import RcSearchPeople
+from linkedapi.operations.rc_send_message import RcSendMessage
+from linkedapi.operations.rc_sync_inbox import RcSyncInbox
 from linkedapi.operations.react_to_comment import ReactToComment
 from linkedapi.operations.react_to_post import ReactToPost
 from linkedapi.operations.remove_connection import RemoveConnection
@@ -103,6 +113,17 @@ __all__ = [
     "NvSyncInbox",
     "NvUnsaveAccount",
     "NvUnsaveLead",
+    "RcArchiveProject",
+    "RcCreateProject",
+    "RcFetchPerson",
+    "RcFetchPersonMapper",
+    "RcRenameProject",
+    "RcRetrieveProjectCandidates",
+    "RcRetrieveProjects",
+    "RcSaveToProject",
+    "RcSearchPeople",
+    "RcSendMessage",
+    "RcSyncInbox",
     "ReactToComment",
     "ReactToPost",
     "RemoveConnection",
