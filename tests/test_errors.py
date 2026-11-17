@@ -39,6 +39,9 @@ def test_error_type_sets_match_node_contract() -> None:
         "sessionNotFound",
         "noAvailableSeats",
         "dailyConnectionAttemptsExceeded",
+        "signalLimitReached",
+        "signalNotFound",
+        "signalStopped",
     )
     assert LINKED_API_ACTION_ERROR_TYPES == (
         "personNotFound",

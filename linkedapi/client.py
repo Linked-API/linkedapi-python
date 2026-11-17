@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from typing import Any, overload
-from urllib.parse import urlencode
+from urllib.parse import quote, urlencode
 
 from linkedapi.config import LinkedApiConfig
 from linkedapi.errors import LinkedApiError
@@ -78,7 +78,7 @@ from linkedapi.operations import (
     SyncNetwork,
     WithdrawConnectionRequest,
 )
-from linkedapi.types import AccountInfo, LinkedApiActionError, serialize_value
+from linkedapi.types import AccountInfo, LinkedApiActionError, LinkedApiResponse, serialize_value
 from linkedapi.types.message import (
     ConversationPollRequest,
     ConversationPollResult,
@@ -88,6 +88,14 @@ from linkedapi.types.message import (
     InboxPollRequest,
 )
 from linkedapi.types.network import NetworkEvent, NetworkPollRequest
+from linkedapi.types.signals import (
+    CreateSignalParams,
+    GetSignalsParams,
+    Signal,
+    SignalEvent,
+    SignalIdParams,
+    SignalPollRequest,
+)
 from linkedapi.types.statistics import ApiUsageAction, ApiUsageParams
 
 
@@ -352,6 +360,75 @@ class LinkedApi:
             ],
         )
 
+    def create_signal(self, params: CreateSignalParams) -> MappedResponse[Signal]:
+        """Create a signal: one thing for the account to watch on LinkedIn.
+
+        Creating a signal that already exists on the account returns that signal instead of a
+        second one. Raises LinkedApiError "invalidRequestPayload" or "signalLimitReached".
+        """
+
+        result = _signal_result(self.http_client.post("/signals", serialize_value(params)))
+        return MappedResponse(data=Signal.model_validate(result), errors=[])
+
+    def get_signals(self, params: GetSignalsParams | None = None) -> MappedResponse[list[Signal]]:
+        """List the account's signals, optionally only those of one type or status."""
+
+        query = urlencode(serialize_value(params) if params is not None else {})
+        result = _signal_result(self.http_client.get(f"/signals?{query}" if query else "/signals"))
+        return MappedResponse(
+            data=[Signal.model_validate(item) for item in result.get("signals", [])],
+            errors=[],
+        )
+
+    def get_signal(self, params: SignalIdParams) -> MappedResponse[Signal]:
+        """Retrieve one signal. Raises LinkedApiError "signalNotFound"."""
+
+        result = _signal_result(self.http_client.get(_signal_path(params.signal_id)))
+        return MappedResponse(data=Signal.model_validate(result), errors=[])
+
+    def pause_signal(self, params: SignalIdParams) -> MappedResponse[Signal]:
+        """Pause a signal. A paused signal is not checked; its events stay available.
+
+        Raises LinkedApiError "signalNotFound" or "signalStopped".
+        """
+
+        result = _signal_result(self.http_client.post(f"{_signal_path(params.signal_id)}/pause"))
+        return MappedResponse(data=Signal.model_validate(result), errors=[])
+
+    def resume_signal(self, params: SignalIdParams) -> MappedResponse[Signal]:
+        """Resume a paused signal. Its first check reports what appeared while it was paused, as
+        far as LinkedIn still shows it.
+
+        Raises LinkedApiError "signalNotFound", "signalStopped" or "signalLimitReached".
+        """
+
+        result = _signal_result(self.http_client.post(f"{_signal_path(params.signal_id)}/resume"))
+        return MappedResponse(data=Signal.model_validate(result), errors=[])
+
+    def delete_signal(self, params: SignalIdParams) -> MappedResponse[bool]:
+        """Delete a signal. Its checks stop at once; the events it produced stay available
+        through poll_signals. Raises LinkedApiError "signalNotFound"."""
+
+        result = _signal_result(self.http_client.delete(_signal_path(params.signal_id)))
+        return MappedResponse(data=result.get("deleted") is True, errors=[])
+
+    def poll_signals(
+        self,
+        request: SignalPollRequest | None = None,
+    ) -> MappedResponse[list[SignalEvent]]:
+        """Read the events your signals detected, newest first.
+
+        Pass "since": without it every retained event is returned. On each next request pass the
+        "detected_at" of the newest event you have, and process each event once by its "id".
+        """
+
+        payload = serialize_value(request) if request is not None else {}
+        result = _signal_result(self.http_client.post("/signals/poll", payload))
+        return MappedResponse(
+            data=[SignalEvent.model_validate(item) for item in result.get("events", [])],
+            errors=[],
+        )
+
     def get_account_info(self) -> MappedResponse[AccountInfo]:
         """Retrieve basic information about the current LinkedIn account."""
 
@@ -377,3 +454,17 @@ class LinkedApi:
             response.error.type if response.error else "httpError",
             response.error.message if response.error else "",
         )
+
+
+# Signal ids are opaque ("sigsub-..."), so they are quoted rather than validated.
+def _signal_path(signal_id: str) -> str:
+    return f"/signals/{quote(signal_id, safe='')}"
+
+
+def _signal_result(response: LinkedApiResponse[Any]) -> Any:
+    if response.success and response.result is not None:
+        return response.result
+    raise LinkedApiError(
+        response.error.type if response.error else "httpError",
+        response.error.message if response.error else "",
+    )

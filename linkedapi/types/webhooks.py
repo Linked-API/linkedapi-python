@@ -6,6 +6,7 @@ from pydantic import SerializerFunctionWrapHandler, model_serializer
 
 from linkedapi.types.base import LinkedApiModel
 from linkedapi.types.message import InboxType, MessageSender
+from linkedapi.types.signals import SignalEvent
 
 WebhookPayloadMode = Literal["thin", "fat"]
 WebhookEventType = Literal[
@@ -21,6 +22,14 @@ WebhookEventType = Literal[
     "network.connectionAccepted",
     "network.connectionAdded",
     "network.connectionRequestReceived",
+    "signal.postPublished",
+    "signal.postFound",
+    "signal.commentAdded",
+    "signal.reactionAdded",
+    "signal.profileViewed",
+    "signal.connectionAccepted",
+    "signal.connectionAdded",
+    "signal.connectionRequestReceived",
     "webhook.test",
 ]
 WebhookEventSelector = Literal[
@@ -36,10 +45,19 @@ WebhookEventSelector = Literal[
     "network.connectionAccepted",
     "network.connectionAdded",
     "network.connectionRequestReceived",
+    "signal.postPublished",
+    "signal.postFound",
+    "signal.commentAdded",
+    "signal.reactionAdded",
+    "signal.profileViewed",
+    "signal.connectionAccepted",
+    "signal.connectionAdded",
+    "signal.connectionRequestReceived",
     "workflow.*",
     "account.*",
     "inbox.*",
     "network.*",
+    "signal.*",
 ]
 WebhookDeliveryStatus = Literal["pending", "delivering", "success", "failed"]
 WorkflowWebhookStatus = Literal["pending", "running", "completed", "failed"]
@@ -222,6 +240,31 @@ class NetworkWebhookEvent(LinkedApiModel):
     data: NetworkWebhookEventData
 
 
+class SignalWebhookEventData(SignalEvent):
+    account_id: str | None = None
+
+
+class SignalWebhookEvent(LinkedApiModel):
+    """A signal event: "data" is the event exactly as poll_signals returns it, plus account_id."""
+
+    id: str
+    type: (
+        Literal[
+            "signal.postPublished",
+            "signal.postFound",
+            "signal.commentAdded",
+            "signal.reactionAdded",
+            "signal.profileViewed",
+            "signal.connectionAccepted",
+            "signal.connectionAdded",
+            "signal.connectionRequestReceived",
+        ]
+        | str
+    )
+    created_at: str | None = None
+    data: SignalWebhookEventData
+
+
 class WebhookTestEventData(LinkedApiModel):
     message: str | None = None
 
@@ -245,6 +288,7 @@ WebhookEvent = (
     | AccountWebhookEvent
     | MessageWebhookEvent
     | NetworkWebhookEvent
+    | SignalWebhookEvent
     | WebhookTestEvent
     | UnknownWebhookEvent
 )

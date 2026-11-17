@@ -7,6 +7,7 @@ from linkedapi.types.webhooks import (
     AccountWebhookEvent,
     MessageWebhookEvent,
     NetworkWebhookEvent,
+    SignalWebhookEvent,
     UnknownWebhookEvent,
     WebhookEvent,
     WebhookEventType,
@@ -53,6 +54,8 @@ def parse_webhook_event(raw_body: str | bytes) -> WebhookEvent:
         return MessageWebhookEvent.model_validate(parsed)
     if event_type.startswith("network."):
         return NetworkWebhookEvent.model_validate(parsed)
+    if event_type.startswith("signal."):
+        return SignalWebhookEvent.model_validate(parsed)
     if event_type == "webhook.test":
         return WebhookTestEvent.model_validate(parsed)
 

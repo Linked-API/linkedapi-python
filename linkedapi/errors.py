@@ -155,6 +155,9 @@ LinkedApiErrorType = Literal[
     "sessionNotFound",
     "noAvailableSeats",
     "dailyConnectionAttemptsExceeded",
+    "signalLimitReached",
+    "signalNotFound",
+    "signalStopped",
 ]
 LINKED_API_ERROR_TYPES: tuple[str, ...] = (
     "linkedApiTokenRequired",
@@ -180,6 +183,9 @@ LINKED_API_ERROR_TYPES: tuple[str, ...] = (
     "sessionNotFound",
     "noAvailableSeats",
     "dailyConnectionAttemptsExceeded",
+    "signalLimitReached",
+    "signalNotFound",
+    "signalStopped",
 )
 
 
