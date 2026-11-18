@@ -34,6 +34,7 @@ class BaseFetchPersonParams(BaseActionParams):
     retrieve_education: bool | None = None
     retrieve_skills: bool | None = None
     retrieve_languages: bool | None = None
+    retrieve_contact_info: bool | None = None
     retrieve_posts: bool | None = None
     retrieve_comments: bool | None = None
     retrieve_reactions: bool | None = None
@@ -44,6 +45,7 @@ class BaseFetchPersonParamsWide(BaseFetchPersonParams):
     retrieve_education: Literal[True] = True
     retrieve_skills: Literal[True] = True
     retrieve_languages: Literal[True] = True
+    retrieve_contact_info: Literal[True] = True
     retrieve_posts: Literal[True] = True
     retrieve_comments: Literal[True] = True
     retrieve_reactions: Literal[True] = True
@@ -99,6 +101,19 @@ class PersonLanguage(BaseActionParams):
     proficiency: LanguageProficiency | str | None = None
 
 
+class PersonBirthday(BaseActionParams):
+    month: int | None = None
+    day: int | None = None
+
+
+class PersonContactInfo(BaseActionParams):
+    email: str | None = None
+    phones: list[str] | None = None
+    websites: list[str] | None = None
+    birthday: PersonBirthday | None = None
+    connected_at: str | None = None
+
+
 class Person(BaseActionParams):
     name: str | None = None
     urn: str | None = None
@@ -118,6 +133,7 @@ class Person(BaseActionParams):
     education: list[PersonEducation] | None = None
     skills: list[PersonSkill] | None = None
     languages: list[PersonLanguage] | None = None
+    contact_info: PersonContactInfo | None = None
     posts: list[Post] | None = None
     comments: list[Comment] | None = None
     reactions: list[Reaction] | None = None

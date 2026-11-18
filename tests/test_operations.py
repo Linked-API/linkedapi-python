@@ -422,3 +422,64 @@ def test_execute_and_result_flow_returns_pydantic_data(
     )
     assert result.data is not None
     assert result.data.public_url == "https://www.linkedin.com/in/jane-doe"
+
+
+def test_fetch_person_retrieves_and_maps_contact_info(
+    fake_http_client: FakeHttpClient,
+    person_data: dict[str, object],
+) -> None:
+    linkedapi = LinkedApi(fake_http_client)
+    contact_info = {
+        "email": "person@example.com",
+        "phones": ["555-0100"],
+        "websites": ["https://example.com/"],
+        "birthday": {"month": 11, "day": 13},
+        "connectedAt": "2026-11-11T00:00:00.000Z",
+    }
+    fake_http_client.queue_response(result={"workflowId": "wf1", "workflowStatus": "pending"})
+    fake_http_client.queue_response(
+        result={
+            "workflowStatus": "completed",
+            "completion": {
+                "actionType": "st.openPersonPage",
+                "success": True,
+                "data": {
+                    **person_data,
+                    "then": [
+                        {
+                            "actionType": "st.retrievePersonContactInfo",
+                            "success": True,
+                            "data": contact_info,
+                        }
+                    ],
+                },
+            },
+        }
+    )
+
+    workflow = linkedapi.fetch_person.execute(
+        FetchPersonParams(person_url="u", retrieve_contact_info=True)
+    )
+    result = linkedapi.fetch_person.result(workflow.workflow_id, poll_interval=0.001, timeout=1.0)
+
+    assert fake_http_client.calls[0] == (
+        "POST",
+        "/workflows",
+        {
+            "actionType": "st.openPersonPage",
+            "basicInfo": True,
+            "personUrl": "u",
+            "then": [{"actionType": "st.retrievePersonContactInfo"}],
+        },
+    )
+    assert result.data is not None
+    assert result.data.contact_info is not None
+    assert result.data.contact_info.email == "person@example.com"
+    assert result.data.contact_info.phones == ["555-0100"]
+    assert result.data.contact_info.websites == ["https://example.com/"]
+    assert result.data.contact_info.birthday is not None
+    assert (result.data.contact_info.birthday.month, result.data.contact_info.birthday.day) == (
+        11,
+        13,
+    )
+    assert result.data.contact_info.connected_at == "2026-11-11T00:00:00.000Z"

@@ -13,6 +13,7 @@ class FetchPersonMapper(ThenWorkflowMapper[FetchPersonParams, Person]):
                 ActionConfig("retrieve_education", "st.retrievePersonEducation"),
                 ActionConfig("retrieve_skills", "st.retrievePersonSkills"),
                 ActionConfig("retrieve_languages", "st.retrievePersonLanguages"),
+                ActionConfig("retrieve_contact_info", "st.retrievePersonContactInfo"),
                 ActionConfig("retrieve_posts", "st.retrievePersonPosts", "posts_retrieval_config"),
                 ActionConfig(
                     "retrieve_comments", "st.retrievePersonComments", "comments_retrieval_config"
@@ -26,6 +27,7 @@ class FetchPersonMapper(ThenWorkflowMapper[FetchPersonParams, Person]):
                 ResponseMapping("st.retrievePersonEducation", "education"),
                 ResponseMapping("st.retrievePersonSkills", "skills"),
                 ResponseMapping("st.retrievePersonLanguages", "languages"),
+                ResponseMapping("st.retrievePersonContactInfo", "contactInfo"),
                 ResponseMapping("st.retrievePersonPosts", "posts"),
                 ResponseMapping("st.retrievePersonComments", "comments"),
                 ResponseMapping("st.retrievePersonReactions", "reactions"),
