@@ -52,6 +52,35 @@ COMMENT_EVENT: dict[str, Any] = {
 }
 
 
+ALERT_EVENT: dict[str, Any] = {
+    "id": "sigev-2",
+    "signalId": "sigsub-3",
+    "signalType": "listAlerts",
+    "label": None,
+    "type": "alertPublished",
+    "detectedAt": "2026-11-19T08:34:49Z",
+    "alert": {
+        "id": "urn:li:notificationV2:(ACCOUNT_SHARED_UPDATE,1)",
+        "type": "ACCOUNT_SHARED_UPDATE",
+        "publishedAt": "2026-11-18T19:34:09.903Z",
+        "subject": {
+            "type": "account",
+            "urn": "urn:li:fs_salesCompany:1000",
+            "name": "Example Co",
+            "url": "https://www.linkedin.com/sales/company/1000",
+            "saved": True,
+        },
+        "headline": "Example Co posted",
+        "text": None,
+        "subline": None,
+        "url": None,
+        "relatedEntityUrn": "urn:li:share:1",
+    },
+    "subjectUrn": "urn:li:organization:1000",
+    "subjectHashedUrl": "https://www.linkedin.com/company/1000",
+}
+
+
 def test_create_signal_posts_the_target_and_returns_the_signal(
     fake_http_client: FakeHttpClient,
 ) -> None:
@@ -82,6 +111,24 @@ def test_create_signal_posts_the_target_and_returns_the_signal(
     assert result.data.id == "sigsub-1"
     assert result.data.next_check_at == "2026-10-12T10:20:00Z"
     assert result.data.filter == {"contentType": "videos"}
+
+
+def test_create_list_alerts_signal_posts_the_list_id_as_a_string(
+    fake_http_client: FakeHttpClient,
+) -> None:
+    fake_http_client.queue_response(
+        result={**SIGNAL, "type": "listAlerts", "term": None, "filter": None, "listId": "722"}
+    )
+
+    result = LinkedApi(fake_http_client).create_signal(
+        CreateSignalParams(type="listAlerts", list_id="7224792536903495680")
+    )
+
+    assert fake_http_client.calls == [
+        ("POST", "/signals", {"type": "listAlerts", "listId": "7224792536903495680"})
+    ]
+    assert result.data is not None
+    assert result.data.list_id == "722"
 
 
 @pytest.mark.parametrize(
@@ -160,6 +207,21 @@ def test_poll_signals_posts_the_filters_and_parses_event_subjects(
     assert event.comment.parent_comment_urn == "urn:li:comment:(activity:1,2)"
 
 
+def test_poll_signals_parses_alert_events(fake_http_client: FakeHttpClient) -> None:
+    fake_http_client.queue_response(result={"events": [ALERT_EVENT]})
+
+    result = LinkedApi(fake_http_client).poll_signals()
+
+    assert result.data is not None
+    event = result.data[0]
+    assert event.type == "alertPublished"
+    assert event.alert is not None
+    assert event.alert.related_entity_urn == "urn:li:share:1"
+    assert event.alert.subject.urn == "urn:li:fs_salesCompany:1000"
+    assert event.subject_urn == "urn:li:organization:1000"
+    assert event.subject_hashed_url == "https://www.linkedin.com/company/1000"
+
+
 def test_poll_signals_without_request_sends_empty_body(fake_http_client: FakeHttpClient) -> None:
     fake_http_client.queue_response(result={"events": []})
 
@@ -211,7 +273,8 @@ def test_parse_signal_webhook_event() -> None:
 
 def test_webhook_selection_accepts_signal_events() -> None:
     params = SetWebhookParams(
-        url="https://example.test/hook", events=["signal.*", "signal.postFound"]
+        url="https://example.test/hook",
+        events=["signal.*", "signal.postFound", "signal.alertPublished"],
     )
 
-    assert params.events == ["signal.*", "signal.postFound"]
+    assert params.events == ["signal.*", "signal.postFound", "signal.alertPublished"]

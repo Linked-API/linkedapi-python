@@ -30,6 +30,7 @@ WebhookEventType = Literal[
     "signal.connectionAccepted",
     "signal.connectionAdded",
     "signal.connectionRequestReceived",
+    "signal.alertPublished",
     "webhook.test",
 ]
 WebhookEventSelector = Literal[
@@ -53,6 +54,7 @@ WebhookEventSelector = Literal[
     "signal.connectionAccepted",
     "signal.connectionAdded",
     "signal.connectionRequestReceived",
+    "signal.alertPublished",
     "workflow.*",
     "account.*",
     "inbox.*",
@@ -258,6 +260,7 @@ class SignalWebhookEvent(LinkedApiModel):
             "signal.connectionAccepted",
             "signal.connectionAdded",
             "signal.connectionRequestReceived",
+            "signal.alertPublished",
         ]
         | str
     )

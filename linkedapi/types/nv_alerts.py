@@ -10,6 +10,9 @@ from linkedapi.types.params import BaseActionParams
 
 class NvRetrieveAlertsFilter(LinkedApiModel):
     list_id: str | None = Field(default=None, pattern=r"^[1-9]\d*$")
+    # Subjects to keep, ORed: Sales Navigator identities or hashed URLs, or the
+    # "urn:li:member:<id>" / "urn:li:organization:<id>" values nv_retrieve_list_leads and
+    # nv_retrieve_list_accounts return.
     subjects: list[str] | None = None
     category: Literal["lead", "account"] | None = None
     types: list[str] | None = None

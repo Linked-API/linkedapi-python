@@ -5,6 +5,7 @@ from typing import Any, Literal
 from pydantic import Field
 
 from linkedapi.types.base import LinkedApiModel
+from linkedapi.types.nv_alerts import NvAlert
 from linkedapi.types.post import PostAuthor, PostComment, ReactionType
 from linkedapi.types.profile_viewers import ProfileViewer
 from linkedapi.types.search_posts import (
@@ -22,9 +23,12 @@ SignalType = Literal[
     "postEngagement",
     "network",
     "profileViewers",
+    "listAlerts",
 ]
 SignalStatus = Literal["active", "paused", "stopped"]
-SignalStoppedReason = Literal["targetNotFound", "watchPeriodEnded"]
+SignalStoppedReason = Literal[
+    "targetNotFound", "watchPeriodEnded", "noSalesNavigator", "listTooLarge"
+]
 SignalEventType = Literal[
     "postPublished",
     "postFound",
@@ -34,6 +38,7 @@ SignalEventType = Literal[
     "connectionAccepted",
     "connectionAdded",
     "connectionRequestReceived",
+    "alertPublished",
 ]
 
 
@@ -54,8 +59,10 @@ class CreateSignalParams(LinkedApiModel):
 
     "personPosts" takes "person_url", "companyPosts" takes "company_url", "postSearch" takes
     "term" (a phrase or a list of up to three) and an optional "filter", "postEngagement" takes
-    "post_url" or "my_posts=True", and "network" and "profileViewers" take none. "label" is your
-    own identifier, up to 64 characters, returned with the signal and every event it produces.
+    "post_url" or "my_posts=True", "listAlerts" takes "list_id" (the id of one of the account's
+    own Sales Navigator lists, as nv_retrieve_lists returns it), and "network" and
+    "profileViewers" take none. "label" is your own identifier, up to 64 characters, returned
+    with the signal and every event it produces.
     """
 
     type: SignalType
@@ -66,6 +73,7 @@ class CreateSignalParams(LinkedApiModel):
     my_posts: Literal[True] | None = None
     term: str | list[str] | None = None
     filter: SignalPostSearchFilter | None = None
+    list_id: str | None = Field(default=None, pattern=r"^[1-9]\d*$")
 
 
 class GetSignalsParams(LinkedApiModel):
@@ -104,6 +112,7 @@ class Signal(LinkedApiModel):
     my_posts: bool | None = None
     term: str | list[str] | None = None
     filter: dict[str, Any] | None = None
+    list_id: str | None = None
 
 
 class SignalComment(PostComment):
@@ -118,7 +127,11 @@ class SignalReaction(LinkedApiModel):
 class SignalEvent(LinkedApiModel):
     """One event a signal detected. Which subject fields are set depends on "type": "post" for
     postPublished and postFound, "post_url" with "comment" or "reaction", "viewer" for
-    profileViewed, and "person_urn" with "person_url" for the connection events."""
+    profileViewed, "person_urn" with "person_url" for the connection events, and "alert" with
+    "subject_urn" and "subject_hashed_url" for alertPublished. "alert" is the alert exactly as
+    nv_retrieve_alerts returns it; "subject_urn" ("urn:li:member:<id>" or
+    "urn:li:organization:<id>") and "subject_hashed_url" are in the forms nv_retrieve_list_leads
+    and nv_retrieve_list_accounts return."""
 
     id: str | None = None
     signal_id: str | None = None
@@ -134,3 +147,6 @@ class SignalEvent(LinkedApiModel):
     viewer: ProfileViewer | None = None
     person_urn: str | None = None
     person_url: str | None = None
+    alert: NvAlert | None = None
+    subject_urn: str | None = None
+    subject_hashed_url: str | None = None
