@@ -103,7 +103,14 @@ def test_mutation_root_contract(
 
 @pytest.mark.parametrize(
     "error_type",
-    ["listNotFound", "personNotFound", "companyNotFound", "noSalesNavigator", "unexpectedError"],
+    [
+        "listNotFound",
+        "personNotFound",
+        "leadLocked",
+        "companyNotFound",
+        "noSalesNavigator",
+        "unexpectedError",
+    ],
 )
 def test_mutation_preserves_action_errors(
     requests_mock: requests_mock.Mocker, error_type: str

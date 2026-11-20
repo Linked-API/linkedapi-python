@@ -16,6 +16,7 @@ class NvCreateListParams(BaseActionParams):
 
 class NvDeleteListParams(BaseActionParams):
     list_id: str = Field(min_length=1)
+    unsave: Literal["none", "members"] | None = None
 
 
 class NvCreatedList(LinkedApiModel):

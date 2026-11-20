@@ -45,6 +45,7 @@ def test_error_type_sets_match_node_contract() -> None:
     )
     assert LINKED_API_ACTION_ERROR_TYPES == (
         "personNotFound",
+        "leadLocked",
         "selfProfileNotAllowed",
         "personLikelyChangedPublicUrl",
         "messagingNotAllowed",

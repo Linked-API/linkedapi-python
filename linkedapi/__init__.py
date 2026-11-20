@@ -116,7 +116,7 @@ from linkedapi.webhooks import (
     verify_webhook_signature,
 )
 
-__version__ = "1.6.1"
+__version__ = "1.6.2"
 PredefinedOperation = Operation
 
 __all__ = [

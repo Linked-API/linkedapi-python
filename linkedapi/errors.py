@@ -4,6 +4,7 @@ from typing import Any, Literal
 
 LinkedApiActionErrorType = Literal[
     "personNotFound",
+    "leadLocked",
     "selfProfileNotAllowed",
     "personLikelyChangedPublicUrl",
     "messagingNotAllowed",
@@ -68,6 +69,7 @@ LinkedApiActionErrorType = Literal[
 ]
 LINKED_API_ACTION_ERROR_TYPES: tuple[str, ...] = (
     "personNotFound",
+    "leadLocked",
     "selfProfileNotAllowed",
     "personLikelyChangedPublicUrl",
     "messagingNotAllowed",

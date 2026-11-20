@@ -81,6 +81,28 @@ def test_delete_exact_string_id_and_void_result(requests_mock: requests_mock.Moc
     assert result.errors == []
 
 
+@pytest.mark.parametrize("unsave", ["none", "members"])
+def test_delete_sends_unsave_as_given(requests_mock: requests_mock.Mocker, unsave: str) -> None:
+    sdk = client()
+    queue_workflow(requests_mock, {"actionType": "nv.deleteList", "success": True})
+    started = sdk.nv_delete_list.execute(
+        NvDeleteListParams.model_validate({"listId": LIST_ID, "unsave": unsave})
+    )
+    result = sdk.nv_delete_list.result(started.workflow_id)
+    assert requests_mock.request_history[0].json() == {
+        "actionType": "nv.deleteList",
+        "listId": LIST_ID,
+        "unsave": unsave,
+    }
+    assert result.errors == []
+
+
+@pytest.mark.parametrize("unsave", ["membersAndAssociated", "Members", "", True])
+def test_delete_rejects_unknown_unsave(unsave: Any) -> None:
+    with pytest.raises(ValidationError):
+        NvDeleteListParams.model_validate({"listId": LIST_ID, "unsave": unsave})
+
+
 @pytest.mark.parametrize(
     "operation,action,error_type",
     [
